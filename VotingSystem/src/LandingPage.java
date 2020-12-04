@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 public class LandingPage extends JPanel {
@@ -13,6 +15,8 @@ public class LandingPage extends JPanel {
     JLabel usernameLabel;
 
     JButton submit;
+
+    JButton register;
 
     private Double labelWeightX = 0.2;
     private Double fieldWeightX = 0.8;
@@ -74,9 +78,28 @@ public class LandingPage extends JPanel {
         submit = new JButton("Submit");
         c.gridx = 1;
         c.gridy = 3;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.weightx = 0.2;
         c.insets = new Insets(40,40,0,40);  // padding
         add(submit, c);
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+            }
+        });
+
+        register = new JButton("Register");
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 2;
+        c.weightx = 0.2;
+        add(register, c);
+        register.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Options.getCardLayout().show(Options.getContentPanel(), "REGISTRATION");
+            }
+        });
     }
 }

@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class VotePage extends JPanel {
     private static final String[] languages = {"english", "spanish"};
@@ -30,6 +32,15 @@ public class VotePage extends JPanel {
         tabs.add("page 6",panel6);
         add(tabs, BorderLayout.CENTER);
         add(languagesJComboBox,BorderLayout.PAGE_START);
+        returnToHome = new JButton("Return to home");
+        returnToHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                //this needs to update the progress bar
+            }
+        });
+        add(returnToHome, BorderLayout.PAGE_END);
     }
 
 

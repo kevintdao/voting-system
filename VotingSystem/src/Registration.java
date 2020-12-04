@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 public class Registration extends JPanel {
@@ -212,5 +214,11 @@ public class Registration extends JPanel {
         c.weightx = 0.2;
         c.insets = new Insets(30,40,0,40);  // padding
         add(signUpButton, c);
+        signUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+            }
+        });
     }
 }

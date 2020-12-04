@@ -95,5 +95,11 @@ public class Home extends JPanel {
         c.ipady = 10;
         c.gridwidth = 3;
         add(voteButton, c);
+        voteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Options.getCardLayout().show(Options.getContentPanel(), "VOTE");
+            }
+        });
     }
 }
