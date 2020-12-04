@@ -75,10 +75,11 @@ public class Home extends JPanel {
         add(progressBar, c);
 
         viewProfileButton = new JButton("View Profile");
+        // change to profile page
         viewProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(new Profile(), "PROFILE1");
+                Options.getCardLayout().show(Options.getContentPanel(), "PROFILE");
             }
         });
         c.gridx = 0;

@@ -170,10 +170,11 @@ public class Profile extends JPanel {
 
         // back button
         backButton = new JButton("<- Back");
+        // change to home page
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Options.getCardLayout().show(new Home(), "HOME");
+                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
             }
         });
         c.gridx = 0;
