@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
 
 public class LandingPage extends JPanel {
     private static final String[] languages = {"English", "Spanish", "French"};
@@ -55,7 +54,7 @@ public class LandingPage extends JPanel {
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(languagesJComboBox, c);
 
-        usernameLabel = new JLabel("User ID: ");
+        usernameLabel = new JLabel(userIDLang[Options.getLanguageIndex()]);
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0; // first column
@@ -72,7 +71,7 @@ public class LandingPage extends JPanel {
         c.weightx = fieldWeightX;
         add(usernameField, c);
 
-        passwordLabel = new JLabel("Password: ");
+        passwordLabel = new JLabel(passLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
@@ -86,7 +85,7 @@ public class LandingPage extends JPanel {
         c.weightx = fieldWeightX;
         add(passwordField, c);
 
-        submit = new JButton("Submit");
+        submit = new JButton(submitLang[Options.getLanguageIndex()]);
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 2;
@@ -100,7 +99,7 @@ public class LandingPage extends JPanel {
             }
         });
 
-        register = new JButton("Register");
+        register = new JButton(registerLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 2;
