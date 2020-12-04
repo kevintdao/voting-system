@@ -26,6 +26,6 @@ public class Frame extends JFrame {
 
         setContentPane(Options.getContentPanel());
 
-        Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
+        Options.getCardLayout().show(Options.getContentPanel(), "HOME");
     }
 }
