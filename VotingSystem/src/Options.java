@@ -8,6 +8,16 @@ public class Options {
     private static CardLayout cardLayout = new CardLayout();
     private static JPanel contentPanel = new JPanel();
 
+    /*
+        Index of combo box in each page
+        0 = landing page
+        1 = profile page
+        2 = home page
+        3 = registration page
+        4 = vote page
+    */
+    private static JComboBox[] languageComboArray = new JComboBox[7];
+
     public static boolean getDarkMode(){
         return darkMode;
     }
@@ -30,5 +40,21 @@ public class Options {
 
     public static JPanel getContentPanel(){
         return contentPanel;
+    }
+
+    public static JComboBox getLanguageComboBox(int index){
+        return languageComboArray[index];
+    }
+
+    public static void setUpComboBox(){
+        for(int i = 0; i < 7; i++){
+            languageComboArray[i] = new JComboBox<String>(languages);
+        }
+    }
+
+    public static void changeLanguage(){
+        for(int i = 0; i < 7; i++){
+            languageComboArray[i].setSelectedIndex(languageIndex);
+        }
     }
 }

@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Home extends JPanel {
-    private JComboBox<String> languageSelect;
-    private String[] languages = {"English", "Spanish", "French"};
     private String[] welcomeLang = {"Welcome!", "Bienvenido!", "Bienvenu!"};
     private String[] currProgLang = {"Current Progress: ", "Progreso actual: ", "Progrès en cours: "};
     private String[] viewProfLang = {"View Profile", "Ver perfil", "Voir le profil"};
@@ -47,9 +45,7 @@ public class Home extends JPanel {
         add(placeholder, c);
 
         // language select component
-        languageSelect = new JComboBox<>(languages);
-        languageSelect.setSelectedIndex(Options.getLanguageIndex()); // set the current language to selected language from previous pages
-        languageSelect.addActionListener(new ActionListener() {
+        Options.getLanguageComboBox(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox comboBox = (JComboBox) e.getSource();
@@ -61,6 +57,10 @@ public class Home extends JPanel {
                 progressLabel.setText(currProgLang[selected]);
                 viewProfileButton.setText(viewProfLang[selected]);
                 voteButton.setText(voteLang[selected]);
+                logOutButton.setText(logOutLang[selected]);
+
+                Options.changeLanguage();
+                refreshPanel();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -70,7 +70,7 @@ public class Home extends JPanel {
         c.ipady = 10;
         c.weightx = 0.2;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        add(languageSelect, c);
+        add(Options.getLanguageComboBox(2), c);
 
         // progress bar components
         progressLabel = new JLabel(currProgLang[Options.getLanguageIndex()]);
@@ -135,5 +135,10 @@ public class Home extends JPanel {
                 Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
             }
         });
+    }
+
+    private void refreshPanel(){
+        revalidate();
+        repaint();
     }
 }

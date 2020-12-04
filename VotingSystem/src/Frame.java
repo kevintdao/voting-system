@@ -10,6 +10,8 @@ public class Frame extends JFrame {
     public Frame() {
         super("Voting system");
 
+        Options.setUpComboBox();
+
         homePage = new Home();
         profilePage = new Profile();
         landingPage = new LandingPage();

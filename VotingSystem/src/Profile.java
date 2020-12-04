@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 
 // get data from data and display the info
 public class Profile extends JPanel {
-    private JComboBox<String> languageSelect;
-    private String[] languages = {"English", "Spanish",  "French"};
     private String[] firstNameLang = {"First Name: ", "Nombre de pila: ", "Prénom: "};
     private String[] lastNameLang = {"Last Name: ", "Apellido: ", "Nom de famille: "};
     private String[] usernameLang = {"Username: ", "Nombre de usuario: ","Nom d'utilisateur: "};
@@ -14,6 +12,7 @@ public class Profile extends JPanel {
     private String[] countyLang = {"County: ", "Condado: ", "Comté:"};
     private String[] stateLang = {"State: ", "Estado: ", "Etat: "};
     private String[] birthdayLang = {"Date of Birth: ", "Fecha de nacimiento: ", "Date de naissance: "};
+    private String[] backLang = {"<- Back", "<- Regresa", "<- Retourner"};
 
     private JLabel userNameLabel;
     private JLabel userName;
@@ -47,9 +46,7 @@ public class Profile extends JPanel {
         c.insets = new Insets(5,20,0,20);  // padding
 
         // language select component
-        languageSelect = new JComboBox<>(languages);
-        languageSelect.setSelectedIndex(Options.getLanguageIndex());
-        languageSelect.addActionListener(new ActionListener() {
+        Options.getLanguageComboBox(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox comboBox = (JComboBox) e.getSource();
@@ -64,6 +61,10 @@ public class Profile extends JPanel {
                 countyLabel.setText(countyLang[selected]);
                 stateLabel.setText(stateLang[selected]);
                 birthdayLabel.setText(birthdayLang[selected]);
+                backButton.setText(backLang[selected]);
+
+                Options.changeLanguage();
+                refreshPanel();
             }
         });
         c.gridx = 2; // third column
@@ -71,7 +72,7 @@ public class Profile extends JPanel {
         c.weightx = 0.2;
         c.ipady = 10;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        add(languageSelect, c);
+        add(Options.getLanguageComboBox(1), c);
 
         // username components
         userNameLabel = new JLabel(usernameLang[Options.getLanguageIndex()]);
@@ -194,7 +195,7 @@ public class Profile extends JPanel {
         add(state, c);
 
         // back button
-        backButton = new JButton("<- Back");
+        backButton = new JButton(backLang[Options.getLanguageIndex()]);
         // change to home page
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -210,5 +211,10 @@ public class Profile extends JPanel {
         c.anchor = GridBagConstraints.LAST_LINE_START;
         c.insets = new Insets(50,20,0,20);  // padding
         add(backButton, c);
+    }
+
+    private void refreshPanel(){
+        revalidate();
+        repaint();
     }
 }

@@ -4,13 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LandingPage extends JPanel {
-    private static final String[] languages = {"English", "Spanish", "French"};
     private String[] userIDLang = {"Username: ", "Nombre de usuario: ","Nom d'utilisateur: "};
     private String[] passLang = {"Password: ", "Contraseña: ", "Mot de passe: "};
     private String[] submitLang = {"Submit", "Enviar", "Soumettre"};
     private String[] registerLang = {"Register", "Registrarse", "S'inscrire"};
-
-    JComboBox<String> languagesJComboBox;
     
     JPasswordField passwordField;
     JLabel passwordLabel;
@@ -30,9 +27,8 @@ public class LandingPage extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        languagesJComboBox = new JComboBox<String>(languages);
 
-        languagesJComboBox.addActionListener(
+        Options.getLanguageComboBox(0).addActionListener(
                 event -> {
                     JComboBox comboBox = (JComboBox) event.getSource();
                     int selected = comboBox.getSelectedIndex();
@@ -43,6 +39,9 @@ public class LandingPage extends JPanel {
                     passwordLabel.setText(passLang[selected]);
                     submit.setText(submitLang[selected]);
                     register.setText(registerLang[selected]);
+
+                    Options.changeLanguage();
+                    refreshPanel();
                 }
         );
 
@@ -52,7 +51,7 @@ public class LandingPage extends JPanel {
         c.weightx = 0.2;
         c.ipady = 10;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        add(languagesJComboBox, c);
+        add(Options.getLanguageComboBox(0), c);
 
         usernameLabel = new JLabel(userIDLang[Options.getLanguageIndex()]);
         c.anchor = GridBagConstraints.CENTER;
@@ -111,5 +110,10 @@ public class LandingPage extends JPanel {
                 Options.getCardLayout().show(Options.getContentPanel(), "REGISTRATION");
             }
         });
+    }
+
+    private void refreshPanel(){
+        revalidate();
+        repaint();
     }
 }
