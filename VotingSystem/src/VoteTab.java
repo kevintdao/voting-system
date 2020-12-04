@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 
 
 public class VoteTab extends JPanel {
@@ -30,15 +31,21 @@ public class VoteTab extends JPanel {
             add(candidates[i],c);
         }
 
+        candidates[numCandidates-1].addItemListener(e -> {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        writeInTextField.setEditable(true);
+                    }
+                    else if (e.getStateChange() == ItemEvent.DESELECTED) {
+                        writeInTextField.setEditable(false);
+                    }
+                }
+
+        );
+        
         c.gridy = numCandidates-1;
         c.gridx = 1;
-        c.weightx = 0.8;
-        writeInTextField = new JTextField(10);
+        writeInTextField = new JTextField("Write In Candidate",10);
+        writeInTextField.setEditable(false);
         add(writeInTextField,c);
-        writeInTextField.addActionListener(
-                event -> {
-                    
-                }
-        );
     }
 }
