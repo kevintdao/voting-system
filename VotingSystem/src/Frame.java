@@ -8,26 +8,15 @@ public class Frame extends JFrame {
     private Registration registrationPage;
     private VotePage votePage;
 
-    private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";
-    private static final String USERNAME = "engr_class025";
-    private static final String PASSWORD = "ow9rw3hvWFX4sVcV";
+//    private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";
+//    private static final String USERNAME = "engr_class025";
+//    private static final String PASSWORD = "ow9rw3hvWFX4sVcV";
 
     public Frame() {
         super("Voting system");
 
         Options.setUpComboBox();
 
-
-        Connection connection;
-        Statement statement;
-        ResultSet resultSet;
-        try {
-            connection = DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         homePage = new Home();
         profilePage = new Profile();
@@ -46,5 +35,7 @@ public class Frame extends JFrame {
         setContentPane(Options.getContentPanel());
 
         Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
+
+        Options.createUsersTable();
     }
 }

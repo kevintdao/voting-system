@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.*;
 
 public class Options {
     private static String[] languages = new String[] {"English", "Spanish", "French"};
@@ -7,6 +8,11 @@ public class Options {
     private static int languageIndex = 0; // default: English = 0
     private static CardLayout cardLayout = new CardLayout();
     private static JPanel contentPanel = new JPanel();
+
+    // sql login
+    private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";
+    private static final String USERNAME = "engr_class025";
+    private static final String PASSWORD = "ow9rw3hvWFX4sVcV";
 
     /*
         Index of combo box in each page
@@ -55,6 +61,56 @@ public class Options {
     public static void changeLanguage(){
         for(int i = 0; i < 7; i++){
             languageComboArray[i].setSelectedIndex(languageIndex);
+        }
+    }
+
+    public static Connection getConnection(){
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
+            System.out.println("Connection Successful");
+            return connection;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void createUsersTable(){
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS usertable(voterid int NOT NULL AUTO_INCREMENT, " +
+                                        "username varchar(255)," +
+                                        "password varchar(255)," +
+                                        "firstname varchar(255)," +
+                                        "lastname varchar(255)," +
+                                        "dob date," +
+                                        "county varchar(255)," +
+                                        "state varchar(255)," +
+                                        "ballotprogress varchar(255)," +
+                                        "media bit NOT NULL DEFAULT 0," +
+                                        "auditor bit NOT NULL DEFAULT 0," +
+                                        "voter bit NOT NULL DEFAULT 1," +
+                                        "KEY(voterid))");
+
+            System.out.println("Created table");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // add new user from registration page
+    public static void addNewUser(String username, String password, String first, String last, String dob, String county, String state){
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO usertable (username, password, firstname, lastname, dob, county, state, media, auditor, voter)" +
+                                        "VALUES ('"+username+"', '"+password+"', '"+first+"', '"+last+"', STR_TO_DATE('"+dob+"', '%m/%d/%Y'), '"+county+"', '"+state+"', 0, 0, 1)");
+
+        } catch (SQLException e){
+            e.printStackTrace();
         }
     }
 }

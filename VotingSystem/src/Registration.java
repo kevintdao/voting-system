@@ -267,6 +267,22 @@ public class Registration extends JPanel {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // check if the password are the same
+                if(!passField.getText().equals(confirmPassField.getText())){
+                    JOptionPane.showMessageDialog(null, "Incorrect password confirmation","Incorrect Password!", JOptionPane.INFORMATION_MESSAGE );
+                    return;
+                }
+
+                String username = userID.getText();
+                String password = passField.getText();
+                String first = firstNameField.getText();
+                String last = lastNameField.getText();
+                String dob = birthdayField.getText();
+                String county = countyField.getText();
+                String state = stateField.getText();
+
+                Options.addNewUser(username, password, first, last, dob, county, state);
+
                 Options.getCardLayout().show(Options.getContentPanel(), "HOME");
             }
         });
