@@ -5,13 +5,19 @@ import java.awt.event.ActionListener;
 
 public class Home extends JPanel {
     private JComboBox<String> languageSelect;
-    private String[] languages = new String[] {"English", "Spanish"};
+    private String[] languages = {"English", "Spanish", "French"};
+    private String[] welcomeLang = {"Welcome!", "Bienvenido!", "Bienvenu!"};
+    private String[] currProgLang = {"Current Progress: ", "Progreso actual: ", "Progrès en cours: "};
+    private String[] viewProfLang = {"View Profile", "Ver perfil", "Voir le profil"};
+    private String[] voteLang = {"Vote", "Votar", "Vote"};
+    private String[] logOutLang = {"Log out", "Cerrar sesión", "Se déconnecter"};
 
     private JLabel progressLabel;
     private JProgressBar progressBar;
 
     private JButton viewProfileButton;
     private JButton voteButton;
+    private JButton logOutButton;
 
     private JLabel welcomeBackLabel;
 
@@ -22,7 +28,7 @@ public class Home extends JPanel {
         c.fill = GridBagConstraints.HORIZONTAL;
 
         // welcome components
-        welcomeBackLabel = new JLabel("Welcome!");
+        welcomeBackLabel = new JLabel(welcomeLang[Options.getLanguageIndex()]);
         welcomeBackLabel.setFont(new Font("Arial", Font.BOLD, 24));
         c.gridx = 0;
         c.gridy = 0;
@@ -42,6 +48,21 @@ public class Home extends JPanel {
 
         // language select component
         languageSelect = new JComboBox<>(languages);
+        languageSelect.setSelectedIndex(Options.getLanguageIndex()); // set the current language to selected language from previous pages
+        languageSelect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox comboBox = (JComboBox) e.getSource();
+                int selected = comboBox.getSelectedIndex();
+                Options.setLanguageIndex(selected);
+
+                // change labels to selected language
+                welcomeBackLabel.setText(welcomeLang[selected]);
+                progressLabel.setText(currProgLang[selected]);
+                viewProfileButton.setText(viewProfLang[selected]);
+                voteButton.setText(voteLang[selected]);
+            }
+        });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
         c.gridy = 0;
@@ -52,7 +73,7 @@ public class Home extends JPanel {
         add(languageSelect, c);
 
         // progress bar components
-        progressLabel = new JLabel("Current Progress: ");
+        progressLabel = new JLabel(currProgLang[Options.getLanguageIndex()]);
         progressLabel.setFont(new Font("Arial", Font.BOLD, 16));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -74,7 +95,7 @@ public class Home extends JPanel {
         progressBar.setStringPainted(true);
         add(progressBar, c);
 
-        viewProfileButton = new JButton("View Profile");
+        viewProfileButton = new JButton(viewProfLang[Options.getLanguageIndex()]);
         // change to profile page
         viewProfileButton.addActionListener(new ActionListener() {
             @Override
@@ -89,7 +110,7 @@ public class Home extends JPanel {
         c.insets = new Insets(10,40,0,40);  // padding
         add(viewProfileButton, c);
 
-        voteButton = new JButton("Vote");
+        voteButton = new JButton(voteLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 3;
         c.ipady = 10;
@@ -99,6 +120,19 @@ public class Home extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Options.getCardLayout().show(Options.getContentPanel(), "VOTE");
+            }
+        });
+
+        logOutButton = new JButton(logOutLang[Options.getLanguageIndex()]);
+        c.gridx = 0;
+        c.gridy = 4;
+        c.ipady = 10;
+        c.gridwidth = 3;
+        add(logOutButton, c);
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
             }
         });
     }

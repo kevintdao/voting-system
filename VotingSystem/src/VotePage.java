@@ -4,7 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class VotePage extends JPanel {
-    private static final String[] languages = {"english", "spanish"};
+    private static final String[] languages = {"English", "Spanish", "French"};
+    private String[] returnHomeLang = {"Return to Home", "Vuelve a casa", "Retourner à la maison"};
     JComboBox<String> languagesJComboBox;
     
     JButton returnToHome;
@@ -13,6 +14,16 @@ public class VotePage extends JPanel {
     public VotePage() {
         setLayout(new BorderLayout());
         languagesJComboBox = new JComboBox<String>(languages);
+        languagesJComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JComboBox comboBox = (JComboBox) event.getSource();
+                int selected = comboBox.getSelectedIndex();
+                Options.setLanguageIndex(selected);
+
+                returnToHome.setText(returnHomeLang[selected]);
+            }
+        });
 
         JTabbedPane tabs = new JTabbedPane();
         VoteTab panel1 = new VoteTab(4); //these will get made when the auditor creates his ballot
@@ -32,7 +43,7 @@ public class VotePage extends JPanel {
         tabs.add("page 6",panel6);
         add(tabs, BorderLayout.CENTER);
         add(languagesJComboBox,BorderLayout.PAGE_START);
-        returnToHome = new JButton("Return to home");
+        returnToHome = new JButton(returnHomeLang[Options.getLanguageIndex()]);
         returnToHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,6 +53,4 @@ public class VotePage extends JPanel {
         });
         add(returnToHome, BorderLayout.PAGE_END);
     }
-
-
 }

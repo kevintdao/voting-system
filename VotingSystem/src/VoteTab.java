@@ -12,6 +12,7 @@ public class VoteTab extends JPanel {
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(10,20,0,20);  // padding
         c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.HORIZONTAL;
 
         candidates = new JRadioButton[numCandidates];
         candidateGroup = new ButtonGroup();
@@ -29,7 +30,7 @@ public class VoteTab extends JPanel {
             add(candidates[i],c);
         }
 
-        c.gridy = numCandidates;
+        c.gridy = numCandidates-1;
         c.gridx = 1;
         c.weightx = 0.8;
         writeInTextField = new JTextField(10);

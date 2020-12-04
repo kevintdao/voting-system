@@ -7,7 +7,18 @@ import java.text.ParseException;
 
 public class Registration extends JPanel {
     private JComboBox<String> languageSelect;
-    private String[] languages = new String[] {"English", "Spanish"};
+
+    private String[] languages = new String[] {"English", "Spanish", "French"};
+    private String[] firstNameLang = {"First Name: ", "Nombre de pila: ", "Prénom: "};
+    private String[] lastNameLang = {"Last Name: ", "Apellido: ", "Nom de famille: "};
+    private String[] userIDLang = {"Username: ", "Nombre de usuario: ","Nom d'utilisateur: "};
+    private String[] socialLang = {"Social Security: ", "Seguridad Social: ", "Sécurité sociale: "};
+    private String[] passLang = {"Password: ", "Contraseña: ", "Mot de passe: "};
+    private String[] confirmPassLang = {"Confirm Password: ", "Confirmar contraseña: ", "Confirmez le mot de passe: "};
+    private String[] countyLang = {"County: ", "Condado: ", "Comté:"};
+    private String[] stateLang = {"State: ", "Estado: ", "Etat: "};
+    private String[] birthdayLang = {"Date of Birth (MM/dd/yyyy): ", "Fecha de nacimiento (MM/dd/yyyy): ", "Date de naissance (MM/dd/yyyy): "};
+    private String[] signUpLang = {"Sign Up", "Regístrate", "S'inscrire"};
 
     private JLabel userIDLabel;
     private JTextField userID;
@@ -47,6 +58,27 @@ public class Registration extends JPanel {
 
         // language select component
         languageSelect = new JComboBox<>(languages);
+        languageSelect.setSelectedIndex(Options.getLanguageIndex());
+        languageSelect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox comboBox = (JComboBox) e.getSource();
+                int selected = comboBox.getSelectedIndex();
+                Options.setLanguageIndex(selected);
+
+                // set all labels to be the current selected language
+                firstNameLabel.setText(firstNameLang[selected]);
+                lastNameLabel.setText(lastNameLang[selected]);
+                userIDLabel.setText(userIDLang[selected]);
+                socialLabel.setText(socialLang[selected]);
+                passField.setText(passLang[selected]);
+                confirmPassField.setText(confirmPassLang[selected]);
+                countyLabel.setText(countyLang[selected]);
+                stateLabel.setText(stateLang[selected]);
+                birthdayLabel.setText(birthdayLang[selected]);
+                signUpButton.setText(signUpLang[selected]);
+            }
+        });
         c.gridx = 2; // third column
         c.gridy = 0; // first row
         c.weightx = 0.2;
@@ -55,7 +87,7 @@ public class Registration extends JPanel {
         add(languageSelect, c);
 
         // first name components
-        firstNameLabel = new JLabel("First Name: ");
+        firstNameLabel = new JLabel(firstNameLang[Options.getLanguageIndex()]);
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -73,7 +105,7 @@ public class Registration extends JPanel {
         add(firstNameField, c);
 
         // last name components
-        lastNameLabel = new JLabel("Last Name: ");
+        lastNameLabel = new JLabel(lastNameLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 2;
         c.ipady = 10;
@@ -90,7 +122,7 @@ public class Registration extends JPanel {
 
 
         // user ID components
-        userIDLabel = new JLabel("User ID: ");
+        userIDLabel = new JLabel(userIDLang[Options.getLanguageIndex()]);
         c.gridx = 0; // first column
         c.gridy = 3; // second row
         c.ipady = 10; // component's height
@@ -106,7 +138,7 @@ public class Registration extends JPanel {
         add(userID, c);
 
         // social security components
-        socialLabel = new JLabel("Social Security: ");
+        socialLabel = new JLabel(socialLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 4;
         c.gridwidth = 1;
@@ -126,7 +158,7 @@ public class Registration extends JPanel {
         add(socialField, c);
 
         // password components
-        passLabel = new JLabel("Password: ");
+        passLabel = new JLabel(passLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 5;
         c.gridwidth = 1;
@@ -141,7 +173,7 @@ public class Registration extends JPanel {
         add(passField, c);
 
         // confirm password components
-        confirmPassLabel = new JLabel("Confirm password: ");
+        confirmPassLabel = new JLabel(passLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 6;
         c.gridwidth = 1;
@@ -156,7 +188,7 @@ public class Registration extends JPanel {
         add(confirmPassField, c);
 
         // county components
-        countyLabel = new JLabel("County: ");
+        countyLabel = new JLabel(countyLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 7;
         c.gridwidth = 1;
@@ -171,7 +203,7 @@ public class Registration extends JPanel {
         add(countyField, c);
 
         // state components
-        stateLabel = new JLabel("State: ");
+        stateLabel = new JLabel(stateLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 8;
         c.gridwidth = 1;
@@ -186,7 +218,7 @@ public class Registration extends JPanel {
         add(stateField, c);
 
         // birthday components
-        birthdayLabel = new JLabel("Date of Birth (MM/dd/yyyy): ");
+        birthdayLabel = new JLabel(birthdayLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 9;
         c.gridwidth = 1;
@@ -206,7 +238,7 @@ public class Registration extends JPanel {
         add(birthdayField, c);
 
         // sign up button
-        signUpButton = new JButton("Sign Up");
+        signUpButton = new JButton(signUpLang[Options.getLanguageIndex()]);
         c.anchor = GridBagConstraints.PAGE_END;
         c.gridx = 0;
         c.gridy = 10;

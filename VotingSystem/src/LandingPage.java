@@ -5,7 +5,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 public class LandingPage extends JPanel {
-    private static final String[] languages = {"english", "spanish", "french"};
+    private static final String[] languages = {"English", "Spanish", "French"};
+    private String[] userIDLang = {"Username: ", "Nombre de usuario: ","Nom d'utilisateur: "};
+    private String[] passLang = {"Password: ", "Contraseña: ", "Mot de passe: "};
+    private String[] submitLang = {"Submit", "Enviar", "Soumettre"};
+    private String[] registerLang = {"Register", "Registrarse", "S'inscrire"};
+
     JComboBox<String> languagesJComboBox;
     
     JPasswordField passwordField;
@@ -28,11 +33,17 @@ public class LandingPage extends JPanel {
 
         languagesJComboBox = new JComboBox<String>(languages);
 
-        languagesJComboBox.addItemListener(
+        languagesJComboBox.addActionListener(
                 event -> {
-                    if (event.getStateChange() == ItemEvent.SELECTED) {
-                        // change languages will go here
-                    }
+                    JComboBox comboBox = (JComboBox) event.getSource();
+                    int selected = comboBox.getSelectedIndex();
+                    Options.setLanguageIndex(selected);
+
+                    // change language for labels
+                    usernameLabel.setText(userIDLang[selected]);
+                    passwordLabel.setText(passLang[selected]);
+                    submit.setText(submitLang[selected]);
+                    register.setText(registerLang[selected]);
                 }
         );
 

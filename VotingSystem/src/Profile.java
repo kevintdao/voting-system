@@ -6,7 +6,14 @@ import java.awt.event.ActionListener;
 // get data from data and display the info
 public class Profile extends JPanel {
     private JComboBox<String> languageSelect;
-    private String[] languages = new String[] {"English", "Spanish"};
+    private String[] languages = {"English", "Spanish",  "French"};
+    private String[] firstNameLang = {"First Name: ", "Nombre de pila: ", "Prénom: "};
+    private String[] lastNameLang = {"Last Name: ", "Apellido: ", "Nom de famille: "};
+    private String[] usernameLang = {"Username: ", "Nombre de usuario: ","Nom d'utilisateur: "};
+    private String[] voterIDLang = {"Voter ID: ", "Identificación de votante: ", "ID de l'électeur: "};
+    private String[] countyLang = {"County: ", "Condado: ", "Comté:"};
+    private String[] stateLang = {"State: ", "Estado: ", "Etat: "};
+    private String[] birthdayLang = {"Date of Birth: ", "Fecha de nacimiento: ", "Date de naissance: "};
 
     private JLabel userNameLabel;
     private JLabel userName;
@@ -41,6 +48,24 @@ public class Profile extends JPanel {
 
         // language select component
         languageSelect = new JComboBox<>(languages);
+        languageSelect.setSelectedIndex(Options.getLanguageIndex());
+        languageSelect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox comboBox = (JComboBox) e.getSource();
+                int selected = comboBox.getSelectedIndex();
+                Options.setLanguageIndex(selected);
+
+                // set all labels to be the current selected language
+                firstNameLabel.setText(firstNameLang[selected]);
+                lastNameLabel.setText(lastNameLang[selected]);
+                idLabel.setText(voterIDLang[selected]);
+                userNameLabel.setText(usernameLang[selected]);
+                countyLabel.setText(countyLang[selected]);
+                stateLabel.setText(stateLang[selected]);
+                birthdayLabel.setText(birthdayLang[selected]);
+            }
+        });
         c.gridx = 2; // third column
         c.gridy = 0; // first row
         c.weightx = 0.2;
@@ -49,7 +74,7 @@ public class Profile extends JPanel {
         add(languageSelect, c);
 
         // username components
-        userNameLabel = new JLabel("Username: ");
+        userNameLabel = new JLabel(usernameLang[Options.getLanguageIndex()]);
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -67,7 +92,7 @@ public class Profile extends JPanel {
         add(userName, c);
 
         // id components
-        idLabel = new JLabel("Voter ID: ");
+        idLabel = new JLabel(voterIDLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
@@ -84,7 +109,7 @@ public class Profile extends JPanel {
         add(id, c);
 
         // first name components
-        firstNameLabel = new JLabel("First Name: ");
+        firstNameLabel = new JLabel(firstNameLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 1;
@@ -101,7 +126,7 @@ public class Profile extends JPanel {
         add(firstName, c);
 
         // last name components
-        lastNameLabel = new JLabel("Last Name: ");
+        lastNameLabel = new JLabel(lastNameLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 4;
         c.gridwidth = 1;
@@ -118,7 +143,7 @@ public class Profile extends JPanel {
         add(lastName, c);
 
         // birthday components
-        birthdayLabel = new JLabel("Date of Birth: ");
+        birthdayLabel = new JLabel(birthdayLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 5;
         c.gridwidth = 1;
@@ -135,7 +160,7 @@ public class Profile extends JPanel {
         add(birthday, c);
 
         // county components
-        countyLabel = new JLabel("County: ");
+        countyLabel = new JLabel(countyLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 6;
         c.gridwidth = 1;
@@ -152,7 +177,7 @@ public class Profile extends JPanel {
         add(county, c);
 
         // state components
-        stateLabel = new JLabel("State: ");
+        stateLabel = new JLabel(stateLang[Options.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 7;
         c.gridwidth = 1;

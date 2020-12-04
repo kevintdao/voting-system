@@ -8,7 +8,7 @@ public class Frame extends JFrame {
     private VotePage votePage;
 
     public Frame() {
-        super("voting system");
+        super("Voting system");
 
         homePage = new Home();
         profilePage = new Profile();
@@ -26,6 +26,6 @@ public class Frame extends JFrame {
 
         setContentPane(Options.getContentPanel());
 
-        Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+        Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
     }
 }
