@@ -10,6 +10,12 @@ public class Registration extends JPanel {
     private JLabel userIDLabel;
     private JTextField userID;
 
+    private JLabel firstNameLabel;
+    private JTextField firstNameField;
+
+    private JLabel lastNameLabel;
+    private JTextField lastNameField;
+
     private JLabel socialLabel;
     private JFormattedTextField socialField;
 
@@ -35,7 +41,7 @@ public class Registration extends JPanel {
     public Registration(){
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(10,20,0,20);  // padding
+        c.insets = new Insets(5,20,0,20);  // padding
 
         // language select component
         languageSelect = new JComboBox<>(languages);
@@ -46,20 +52,52 @@ public class Registration extends JPanel {
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(languageSelect, c);
 
-        // user ID components
-        userIDLabel = new JLabel("User ID: ");
+        // first name components
+        firstNameLabel = new JLabel("First Name: ");
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.ipady = 10;
+        c.weightx = labelWeightX;
+        add(firstNameLabel, c);
+
+        firstNameField = new JTextField();
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridwidth = 2;
+        c.ipady = 10;
+        c.weightx = fieldWeightX;
+        add(firstNameField, c);
+
+        // last name components
+        lastNameLabel = new JLabel("Last Name: ");
+        c.gridx = 0;
+        c.gridy = 2;
+        c.ipady = 10;
+        c.weightx = labelWeightX;
+        add(lastNameLabel, c);
+
+        lastNameField = new JTextField();
+        c.gridx = 1;
+        c.gridy = 2;
+        c.gridwidth = 2;
+        c.ipady = 10;
+        c.weightx = fieldWeightX;
+        add(lastNameField, c);
+
+
+        // user ID components
+        userIDLabel = new JLabel("User ID: ");
         c.gridx = 0; // first column
-        c.gridy = 1; // second row
+        c.gridy = 3; // second row
         c.ipady = 10; // component's height
         c.weightx = labelWeightX;
         add(userIDLabel, c);
 
-        userID = new JTextField("00000");
-        userID.setEditable(false);
+        userID = new JTextField("");
         c.gridx = 1; // second column
-        c.gridy = 1; // second row
+        c.gridy = 3; // second row
         c.gridwidth = 2; // takes 2 columns
         c.ipady = 10; // component's height
         c.weightx = fieldWeightX;
@@ -68,7 +106,7 @@ public class Registration extends JPanel {
         // social security components
         socialLabel = new JLabel("Social Security: ");
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 4;
         c.gridwidth = 1;
         c.weightx = labelWeightX;
         add(socialLabel, c);
@@ -80,7 +118,7 @@ public class Registration extends JPanel {
             e.printStackTrace();
         }
         c.gridx = 1;
-        c.gridy = 2;
+        c.gridy = 4;
         c.gridwidth = 2;
         c.weightx = fieldWeightX;
         add(socialField, c);
@@ -88,14 +126,14 @@ public class Registration extends JPanel {
         // password components
         passLabel = new JLabel("Password: ");
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 5;
         c.gridwidth = 1;
         c.weightx = labelWeightX;
         add(passLabel, c);
 
         passField = new JPasswordField();
         c.gridx = 1;
-        c.gridy = 3;
+        c.gridy = 5;
         c.gridwidth = 2;
         c.weightx = fieldWeightX;
         add(passField, c);
@@ -103,14 +141,14 @@ public class Registration extends JPanel {
         // confirm password components
         confirmPassLabel = new JLabel("Confirm password: ");
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 6;
         c.gridwidth = 1;
         c.weightx = labelWeightX;
         add(confirmPassLabel, c);
 
         confirmPassField = new JPasswordField();
         c.gridx = 1;
-        c.gridy = 4;
+        c.gridy = 6;
         c.gridwidth = 2;
         c.weightx = fieldWeightX;
         add(confirmPassField, c);
@@ -118,14 +156,14 @@ public class Registration extends JPanel {
         // county components
         countyLabel = new JLabel("County: ");
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 7;
         c.gridwidth = 1;
         c.weightx = labelWeightX;
         add(countyLabel, c);
 
         countyField = new JTextField();
         c.gridx = 1;
-        c.gridy = 5;
+        c.gridy = 7;
         c.gridwidth = 2;
         c.weightx = fieldWeightX;
         add(countyField, c);
@@ -133,14 +171,14 @@ public class Registration extends JPanel {
         // state components
         stateLabel = new JLabel("State: ");
         c.gridx = 0;
-        c.gridy = 6;
+        c.gridy = 8;
         c.gridwidth = 1;
         c.weightx = labelWeightX;
         add(stateLabel, c);
 
         stateField = new JTextField();
         c.gridx = 1;
-        c.gridy = 6;
+        c.gridy = 8;
         c.gridwidth = 2;
         c.weightx = fieldWeightX;
         add(stateField, c);
@@ -148,7 +186,7 @@ public class Registration extends JPanel {
         // birthday components
         birthdayLabel = new JLabel("Date of Birth (MM/dd/yyyy): ");
         c.gridx = 0;
-        c.gridy = 7;
+        c.gridy = 9;
         c.gridwidth = 1;
         c.weightx = labelWeightX;
         add(birthdayLabel, c);
@@ -160,7 +198,7 @@ public class Registration extends JPanel {
             e.printStackTrace();
         }
         c.gridx = 1;
-        c.gridy = 7;
+        c.gridy = 9;
         c.gridwidth = 2;
         c.weightx = fieldWeightX;
         add(birthdayField, c);
@@ -169,10 +207,10 @@ public class Registration extends JPanel {
         signUpButton = new JButton("Sign Up");
         c.anchor = GridBagConstraints.PAGE_END;
         c.gridx = 0;
-        c.gridy = 8;
+        c.gridy = 10;
         c.gridwidth = 3;
         c.weightx = 0.2;
-        c.insets = new Insets(40,40,0,40);  // padding
+        c.insets = new Insets(30,40,0,40);  // padding
         add(signUpButton, c);
     }
 }
