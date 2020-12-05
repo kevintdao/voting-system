@@ -37,13 +37,14 @@ public class LandingPage extends JPanel {
             }
             refreshPanel();
         });
-        c.insets = new Insets(40,40,0,40);  // padding
+        c.insets = new Insets(10,40,0,40);  // padding
         c.gridx = 0;
         c.gridy = 0;
+        c.ipady = 10;
         c.gridwidth = 2;
+        c.anchor = GridBagConstraints.PAGE_START;
         c.weightx = 0.2;
         add(Options.getDarkModeButton(),c);
-
 
         Options.getLanguageComboBox(0).addActionListener(
                 event -> {
@@ -61,6 +62,13 @@ public class LandingPage extends JPanel {
                     refreshPanel();
                 }
         );
+
+        c.gridx = 1;
+        c.gridy = 0;
+        c.weightx = 0.5;
+        c.ipady = 10;
+        c.anchor = GridBagConstraints.PAGE_START;
+        add(new JLabel(""), c);
 
         c.insets = new Insets(10,20,0,20);
         c.gridx = 2; // third column
