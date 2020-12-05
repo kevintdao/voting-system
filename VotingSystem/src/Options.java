@@ -32,6 +32,27 @@ public class Options {
     */
     private static JComboBox[] languageComboArray = new JComboBox[NUM_OF_PANELS];
     private static JToggleButton[] darkModeButtonArray = new JToggleButton[NUM_OF_PANELS];
+    private static JTabbedPane tabs = new JTabbedPane();
+    private static ArrayList<VoteTab> tabArray = new ArrayList<>();
+
+    public static JTabbedPane getTabs(){
+        return tabs;
+    }
+
+    public static void setUpTab(){
+        for(int i = 0; i < Options.getElectionAmount(); i++){
+            String title = "from database";
+            tabArray.add(new VoteTab(5)); // replace with getCandiateAmount
+            tabs.addTab(title, tabArray.get(i));
+        }
+    }
+
+    public static void removeAllTabs(){
+        while(tabs.getTabCount() != 0){
+            tabs.remove(0);
+        }
+    }
+
 
     public static void setUpDarkModeButton(){
         for(int i = 0; i < 7; i++){
@@ -397,5 +418,36 @@ public class Options {
             e.printStackTrace();
         }
         return numberOfElections;
+    }
+
+    // submit the user's votes
+    public static void submitVote() {
+        ArrayList<Integer> userVotes = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            int countyID = 0;
+            ArrayList<Integer> electionIDs = new ArrayList<>();
+
+            ResultSet result = statement.executeQuery("SELECT countyID FROM usertable WHERE username='"+currentUser+"'");
+
+//            // get the county id
+//            while(result.next()){
+//                countyID = result.getInt("countyID");
+//            }
+//
+//            result = statement.executeQuery("SELECT eletionID FROM election WHERE countyID='"+countyID+"'");
+//
+//            // get the election ids
+//            while(result.next()){
+//                electionIDs.add(result.getInt("electionID"));
+//            }
+//
+//            connection.close();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

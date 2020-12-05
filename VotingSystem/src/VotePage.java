@@ -71,13 +71,13 @@ public class VotePage extends JPanel {
         c.anchor = GridBagConstraints.PAGE_START;
         add(new JLabel(""), c);
 
-        JTabbedPane tabs = new JTabbedPane();
-        tabArray = new VoteTab[5]; //this will be updated with same number as below
-        for (int i = 1; i < 5; i++) { // this loop will loop for some amount from database
-            String title = "from database";
-            tabArray[i] = new VoteTab(5); //this will be updated from database
-            tabs.add(title,tabArray[i]);
-        }
+//        JTabbedPane tabs = new JTabbedPane();
+//        tabArray = new VoteTab[5]; //this will be updated with same number as below
+//        for (int i = 1; i < 5; i++) { // this loop will loop for some amount from database
+//            String title = "from database";
+//            tabArray[i] = new VoteTab(5); //this will be updated from database
+//            tabs.add(title,tabArray[i]);
+//        }
         c.gridx = 0;
         c.gridy = 1;
         c.weightx = 1.0;
@@ -86,7 +86,7 @@ public class VotePage extends JPanel {
         c.insets = new Insets(10,10,0,10);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.CENTER;
-        add(tabs, c);
+        add(Options.getTabs(), c);
 
         returnToHome = new JButton(returnHomeLang[Options.getLanguageIndex()]);
         returnToHome.addActionListener(new ActionListener() {
