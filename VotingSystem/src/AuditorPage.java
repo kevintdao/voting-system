@@ -74,6 +74,13 @@ public class AuditorPage extends JPanel {
         add(Options.getLanguageComboBox(5), c);
 
         profileButton = new JButton("Profile");
+        profileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Options.getCardLayout().show(Options.getContentPanel(), "PROFILE");
+                Options.updateProfilePage();
+            }
+        });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
@@ -125,6 +132,7 @@ public class AuditorPage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
                 System.out.println("Landing");
+                Options.clearAllInputs();
             }
         });
     }
@@ -132,27 +140,5 @@ public class AuditorPage extends JPanel {
     private void refreshPanel(){
         revalidate();
         repaint();
-    }
-
-    // clear the inputs from textfields
-    private void clearAllInputs(){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JPanel panel = null;
-                for(Component c : Options.getContentPanel().getComponents()){
-                    if(c.getName().equals("Landing")){
-                        panel = (JPanel) c;
-                    }
-                }
-
-                for(int i = 0; i < panel.getComponentCount(); i++) {
-                    if(panel.getComponent(i) instanceof JTextField){
-                        JTextField textfield = (JTextField) panel.getComponent(i);
-                        textfield.setText("");
-                    }
-                }
-            }
-        });
     }
 }

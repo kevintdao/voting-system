@@ -103,7 +103,7 @@ public class Home extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Options.getCardLayout().show(Options.getContentPanel(), "PROFILE");
-                updateProfilePage();
+                Options.updateProfilePage();
             }
         });
         c.gridx = 0;
@@ -136,7 +136,7 @@ public class Home extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
-                clearAllInputs();
+                Options.clearAllInputs();
             }
         });
     }
@@ -144,82 +144,5 @@ public class Home extends JPanel {
     private void refreshPanel(){
         revalidate();
         repaint();
-    }
-
-    // update the profile page
-    private void updateProfilePage(){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JPanel panel = null;
-                for(Component c : Options.getContentPanel().getComponents()){
-                    if(c.getName().equals("Profile")){
-                        panel = (JPanel) c;
-                    }
-                }
-
-                /*
-                    Index for userInfo:
-                    0 = voterid
-                    1 = username
-                    2 = first name
-                    3 = last name
-                    4 = date of birth
-                    5 = county
-                    6 = state
-                */
-                ArrayList<String> userInfo = Options.getUserInfo();
-                for(int i = 0; i < panel.getComponentCount(); i++){
-                    if(panel.getComponent(i) instanceof JTextField){
-                        String currentComponentName = panel.getComponent(i).getName();
-                        JTextField textfield = (JTextField) panel.getComponent(i);
-
-                        if(currentComponentName.equals("idField")){
-                            textfield.setText(userInfo.get(0));
-                        }
-                        else if(currentComponentName.equals("usernameField")){
-                            textfield.setText(userInfo.get(1));
-                        }
-                        else if(currentComponentName.equals("firstNameField")){
-                            textfield.setText(userInfo.get(2));
-                        }
-                        else if(currentComponentName.equals("lastNameField")){
-                            textfield.setText(userInfo.get(3));
-                        }
-                        else if(currentComponentName.equals("birthdayField")){
-                            textfield.setText(userInfo.get(4));
-                        }
-                        else if(currentComponentName.equals("countyField")){
-                            textfield.setText(userInfo.get(5));
-                        }
-                        else if(currentComponentName.equals("stateField")){
-                            textfield.setText(userInfo.get(6));
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    // clear the inputs from textfields
-    private void clearAllInputs(){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JPanel panel = null;
-                for(Component c : Options.getContentPanel().getComponents()){
-                    if(c.getName().equals("Landing")){
-                        panel = (JPanel) c;
-                    }
-                }
-
-                for(int i = 0; i < panel.getComponentCount(); i++) {
-                    if(panel.getComponent(i) instanceof JTextField){
-                        JTextField textfield = (JTextField) panel.getComponent(i);
-                        textfield.setText("");
-                    }
-                }
-            }
-        });
     }
 }

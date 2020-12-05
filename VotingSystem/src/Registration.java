@@ -9,7 +9,6 @@ public class Registration extends JPanel {
     private String[] firstNameLang = {"First Name: ", "Nombre de pila: ", "Prénom: "};
     private String[] lastNameLang = {"Last Name: ", "Apellido: ", "Nom de famille: "};
     private String[] userIDLang = {"Username: ", "Nombre de usuario: ","Nom d'utilisateur: "};
-    private String[] socialLang = {"Social Security: ", "Seguridad Social: ", "Sécurité sociale: "};
     private String[] passLang = {"Password: ", "Contraseña: ", "Mot de passe: "};
     private String[] confirmPassLang = {"Confirm Password: ", "Confirmar contraseña: ", "Confirmez le mot de passe: "};
     private String[] countyLang = {"County: ", "Condado: ", "Comté:"};
@@ -26,9 +25,6 @@ public class Registration extends JPanel {
 
     private JLabel lastNameLabel;
     private JTextField lastNameField;
-
-    private JLabel socialLabel;
-    private JFormattedTextField socialField;
 
     private JLabel passLabel;
     private JPasswordField passField;
@@ -68,7 +64,6 @@ public class Registration extends JPanel {
                 firstNameLabel.setText(firstNameLang[selected]);
                 lastNameLabel.setText(lastNameLang[selected]);
                 userIDLabel.setText(userIDLang[selected]);
-                socialLabel.setText(socialLang[selected]);
                 passLabel.setText(passLang[selected]);
                 confirmPassLabel.setText(confirmPassLang[selected]);
                 countyLabel.setText(countyLang[selected]);
@@ -138,26 +133,6 @@ public class Registration extends JPanel {
         c.ipady = 10; // component's height
         c.weightx = fieldWeightX;
         add(userID, c);
-
-        // social security components
-        socialLabel = new JLabel(socialLang[Options.getLanguageIndex()]);
-        c.gridx = 0;
-        c.gridy = 4;
-        c.gridwidth = 1;
-        c.weightx = labelWeightX;
-        add(socialLabel, c);
-
-        try {
-            MaskFormatter socialMask = new MaskFormatter("###-###-####");
-            socialField = new JFormattedTextField(socialMask);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        c.gridx = 1;
-        c.gridy = 4;
-        c.gridwidth = 2;
-        c.weightx = fieldWeightX;
-        add(socialField, c);
 
         // password components
         passLabel = new JLabel(passLang[Options.getLanguageIndex()]);
@@ -304,9 +279,22 @@ public class Registration extends JPanel {
                 String county = countyField.getText();
                 String state = stateField.getText();
 
+                // add new user to database
                 Options.addNewUser(username, password, first, last, dob, county, state);
 
-                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                // set the current user to be username
+                Options.setCurrentUser(username);
+
+                if(username.contains("auditor:")){
+                    Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
+                }
+                else if(username.contains("media:")){
+                    Options.getCardLayout().show(Options.getContentPanel(), "MEDIA");
+                }
+                else{
+                    Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                }
+
                 clearAllInputs();
             }
         });
@@ -317,7 +305,7 @@ public class Registration extends JPanel {
         repaint();
     }
 
-    // clear the inputs from textfields
+    // clear the inputs from textfields in registration page
     private void clearAllInputs(){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -330,6 +318,5 @@ public class Registration extends JPanel {
                 }
             }
         });
-
     }
 }

@@ -13,12 +13,14 @@ public class MediaPage extends JPanel
     private final JComboBox<String> positionJComboBox;
     private final JButton backButton;
     private final JButton updateButton;
+    private JButton logOutButton;
     private JTextArea textArea;
 
     //private static final String[] graphs = {"Numerical Results", "Bar Graph", "Pie Chart"};
     private String[] resultsLang = {"Results", "Resultados", "Résultats"};
     private String[] backLang = {"<- Back", "<- Atrás", "<- Retour"};
     private String[] updateLang = {"Update", "Actualizar", "Mise à Jour"};
+    private String[] logOutLang = {"Log out", "Cerrar sesión", "Se déconnecter"};
 
     public MediaPage() {
         setLayout(new GridBagLayout()); // set frame layout
@@ -99,6 +101,12 @@ public class MediaPage extends JPanel
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // check if the current user is an auditor
+                if(!Options.checkAuditorStatus()){
+                    JOptionPane.showMessageDialog(Options.getContentPanel(), "You're not an Auditor","Invalid Permission!", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
                 System.out.println("Auditor page");
             }
@@ -120,8 +128,22 @@ public class MediaPage extends JPanel
         });
         c.gridx = 1;
         c.gridy = 5;
-        c.gridwidth = 2;
+        c.gridwidth = 1;
         add(updateButton, c);
+
+        logOutButton = new JButton(logOutLang[Options.getLanguageIndex()]);
+        c.gridx = 2;
+        c.gridy = 5;
+        c.ipady = 10;
+        c.gridwidth = 1;
+        add(logOutButton, c);
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
+                Options.clearAllInputs();
+            }
+        });
 
         // JLabel constructor with string and alignment arguments
         //add(label1); // add label1 to JFrame

@@ -10,10 +10,6 @@ public class Frame extends JFrame {
     private AuditorPage auditorPage;
     private MediaPage mediaPage;
 
-//    private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";
-//    private static final String USERNAME = "engr_class025";
-//    private static final String PASSWORD = "ow9rw3hvWFX4sVcV";
-
     public Frame() {
         super("Voting system");
 
@@ -40,7 +36,7 @@ public class Frame extends JFrame {
 
         setContentPane(Options.getContentPanel());
 
-        Options.getCardLayout().show(Options.getContentPanel(), "MEDIA");
+        Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
 
         Options.createUsersTable();
     }

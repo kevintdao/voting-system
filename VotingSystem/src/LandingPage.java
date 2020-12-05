@@ -104,7 +104,15 @@ public class LandingPage extends JPanel {
                     return;
                 }
 
-                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                if(username.contains("auditor:")){
+                    Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
+                }
+                else if(username.contains("media:")){
+                    Options.getCardLayout().show(Options.getContentPanel(), "MEDIA");
+                }
+                else{
+                    Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                }
             }
         });
 

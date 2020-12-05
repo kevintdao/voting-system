@@ -216,7 +216,12 @@ public class Profile extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                if(Options.checkAuditorStatus()){
+                    Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
+                }
+                else {
+                    Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                }
             }
         });
         c.gridx = 0;

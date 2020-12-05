@@ -69,6 +69,10 @@ public class Options {
         }
     }
 
+    public static void setCurrentUser(String username){
+        currentUser = username;
+    }
+
     public static Connection getConnection(){
         Connection connection;
         try {
@@ -110,11 +114,24 @@ public class Options {
 
     // add new user from registration page
     public static void addNewUser(String username, String password, String first, String last, String dob, String county, String state){
+        String sqlString = "INSERT INTO usertable (username, password, firstname, lastname, dob, county, state, media, auditor, voter)" +
+                                    "VALUES ('"+username+"', '"+password+"', '"+first+"', '"+last+"', STR_TO_DATE('"+dob+"', '%m/%d/%Y'), '"+county+"', '"+state+"',";
+
         try{
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO usertable (username, password, firstname, lastname, dob, county, state, media, auditor, voter)" +
-                                        "VALUES ('"+username+"', '"+password+"', '"+first+"', '"+last+"', STR_TO_DATE('"+dob+"', '%m/%d/%Y'), '"+county+"', '"+state+"', 0, 0, 1)");
+
+            if(username.contains("auditor:")){
+                sqlString +=  "1, 1, 0)";
+            }
+            else if(username.contains("media:")){
+                sqlString += "1, 0, 0)";
+            }
+            else{
+                sqlString += "0, 0, 1)";
+            }
+
+            statement.executeUpdate(sqlString);
 
             connection.close();
         } catch (SQLException e){
@@ -135,6 +152,7 @@ public class Options {
                 }
             }
 
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -154,6 +172,7 @@ public class Options {
                 }
             }
 
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -176,10 +195,107 @@ public class Options {
                 output.add(result.getString("state"));
             }
 
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
 
         return output;
+    }
+
+    // check for auditor status
+    public static boolean checkAuditorStatus(){
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM usertable WHERE username='"+currentUser+"'");
+            while(result.next()){
+                if(result.getBoolean("auditor")){
+                    return true;
+                }
+            }
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // update the profile page
+    public static void updateProfilePage(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JPanel panel = null;
+                for(Component c : Options.getContentPanel().getComponents()){
+                    if(c.getName().equals("Profile")){
+                        panel = (JPanel) c;
+                    }
+                }
+
+                /*
+                    Index for userInfo:
+                    0 = voterid
+                    1 = username
+                    2 = first name
+                    3 = last name
+                    4 = date of birth
+                    5 = county
+                    6 = state
+                */
+                ArrayList<String> userInfo = Options.getUserInfo();
+                for(int i = 0; i < panel.getComponentCount(); i++){
+                    if(panel.getComponent(i) instanceof JTextField){
+                        String currentComponentName = panel.getComponent(i).getName();
+                        JTextField textfield = (JTextField) panel.getComponent(i);
+
+                        if(currentComponentName.equals("idField")){
+                            textfield.setText(userInfo.get(0));
+                        }
+                        else if(currentComponentName.equals("usernameField")){
+                            textfield.setText(userInfo.get(1));
+                        }
+                        else if(currentComponentName.equals("firstNameField")){
+                            textfield.setText(userInfo.get(2));
+                        }
+                        else if(currentComponentName.equals("lastNameField")){
+                            textfield.setText(userInfo.get(3));
+                        }
+                        else if(currentComponentName.equals("birthdayField")){
+                            textfield.setText(userInfo.get(4));
+                        }
+                        else if(currentComponentName.equals("countyField")){
+                            textfield.setText(userInfo.get(5));
+                        }
+                        else if(currentComponentName.equals("stateField")){
+                            textfield.setText(userInfo.get(6));
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // clear the inputs from textfields in landing page
+    public static void clearAllInputs(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JPanel panel = null;
+                for(Component c : Options.getContentPanel().getComponents()){
+                    if(c.getName().equals("Landing")){
+                        panel = (JPanel) c;
+                    }
+                }
+
+                for(int i = 0; i < panel.getComponentCount(); i++) {
+                    if(panel.getComponent(i) instanceof JTextField){
+                        JTextField textfield = (JTextField) panel.getComponent(i);
+                        textfield.setText("");
+                    }
+                }
+            }
+        });
     }
 }
