@@ -141,10 +141,11 @@ public class MediaPage extends JPanel
 
 
         updateButton = new JButton(updateLang[Options.getLanguageIndex()]);
-        backButton.addActionListener(new ActionListener() {
+        updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //update()
+                Options.getResult();
             }
         });
         c.gridx = 1;

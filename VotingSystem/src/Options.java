@@ -339,4 +339,63 @@ public class Options {
             }
         });
     }
+
+    // get the election result from the database
+    public static void getResult(){
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            ResultSet result;
+            int countyID = 0;
+            ArrayList<Integer> electionIDs = new ArrayList<>();
+
+            // get the countyID
+            result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
+            while(result.next()){
+               countyID = result.getInt("countyID");
+            }
+
+            // get all the elections ids from that county id
+            result = statement.executeQuery("SELECT * FROM election WHERE countyID='"+countyID+"'");
+            while(result.next()){
+               electionIDs.add(result.getInt("electionID"));
+            }
+
+            // count up the vote
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    // get the amount of elections in the specific county id
+    public static int getElectionAmount(){
+        int numberOfElections = 0;
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            int countyID = 0;
+
+            ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
+
+            while(result.next()){
+                countyID = result.getInt("countyID");
+            }
+
+            result = statement.executeQuery("SELECT COUNT(electionid) AS electioncount FROM election WHERE countyID='"+countyID+"'");
+
+            while(result.next()){
+                numberOfElections = result.getInt("electioncount");
+            }
+
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return numberOfElections;
+    }
 }
