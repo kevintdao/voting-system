@@ -9,6 +9,7 @@ public class Frame extends JFrame {
     private VotePage votePage;
     private AuditorPage auditorPage;
     private MediaPage mediaPage;
+    private CreateBallot createBallot;
 
     public Frame() {
         super("Voting system");
@@ -23,6 +24,7 @@ public class Frame extends JFrame {
         votePage = new VotePage();
         auditorPage = new AuditorPage();
         mediaPage = new MediaPage();
+        createBallot = new CreateBallot();
 
         Options.getContentPanel().setLayout(Options.getCardLayout());
 
@@ -33,6 +35,7 @@ public class Frame extends JFrame {
         Options.getContentPanel().add(votePage, "VOTE");
         Options.getContentPanel().add(auditorPage, "AUDITOR");
         Options.getContentPanel().add(mediaPage, "MEDIA");
+        Options.getContentPanel().add(createBallot, "CREATEBALLOT");
 
         setContentPane(Options.getContentPanel());
 

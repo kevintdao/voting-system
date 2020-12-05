@@ -96,9 +96,8 @@ public class AuditorPage extends JPanel {
         createBallotButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Options.getCardLayout().show(Options.getContentPanel(), "CREATEBALLOT");
+                Options.getCardLayout().show(Options.getContentPanel(), "CREATEBALLOT");
                 System.out.println("create ballot");
-                //TODO: go to ballot creation page
             }
         });
         c.gridx = 0;
