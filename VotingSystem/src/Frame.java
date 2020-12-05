@@ -7,6 +7,8 @@ public class Frame extends JFrame {
     private LandingPage landingPage;
     private Registration registrationPage;
     private VotePage votePage;
+    private AuditorPage auditorPage;
+    private MediaPage mediaPage;
 
 //    private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";
 //    private static final String USERNAME = "engr_class025";
@@ -23,6 +25,8 @@ public class Frame extends JFrame {
         landingPage = new LandingPage();
         registrationPage = new Registration();
         votePage = new VotePage();
+        auditorPage = new AuditorPage();
+        mediaPage = new MediaPage();
 
         Options.getContentPanel().setLayout(Options.getCardLayout());
 
@@ -31,6 +35,8 @@ public class Frame extends JFrame {
         Options.getContentPanel().add(homePage, "HOME");
         Options.getContentPanel().add(profilePage, "PROFILE");
         Options.getContentPanel().add(votePage, "VOTE");
+        Options.getContentPanel().add(auditorPage, "AUDIT");
+        Options.getContentPanel().add(mediaPage, "MEDIA");
 
         setContentPane(Options.getContentPanel());
 

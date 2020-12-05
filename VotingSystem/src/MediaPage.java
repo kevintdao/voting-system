@@ -5,45 +5,143 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.*;
 
-/**
- *
- * @version 1.0.0, Oct 2 2020
- * @see JFrame
- */
-public class MediaPage extends JFrame
+
+public class MediaPage extends JPanel
 {
-    /** JLabel to label the number entry */
-    private final JLabel label1; // JLabel with just text
-    /** JComboBox to select which events to print to screen */
-    private final JComboBox<String> eventsJComboBox;
+    private static final String[] languages = {"English", "Spanish", "French"};
+    private String[] candidatePositions = {"President", "Representative", "Congress", "Governor", "Mayor", "Sheriff"};
+    private final JLabel resultsLabel;
+    //private final JComboBox<String> graphsJComboBox;
+    private final JComboBox<String> languagesJComboBox;
+    private final JComboBox<String> positionJComboBox;
+    private final JButton backButton;
+    private final JButton updateButton;
+    private JTextArea textArea;
 
-    /** array of strings for selecting data visualization*/
-    private static final String[] graphs =
-            {"Numerical Results", "Bar Graph", "Pie Chart"};
+    //private static final String[] graphs = {"Numerical Results", "Bar Graph", "Pie Chart"};
+    private String[] resultsLang = {"Results", "Resultados", "Résultats"};
+    private String[] backLang = {"<- Back", "<- Atrás", "<- Retour"};
+    private String[] updateLang = {"Update", "Actualizar", "Mise à Jour"};
 
-
-    /**
-     * LabelFrame constructor that adds JLabel and JComboBox to JFrame
-     */
     public MediaPage() {
-        super("Media Page");
-        setLayout(new FlowLayout()); // set frame layout
 
-        eventsJComboBox = new JComboBox<String>(graphs); // set up JComboBox
-        eventsJComboBox.setMaximumRowCount(3); // display three rows
-        add(eventsJComboBox, BorderLayout.NORTH); // add combobox to JFrame
+        setLayout(new GridBagLayout()); // set frame layout
+        GridBagConstraints c = new GridBagConstraints();
+
+        //graphsJComboBox = new JComboBox<String>(graphs); // set up JComboBox
+        //graphsJComboBox.setMaximumRowCount(3); // display three rows
+
+        languagesJComboBox = new JComboBox<>(languages);
+        languagesJComboBox.setMaximumRowCount(3);
+        languagesJComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox comboBox = (JComboBox) e.getSource();
+                int selected = comboBox.getSelectedIndex();
+                Options.setLanguageIndex(selected);
+                // change labels to selected language
+                resultsLabel.setText(resultsLang[selected]);
+                backButton.setText(backLang[selected]);
+            }
+        });
+
+        positionJComboBox = new JComboBox(candidatePositions);
+
+        resultsLabel = new JLabel(resultsLang[Options.getLanguageIndex()]);
+        resultsLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        backButton = new JButton(backLang[Options.getLanguageIndex()]);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
+                System.out.println("Auditor page");
+            }
+        });
+        updateButton = new JButton(updateLang[Options.getLanguageIndex()]);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //update()
+            }
+        });
+
+
+        c.insets = new Insets(10, 20, 0, 20);  // padding
+
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.anchor = GridBagConstraints.PAGE_START;
+        add(resultsLabel, c);
+
+        JLabel placeholder = new JLabel("");
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        //c.weightx = 0.5;
+        add(placeholder, c);
+
+
+        //JLabel placeholder2 = new JLabel("");
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        //c.weightx = 0.5;
+        add(positionJComboBox, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.ipady = 10;
+        c.anchor = GridBagConstraints.LAST_LINE_START;
+        c.insets = new Insets(20, 20, 100, 20);  // padding
+        add(backButton, c);
+
+        textArea = new JTextArea();
+        String contents = "RESULTS\n Position: \n Candidate: <name> <numvotes>";
+        textArea.setText(contents);
+
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        c.ipadx = 50;
+        c.ipady = 10;
+        //c.weightx = 0.5;
+        add(textArea, c);
+
+        //c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 2;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        //c.weightx = 0.8;
+        c.anchor = GridBagConstraints.LAST_LINE_END;
+        add(languagesJComboBox, c);
+
+        c.gridx = 1;
+        c.gridy = 2;
+        add(updateButton, c);
+
+
+
+
 
 
         // JLabel constructor with string and alignment arguments
-        label1 = new JLabel("Now displaying results as Numerical Results", SwingConstants.LEFT);
-        add(label1); // add label1 to JFrame
-
-
+        //add(label1); // add label1 to JFrame
 
         //register handler and add listener
         ItemHandler itemHandler = new ItemHandler();
-        eventsJComboBox.addItemListener(itemHandler);
-
+        //graphsJComboBox.addItemListener(itemHandler);
+        positionJComboBox.addItemListener(itemHandler);
+    }
+    public void updateResults(){
+        //TODO: query db and update textArea
     }
 
     /**
@@ -57,10 +155,14 @@ public class MediaPage extends JFrame
         @Override
         public void itemStateChanged(ItemEvent event)
         {
-            String string = event.toString();
+            String string = event.getItem().toString();
             // determine whether item selected
-            if (event.getStateChange() == ItemEvent.SELECTED)
-                label1.setText("Now displaying results as " + event.getItem().toString());
+            if (event.getStateChange() == ItemEvent.SELECTED){
+                //label1.setText("Now displaying results as " + event.getItem().toString());
+                //TODO: update with database queries
+                textArea.setText("RESULTS\n Position: " + string + "\n Candidate: <name> <numvotes>");
+            }
+
         }
     }
 }
