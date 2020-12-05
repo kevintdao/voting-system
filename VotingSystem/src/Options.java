@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Options {
     private static String[] languages = new String[] {"English", "Spanish", "French"};
@@ -216,6 +217,13 @@ public class Options {
                 sqlString += "0, 0, 1)";
             }
 
+            statement.executeUpdate(sqlString);
+
+            sqlString = "UPDATE" +
+                    "    usertable UT," +
+                    "    counties CT" +
+                    "SET UT.countyID = CT.countyID" +
+                    "WHERE UT.county = CT.county";
             statement.executeUpdate(sqlString);
 
             connection.close();
@@ -529,6 +537,41 @@ public class Options {
             while(result.next()){
                 output.add(result.getString("electionName"));
             }
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    public static ArrayList<String> getCandidateNames(){
+        ArrayList<String> output =  new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            int countyID = 0;
+            int electionID = 0;
+
+            ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
+
+            while(result.next()){
+                countyID = result.getInt("countyID");
+            }
+
+            result = statement.executeQuery("SELECT electionID FROM election WHERE countyID='"+countyID+"'");
+
+            while(result.next()){
+                electionID = result.getInt("electionID");
+            }
+
+            result = statement.executeQuery("SELECT(candidateName) FROM candidates WHERE electionID='"+electionID+"'");
+
+            while(result.next()){
+                output.add(result.getString("candidateName"));
+            }
+
+
             connection.close();
         } catch (SQLException e){
             e.printStackTrace();
