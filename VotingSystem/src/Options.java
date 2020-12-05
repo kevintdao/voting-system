@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Options {
     private static String[] languages = new String[] {"English", "Spanish", "French"};
@@ -13,6 +14,8 @@ public class Options {
     private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";
     private static final String USERNAME = "engr_class025";
     private static final String PASSWORD = "ow9rw3hvWFX4sVcV";
+
+    private static String currentUser = "";
 
     /*
         Index of combo box in each page
@@ -96,6 +99,8 @@ public class Options {
                                         "KEY(voterid))");
 
             System.out.println("Created table");
+            connection.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,8 +114,70 @@ public class Options {
             statement.executeUpdate("INSERT INTO usertable (username, password, firstname, lastname, dob, county, state, media, auditor, voter)" +
                                         "VALUES ('"+username+"', '"+password+"', '"+first+"', '"+last+"', STR_TO_DATE('"+dob+"', '%m/%d/%Y'), '"+county+"', '"+state+"', 0, 0, 1)");
 
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    // check the login
+    public static boolean checkLogin(String inputUserName, String inputPassword){
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM usertable");
+            while(result.next()){
+                if(result.getString("username").equals(inputUserName) && result.getString("password").equals(inputPassword)){
+                    currentUser = inputUserName;
+                    return true;
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // check if username already existed for registration
+    public static boolean checkUsername(String inputUsername){
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM usertable");
+            while(result.next()){
+                if(result.getString("username").equals(inputUsername)){
+                    return true;
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static ArrayList<String> getUserInfo(){
+        ArrayList<String> output = new ArrayList<>();
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM usertable WHERE username='"+currentUser+"'");
+            while(result.next()){
+                output.add(result.getString("voterid"));
+                output.add(result.getString("username"));
+                output.add(result.getString("firstname"));
+                output.add(result.getString("lastname"));
+                output.add(result.getString("dob"));
+                output.add(result.getString("county"));
+                output.add(result.getString("state"));
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return output;
     }
 }

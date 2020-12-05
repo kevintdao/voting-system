@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Home extends JPanel {
     private String[] welcomeLang = {"Welcome!", "Bienvenido!", "Bienvenu!"};
@@ -21,6 +22,7 @@ public class Home extends JPanel {
 
     public Home(){
         setLayout(new GridBagLayout());
+        setName("Home");
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(10,20,0,20);  // padding
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -101,6 +103,7 @@ public class Home extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Options.getCardLayout().show(Options.getContentPanel(), "PROFILE");
+                updateProfilePage();
             }
         });
         c.gridx = 0;
@@ -133,6 +136,7 @@ public class Home extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
+                clearAllInputs();
             }
         });
     }
@@ -140,5 +144,72 @@ public class Home extends JPanel {
     private void refreshPanel(){
         revalidate();
         repaint();
+    }
+
+    // update the profile page
+    private void updateProfilePage(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JPanel panel = null;
+                for(Component c : Options.getContentPanel().getComponents()){
+                    if(c.getName().equals("Profile")){
+                        panel = (JPanel) c;
+                    }
+                }
+
+                ArrayList<String> userInfo = Options.getUserInfo();
+                for(int i = 0; i < panel.getComponentCount(); i++){
+                    if(panel.getComponent(i) instanceof JTextField){
+                        String currentComponentName = panel.getComponent(i).getName();
+                        JTextField textfield = (JTextField) panel.getComponent(i);
+
+                        if(currentComponentName.equals("idField")){
+                            textfield.setText(userInfo.get(0));
+                        }
+                        else if(currentComponentName.equals("usernameField")){
+                            textfield.setText(userInfo.get(1));
+                        }
+                        else if(currentComponentName.equals("firstNameField")){
+                            textfield.setText(userInfo.get(2));
+                        }
+                        else if(currentComponentName.equals("lastNameField")){
+                            textfield.setText(userInfo.get(3));
+                        }
+                        else if(currentComponentName.equals("birthdayField")){
+                            textfield.setText(userInfo.get(4));
+                        }
+                        else if(currentComponentName.equals("countyField")){
+                            textfield.setText(userInfo.get(5));
+                        }
+                        else if(currentComponentName.equals("stateField")){
+                            textfield.setText(userInfo.get(6));
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // clear the inputs from textfields
+    private void clearAllInputs(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JPanel panel = null;
+                for(Component c : Options.getContentPanel().getComponents()){
+                    if(c.getName().equals("Landing")){
+                        panel = (JPanel) c;
+                    }
+                }
+
+                for(int i = 0; i < panel.getComponentCount(); i++) {
+                    if(panel.getComponent(i) instanceof JTextField){
+                        JTextField textfield = (JTextField) panel.getComponent(i);
+                        textfield.setText("");
+                    }
+                }
+            }
+        });
     }
 }

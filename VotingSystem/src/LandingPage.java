@@ -25,6 +25,7 @@ public class LandingPage extends JPanel {
 
     public LandingPage() {
         setLayout(new GridBagLayout());
+        setName("Landing");
         GridBagConstraints c = new GridBagConstraints();
 
 
@@ -94,6 +95,15 @@ public class LandingPage extends JPanel {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = passwordField.getText();
+
+                // check if username and password exist in database
+                if(!Options.checkLogin(username, password)){
+                    JOptionPane.showMessageDialog(null, "Incorrect login!","Incorrect Login!", JOptionPane.ERROR_MESSAGE );
+                    return;
+                }
+
                 Options.getCardLayout().show(Options.getContentPanel(), "HOME");
             }
         });

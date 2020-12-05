@@ -11,6 +11,7 @@ public class VotePage extends JPanel {
     //this needs to have a numher passed in and then make as many pages as necessary
     public VotePage() {
         setLayout(new BorderLayout());
+        setName("Vote");
         Options.getLanguageComboBox(4).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {

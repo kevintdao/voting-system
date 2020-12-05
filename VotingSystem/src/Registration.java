@@ -52,6 +52,7 @@ public class Registration extends JPanel {
 
     public Registration(){
         setLayout(new GridBagLayout());
+        setName("Registration");
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5,20,0,20);  // padding
 
@@ -243,6 +244,8 @@ public class Registration extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                clearAllInputs();
+
                 Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
             }
         });
@@ -269,10 +272,19 @@ public class Registration extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // check if the password are the same
                 if(!passField.getText().equals(confirmPassField.getText())){
-                    JOptionPane.showMessageDialog(null, "Incorrect password confirmation","Incorrect Password!", JOptionPane.INFORMATION_MESSAGE );
+                    JOptionPane.showMessageDialog(null, "Incorrect password confirmation","Incorrect Password!", JOptionPane.ERROR_MESSAGE);
+                    passField.setText("");
+                    confirmPassField.setText("");
                     return;
                 }
 
+                // check if username already existed in database
+                if(Options.checkUsername(userID.getText())){
+                    JOptionPane.showMessageDialog(null, "Please choose another username","Already existed username!", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // add the user to database
                 String username = userID.getText();
                 String password = passField.getText();
                 String first = firstNameField.getText();
@@ -284,6 +296,7 @@ public class Registration extends JPanel {
                 Options.addNewUser(username, password, first, last, dob, county, state);
 
                 Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                clearAllInputs();
             }
         });
     }
@@ -291,5 +304,21 @@ public class Registration extends JPanel {
     private void refreshPanel(){
         revalidate();
         repaint();
+    }
+
+    // clear the inputs from textfields
+    private void clearAllInputs(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < getComponentCount(); i++) {
+                    if(getComponent(i) instanceof JTextField){
+                        JTextField textfield = (JTextField) getComponent(i);
+                        textfield.setText("");
+                    }
+                }
+            }
+        });
+
     }
 }

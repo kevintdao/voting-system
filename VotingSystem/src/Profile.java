@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 // get data from data and display the info
 public class Profile extends JPanel {
@@ -15,25 +16,25 @@ public class Profile extends JPanel {
     private String[] backLang = {"<- Back", "<- Regresa", "<- Retourner"};
 
     private JLabel userNameLabel;
-    private JLabel userName;
+    private JTextField userName;
 
     private JLabel firstNameLabel;
-    private JLabel firstName;
+    private JTextField firstName;
 
     private JLabel lastNameLabel;
-    private JLabel lastName;
+    private JTextField lastName;
 
     private JLabel birthdayLabel;
-    private JLabel birthday;
+    private JTextField birthday;
 
     private JLabel idLabel;
-    private JLabel id;
+    private JTextField id;
 
     private JLabel countyLabel;
-    private JLabel county;
+    private JTextField county;
 
     private JLabel stateLabel;
-    private JLabel state;
+    private JTextField state;
 
     private JButton backButton;
 
@@ -42,6 +43,7 @@ public class Profile extends JPanel {
 
     public Profile(){
         setLayout(new GridBagLayout());
+        setName("Profile");
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5,20,0,20);  // padding
 
@@ -84,7 +86,9 @@ public class Profile extends JPanel {
         c.weightx = labelWeightX;
         add(userNameLabel, c);
 
-        userName = new JLabel("asdfsdaf");
+        userName = new JTextField();
+        userName.setEditable(false);
+        userName.setName("usernameField");
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 2;
@@ -101,7 +105,9 @@ public class Profile extends JPanel {
         c.weightx = labelWeightX;
         add(idLabel, c);
 
-        id = new JLabel("sadfsadfasdf");
+        id = new JTextField();
+        id.setEditable(false);
+        id.setName("idField");
         c.gridx = 1;
         c.gridy = 2;
         c.gridwidth = 2;
@@ -118,7 +124,9 @@ public class Profile extends JPanel {
         c.weightx = labelWeightX;
         add(firstNameLabel, c);
 
-        firstName = new JLabel("sadfsadfasdf");
+        firstName = new JTextField();
+        firstName.setEditable(false);
+        firstName.setName("firstNameField");
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 2;
@@ -135,7 +143,9 @@ public class Profile extends JPanel {
         c.weightx = labelWeightX;
         add(lastNameLabel, c);
 
-        lastName = new JLabel("sadfsadfasdf");
+        lastName = new JTextField();
+        lastName.setEditable(false);
+        lastName.setName("lastNameField");
         c.gridx = 1;
         c.gridy = 4;
         c.gridwidth = 2;
@@ -152,7 +162,9 @@ public class Profile extends JPanel {
         c.weightx = labelWeightX;
         add(birthdayLabel, c);
 
-        birthday = new JLabel("12/31/1980");
+        birthday = new JTextField();
+        birthday.setEditable(false);
+        birthday.setName("birthdayField");
         c.gridx = 1;
         c.gridy = 5;
         c.gridwidth = 2;
@@ -169,7 +181,9 @@ public class Profile extends JPanel {
         c.weightx = labelWeightX;
         add(countyLabel, c);
 
-        county = new JLabel("sdasfdsafds");
+        county = new JTextField();
+        county.setEditable(false);
+        county.setName("countyField");
         c.gridx = 1;
         c.gridy = 6;
         c.gridwidth = 2;
@@ -186,7 +200,9 @@ public class Profile extends JPanel {
         c.weightx = labelWeightX;
         add(stateLabel, c);
 
-        state = new JLabel("sdasfdsafds");
+        state = new JTextField();
+        state.setEditable(false);
+        state.setName("stateField");
         c.gridx = 1;
         c.gridy = 7;
         c.gridwidth = 2;
