@@ -100,7 +100,7 @@ public class LandingPage extends JPanel {
 
                 // check if username and password exist in database
                 if(!Options.checkLogin(username, password)){
-                    JOptionPane.showMessageDialog(null, "Incorrect login!","Incorrect Login!", JOptionPane.ERROR_MESSAGE );
+                    JOptionPane.showMessageDialog(Options.getContentPanel(), "Incorrect login!","Incorrect Login!", JOptionPane.ERROR_MESSAGE );
                     return;
                 }
 

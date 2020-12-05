@@ -158,6 +158,16 @@ public class Home extends JPanel {
                     }
                 }
 
+                /*
+                    Index for userInfo:
+                    0 = voterid
+                    1 = username
+                    2 = first name
+                    3 = last name
+                    4 = date of birth
+                    5 = county
+                    6 = state
+                */
                 ArrayList<String> userInfo = Options.getUserInfo();
                 for(int i = 0; i < panel.getComponentCount(); i++){
                     if(panel.getComponent(i) instanceof JTextField){

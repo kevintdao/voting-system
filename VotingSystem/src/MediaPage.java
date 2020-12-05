@@ -8,11 +8,8 @@ import javax.swing.*;
 
 public class MediaPage extends JPanel
 {
-    private static final String[] languages = {"English", "Spanish", "French"};
     private String[] candidatePositions = {"President", "Representative", "Congress", "Governor", "Mayor", "Sheriff"};
     private final JLabel resultsLabel;
-    //private final JComboBox<String> graphsJComboBox;
-    private final JComboBox<String> languagesJComboBox;
     private final JComboBox<String> positionJComboBox;
     private final JButton backButton;
     private final JButton updateButton;
@@ -24,40 +21,96 @@ public class MediaPage extends JPanel
     private String[] updateLang = {"Update", "Actualizar", "Mise à Jour"};
 
     public MediaPage() {
-
         setLayout(new GridBagLayout()); // set frame layout
+        setName("Media");
         GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(10, 20, 0, 20);  // padding
+        c.fill = GridBagConstraints.HORIZONTAL;
 
         //graphsJComboBox = new JComboBox<String>(graphs); // set up JComboBox
         //graphsJComboBox.setMaximumRowCount(3); // display three rows
 
-        languagesJComboBox = new JComboBox<>(languages);
-        languagesJComboBox.setMaximumRowCount(3);
-        languagesJComboBox.addActionListener(new ActionListener() {
+        resultsLabel = new JLabel(resultsLang[Options.getLanguageIndex()]);
+        resultsLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        c.ipady = 10;
+        c.weightx = 0.8;
+        c.anchor = GridBagConstraints.PAGE_START;
+        add(resultsLabel, c);
+
+        JLabel placeholder = new JLabel("");
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        add(placeholder, c);
+
+        Options.getLanguageComboBox(6).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox comboBox = (JComboBox) e.getSource();
                 int selected = comboBox.getSelectedIndex();
                 Options.setLanguageIndex(selected);
+
                 // change labels to selected language
                 resultsLabel.setText(resultsLang[selected]);
                 backButton.setText(backLang[selected]);
+
+                Options.changeLanguage();
+                refreshPanel();
+
             }
         });
 
-        positionJComboBox = new JComboBox(candidatePositions);
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.weightx = 0.2;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        add(Options.getLanguageComboBox(6), c);
 
-        resultsLabel = new JLabel(resultsLang[Options.getLanguageIndex()]);
-        resultsLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        positionJComboBox = new JComboBox(candidatePositions);
+        c.gridx = 2;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.weightx = 0.2;
+        add(positionJComboBox, c);
+
+        textArea = new JTextArea();
+        String contents = "RESULTS\n Position: \n Candidate: <name> <numvotes>";
+        textArea.setRows(10);
+        textArea.setText(contents);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridwidth = 3;
+        c.gridheight = 3;
+        c.ipadx = 10;
+        c.ipady = 50;
+        c.insets = new Insets(10, 20, 40, 20);  // padding
+        add(textArea, c);
+
 
         backButton = new JButton(backLang[Options.getLanguageIndex()]);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
+                Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
                 System.out.println("Auditor page");
             }
         });
+        c.gridx = 0;
+        c.gridy = 5;
+        c.ipady = 10;
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.LAST_LINE_START;
+        add(backButton, c);
+
+
         updateButton = new JButton(updateLang[Options.getLanguageIndex()]);
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -65,72 +118,10 @@ public class MediaPage extends JPanel
                 //update()
             }
         });
-
-
-        c.insets = new Insets(10, 20, 0, 20);  // padding
-
         c.gridx = 1;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.ipady = 10;
-        c.anchor = GridBagConstraints.PAGE_START;
-        add(resultsLabel, c);
-
-        JLabel placeholder = new JLabel("");
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.ipady = 10;
-        //c.weightx = 0.5;
-        add(placeholder, c);
-
-
-        //JLabel placeholder2 = new JLabel("");
-        c.gridx = 2;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.ipady = 10;
-        //c.weightx = 0.5;
-        add(positionJComboBox, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 1;
-        c.ipady = 10;
-        c.anchor = GridBagConstraints.LAST_LINE_START;
-        c.insets = new Insets(20, 20, 100, 20);  // padding
-        add(backButton, c);
-
-        textArea = new JTextArea();
-        String contents = "RESULTS\n Position: \n Candidate: <name> <numvotes>";
-        textArea.setText(contents);
-
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.gridheight = 2;
-        c.ipadx = 50;
-        c.ipady = 10;
-        //c.weightx = 0.5;
-        add(textArea, c);
-
-        //c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 2;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.ipady = 10;
-        //c.weightx = 0.8;
-        c.anchor = GridBagConstraints.LAST_LINE_END;
-        add(languagesJComboBox, c);
-
-        c.gridx = 1;
-        c.gridy = 2;
+        c.gridy = 5;
+        c.gridwidth = 2;
         add(updateButton, c);
-
-
-
-
-
 
         // JLabel constructor with string and alignment arguments
         //add(label1); // add label1 to JFrame
@@ -164,5 +155,10 @@ public class MediaPage extends JPanel
             }
 
         }
+    }
+
+    private void refreshPanel(){
+        revalidate();
+        repaint();
     }
 }

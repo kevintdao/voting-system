@@ -35,12 +35,12 @@ public class Frame extends JFrame {
         Options.getContentPanel().add(homePage, "HOME");
         Options.getContentPanel().add(profilePage, "PROFILE");
         Options.getContentPanel().add(votePage, "VOTE");
-        Options.getContentPanel().add(auditorPage, "AUDIT");
+        Options.getContentPanel().add(auditorPage, "AUDITOR");
         Options.getContentPanel().add(mediaPage, "MEDIA");
 
         setContentPane(Options.getContentPanel());
 
-        Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
+        Options.getCardLayout().show(Options.getContentPanel(), "MEDIA");
 
         Options.createUsersTable();
     }

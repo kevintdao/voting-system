@@ -24,6 +24,8 @@ public class Options {
         2 = home page
         3 = registration page
         4 = vote page
+        5 = auditor page
+        6 = media page
     */
     private static JComboBox[] languageComboArray = new JComboBox[7];
 

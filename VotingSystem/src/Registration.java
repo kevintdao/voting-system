@@ -272,7 +272,7 @@ public class Registration extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // check if the password are the same
                 if(!passField.getText().equals(confirmPassField.getText())){
-                    JOptionPane.showMessageDialog(null, "Incorrect password confirmation","Incorrect Password!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Options.getContentPanel(), "Incorrect password confirmation","Incorrect Password!", JOptionPane.ERROR_MESSAGE);
                     passField.setText("");
                     confirmPassField.setText("");
                     return;
@@ -280,7 +280,7 @@ public class Registration extends JPanel {
 
                 // check if username already existed in database
                 if(Options.checkUsername(userID.getText())){
-                    JOptionPane.showMessageDialog(null, "Please choose another username","Already existed username!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Options.getContentPanel(), "Please choose another username","Already existed username!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -289,7 +289,7 @@ public class Registration extends JPanel {
                     if(getComponent(i) instanceof JTextField){
                         JTextField textfield = (JTextField) getComponent(i);
                         if(textfield.getText().length() == 0){
-                            JOptionPane.showMessageDialog(null, "Please fill out all of the fields","Empty field detected!", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(Options.getContentPanel(), "Please fill out all of the fields","Empty field detected!", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                     }
