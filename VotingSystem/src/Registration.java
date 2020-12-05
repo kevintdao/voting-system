@@ -284,6 +284,17 @@ public class Registration extends JPanel {
                     return;
                 }
 
+                // check if any field is empty
+                for(int i = 0; i < getComponentCount(); i++) {
+                    if(getComponent(i) instanceof JTextField){
+                        JTextField textfield = (JTextField) getComponent(i);
+                        if(textfield.getText().length() == 0){
+                            JOptionPane.showMessageDialog(null, "Please fill out all of the fields","Empty field detected!", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
+                }
+
                 // add the user to database
                 String username = userID.getText();
                 String password = passField.getText();
