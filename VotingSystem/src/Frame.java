@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.sql.*;
 
 public class Frame extends JFrame {
@@ -12,6 +13,17 @@ public class Frame extends JFrame {
 
     public Frame() {
         super("Voting system");
+
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception f) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
 
         Options.setUpComboBox();
 
@@ -39,5 +51,22 @@ public class Frame extends JFrame {
         Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
 
         Options.createUsersTable();
+//        Options.createElectionsTable();
+    }
+
+
+    public static void updateTheme() {
+        if(Options.getDarkMode()) {
+            UIManager.put( "control", new Color( 128, 128, 128) );
+            UIManager.put( "info", new Color(128,128,128) );
+            UIManager.put( "nimbusBase", new Color(55, 85, 121) );
+            UIManager.put( "text", new Color(0, 0, 0, 255) );
+        }
+        else {
+            UIManager.put("nimbusBase", new Color(255, 255, 255, 255));
+            UIManager.put( "nimbusBase", new Color(55, 85, 121) );
+            UIManager.put("control", new Color(255, 255, 255, 255));
+            UIManager.put( "text", new Color(0, 0, 0, 255) );
+        }
     }
 }

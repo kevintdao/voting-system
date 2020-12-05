@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.awt.event.ActionListener;
 
 public class Options {
     private static String[] languages = new String[] {"English", "Spanish", "French"};
@@ -9,6 +10,7 @@ public class Options {
     private static int languageIndex = 0; // default: English = 0
     private static CardLayout cardLayout = new CardLayout();
     private static JPanel contentPanel = new JPanel();
+    private static JToggleButton darkModeButton = new JToggleButton("Dark Mode");
 
     // sql login
     private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";
@@ -33,8 +35,21 @@ public class Options {
         return darkMode;
     }
 
+    public static JToggleButton getDarkModeButton() {
+        return darkModeButton;
+    }
+
     public static void setDarkMode(boolean value){
-        darkMode = value;
+        if (value) {
+            darkModeButton.setText("Light Mode");
+            darkMode = value;
+            Frame.updateTheme();
+        }
+        else if (!value) {
+            darkModeButton.setText("Dark Mode");
+            darkMode = value;
+            Frame.updateTheme();
+        }
     }
 
     public static int getLanguageIndex(){
@@ -102,8 +117,16 @@ public class Options {
                                         "media bit NOT NULL DEFAULT 0," +
                                         "auditor bit NOT NULL DEFAULT 0," +
                                         "voter bit NOT NULL DEFAULT 1," +
+                                        "countyID int NOT NULL DEFAULT 0," +
                                         "KEY(voterid))");
 
+//            statement.executeUpdate("CREATE TABLE IF NOT EXISTS election," +
+//                                        "(electionID int NOT NULL AUTO_INCREMENT," +
+//                                        "electionName varchar(255)," +
+//                                        "countyID int," +
+//                                        "PRIMARY KEY (electionID)," +
+//                                        "FOREIGN KEY (countyID) REFERENCES usertable(countyID))");
+            
             System.out.println("Created table");
             connection.close();
 

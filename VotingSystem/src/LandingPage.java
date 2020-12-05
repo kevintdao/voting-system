@@ -28,6 +28,22 @@ public class LandingPage extends JPanel {
         setName("Landing");
         GridBagConstraints c = new GridBagConstraints();
 
+        Options.getDarkModeButton().addActionListener(e -> {
+            if(Options.getDarkMode()) {
+                Options.setDarkMode(false);
+            }
+            else {
+                Options.setDarkMode(true);
+            }
+            refreshPanel();
+        });
+        c.insets = new Insets(40,40,0,40);  // padding
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        c.weightx = 0.2;
+        add(Options.getDarkModeButton(),c);
+
 
         Options.getLanguageComboBox(0).addActionListener(
                 event -> {

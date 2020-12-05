@@ -5,10 +5,11 @@ import java.awt.event.ActionListener;
 
 public class VotePage extends JPanel {
     private String[] returnHomeLang = {"Return to Home", "Vuelve a casa", "Retourner à la maison"};
+    private VoteTab[] tabArray;
     
     JButton returnToHome;
 
-    //this needs to have a numher passed in and then make as many pages as necessary
+    //this needs to have a number passed in and then make as many pages as necessary
     public VotePage() {
         setLayout(new BorderLayout());
         setName("Vote");
@@ -24,25 +25,17 @@ public class VotePage extends JPanel {
                 refreshPanel();
             }
         });
+        add(Options.getLanguageComboBox(4),BorderLayout.PAGE_START);
 
         JTabbedPane tabs = new JTabbedPane();
-        VoteTab panel1 = new VoteTab(4); //these will get made when the auditor creates his ballot
-        VoteTab panel2 = new VoteTab(3);
-        VoteTab panel3 = new VoteTab(6);
-        VoteTab panel4 = new VoteTab(5);
-        VoteTab panel5 = new VoteTab(3);
-        VoteTab panel6 = new VoteTab(1);
-
-        //gets amount of tabs from database here
-
-        tabs.add("page 1",panel1);
-        tabs.add("page 2",panel2);
-        tabs.add("page 3",panel3);
-        tabs.add("page 4",panel4);
-        tabs.add("page 5",panel5);
-        tabs.add("page 6",panel6);
+        tabArray = new VoteTab[5]; //this will be updated with same number as below
+        for (int i = 1; i < 5; i++) { // this loop will loop for some amount from database
+            String title = "from database";
+            tabArray[i] = new VoteTab(5); //this will be updated from database
+            tabs.add(title,tabArray[i]);
+        }
         add(tabs, BorderLayout.CENTER);
-        add(Options.getLanguageComboBox(4),BorderLayout.PAGE_START);
+
         returnToHome = new JButton(returnHomeLang[Options.getLanguageIndex()]);
         returnToHome.addActionListener(new ActionListener() {
             @Override
