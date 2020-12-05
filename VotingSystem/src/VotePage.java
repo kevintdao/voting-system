@@ -16,6 +16,27 @@ public class VotePage extends JPanel {
         setName("Vote");
         GridBagConstraints c = new GridBagConstraints();
 
+        Options.getDarkModeButton(4).addActionListener(e -> {
+            if(Options.getDarkMode()) {
+                Options.setDarkMode(false);
+                Options.changeMode(false);
+            }
+            else {
+                Options.setDarkMode(true);
+                Options.changeMode(true);
+            }
+            refreshPanel();
+        });
+        c.insets = new Insets(10,40,0,40);  // padding
+        c.gridx = 0;
+        c.gridy = 0;
+        c.ipady = 10;
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.weightx = 0.2;
+        add(Options.getDarkModeButton(4),c);
+
+
         Options.getLanguageComboBox(4).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -36,7 +57,7 @@ public class VotePage extends JPanel {
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(Options.getLanguageComboBox(4), c);
 
-        c.gridx = 0;
+        c.gridx = 1;
         c.gridy = 0;
         c.weightx = 0.5;
         c.ipady = 10;

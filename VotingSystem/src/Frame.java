@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.sql.*;
 
 public class Frame extends JFrame {
     private Home homePage;
@@ -27,6 +26,7 @@ public class Frame extends JFrame {
         }
 
         Options.setUpComboBox();
+        Options.setUpDarkModeButton();
 
 
         homePage = new Home();
@@ -59,17 +59,19 @@ public class Frame extends JFrame {
 
 
     public static void updateTheme() {
+        // dark mode
         if(Options.getDarkMode()) {
-            UIManager.put( "control", new Color( 128, 128, 128) );
-            UIManager.put( "info", new Color(128,128,128) );
-            UIManager.put( "nimbusBase", new Color(55, 85, 121) );
-            UIManager.put( "text", new Color(0, 0, 0, 255) );
+            UIManager.put("control", new Color( 45, 44, 44));
+            UIManager.put("info", new Color(128,128,128));
+            UIManager.put("nimbusBase", new Color(55, 85, 121));
+            UIManager.put("text", new Color(0, 0, 0, 255));
         }
+        // light mode
         else {
             UIManager.put("nimbusBase", new Color(255, 255, 255, 255));
-            UIManager.put( "nimbusBase", new Color(55, 85, 121) );
+            UIManager.put("nimbusBase", new Color(55, 85, 121));
             UIManager.put("control", new Color(255, 255, 255, 255));
-            UIManager.put( "text", new Color(0, 0, 0, 255) );
+            UIManager.put("text", new Color(0, 0, 0, 255));
         }
     }
 }

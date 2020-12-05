@@ -24,27 +24,25 @@ public class Home extends JPanel {
         setLayout(new GridBagLayout());
         setName("Home");
         GridBagConstraints c = new GridBagConstraints();
+
+        Options.getDarkModeButton(2).addActionListener(e -> {
+            if(Options.getDarkMode()) {
+                Options.setDarkMode(false);
+                Options.changeMode(false);
+            }
+            else {
+                Options.setDarkMode(true);
+                Options.changeMode(true);
+            }
+            refreshPanel();
+        });
         c.insets = new Insets(10,20,0,20);  // padding
-        c.fill = GridBagConstraints.HORIZONTAL;
-
-        // welcome components
-        welcomeBackLabel = new JLabel(welcomeLang[Options.getLanguageIndex()]);
-        welcomeBackLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.ipady = 10;
-        c.weightx = 0.5;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-        add(welcomeBackLabel, c);
-
-        JLabel placeholder = new JLabel("");
         c.gridx = 1;
         c.gridy = 0;
         c.gridwidth = 1;
         c.ipady = 10;
         c.weightx = 0.5;
-        add(placeholder, c);
+        add(Options.getDarkModeButton(2), c);
 
         // language select component
         Options.getLanguageComboBox(2).addActionListener(new ActionListener() {
@@ -71,8 +69,23 @@ public class Home extends JPanel {
         c.gridwidth = 1;
         c.ipady = 10;
         c.weightx = 0.2;
+        c.insets = new Insets(10,20,0,20);  // padding
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(Options.getLanguageComboBox(2), c);
+
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        // welcome components
+        welcomeBackLabel = new JLabel(welcomeLang[Options.getLanguageIndex()]);
+        welcomeBackLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(welcomeBackLabel, c);
 
         // progress bar components
         progressLabel = new JLabel(currProgLang[Options.getLanguageIndex()]);

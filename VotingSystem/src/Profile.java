@@ -45,8 +45,29 @@ public class Profile extends JPanel {
         setLayout(new GridBagLayout());
         setName("Profile");
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(5,20,0,20);  // padding
 
+        Options.getDarkModeButton(1).addActionListener(e -> {
+            if(Options.getDarkMode()) {
+                Options.setDarkMode(false);
+                Options.changeMode(false);
+            }
+            else {
+                Options.setDarkMode(true);
+                Options.changeMode(true);
+            }
+            refreshPanel();
+        });
+        c.insets = new Insets(10,40,0,40);  // padding
+        c.gridx = 0;
+        c.gridy = 0;
+        c.ipady = 10;
+        c.gridwidth = 2;
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.weightx = 0.2;
+        add(Options.getDarkModeButton(1),c);
+
+
+        c.insets = new Insets(5,20,0,20);  // padding
         // language select component
         Options.getLanguageComboBox(1).addActionListener(new ActionListener() {
             @Override

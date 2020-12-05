@@ -14,6 +14,7 @@ public class VoteTab extends JPanel {
         c.insets = new Insets(10,20,0,20);  // padding
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
 
         candidates = new JRadioButton[numCandidates];
         candidateGroup = new ButtonGroup();

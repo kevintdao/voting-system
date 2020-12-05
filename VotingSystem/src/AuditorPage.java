@@ -23,27 +23,28 @@ public class AuditorPage extends JPanel {
         setLayout(new GridBagLayout());
         setName("Auditor");
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(10, 20, 0, 20);  // padding
-        c.fill = GridBagConstraints.HORIZONTAL;
 
-        // welcome components
-        auditorLabel = new JLabel(auditorLang[Options.getLanguageIndex()]);
-        auditorLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.ipady = 10;
-        c.weightx = 0.8;
-        c.anchor = GridBagConstraints.PAGE_START;
-        add(auditorLabel, c);
-
-        JLabel placeholder = new JLabel("");
+        Options.getDarkModeButton(5).addActionListener(e -> {
+            if(Options.getDarkMode()) {
+                Options.setDarkMode(false);
+                Options.changeMode(false);
+            }
+            else {
+                Options.setDarkMode(true);
+                Options.changeMode(true);
+            }
+            refreshPanel();
+        });
+        c.insets = new Insets(10,0,0,10);  // padding
         c.gridx = 1;
         c.gridy = 0;
-        c.gridwidth = 1;
         c.ipady = 10;
-        c.weightx = 0.5;
-        add(placeholder, c);
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.weightx = 0.2;
+        add(Options.getDarkModeButton(5),c);
+
+        c.insets = new Insets(10, 20, 0, 20);  // padding
 
         // language select component
         languagesJComboBox = new JComboBox<>(languages);
@@ -70,8 +71,22 @@ public class AuditorPage extends JPanel {
         c.gridwidth = 1;
         c.ipady = 10;
         c.weightx = 0.2;
-        c.insets = new Insets(10, 20, 100, 20);  // padding
+        c.insets = new Insets(10, 10, 100, 20);  // padding
         add(Options.getLanguageComboBox(5), c);
+
+        // welcome components
+        auditorLabel = new JLabel(auditorLang[Options.getLanguageIndex()]);
+        auditorLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.ipadx = 50;
+        c.weightx = 0.6;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.PAGE_START;
+        add(auditorLabel, c);
+
 
         profileButton = new JButton("Profile");
         profileButton.addActionListener(new ActionListener() {

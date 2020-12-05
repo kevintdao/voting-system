@@ -2,11 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.awt.event.ActionListener;
 
 public class Options {
     private static String[] languages = new String[] {"English", "Spanish", "French"};
-    private static boolean darkMode = false;
+    private static boolean darkMode = false; // false = light mode
     private static int languageIndex = 0; // default: English = 0
     private static CardLayout cardLayout = new CardLayout();
     private static JPanel contentPanel = new JPanel();
@@ -19,8 +18,10 @@ public class Options {
 
     private static String currentUser = "";
 
+    private static final int NUM_OF_PANELS = 7;
+
     /*
-        Index of combo box in each page
+        Index of combo box and dark mode button in each page
         0 = landing page
         1 = profile page
         2 = home page
@@ -29,27 +30,44 @@ public class Options {
         5 = auditor page
         6 = media page
     */
-    private static JComboBox[] languageComboArray = new JComboBox[7];
+    private static JComboBox[] languageComboArray = new JComboBox[NUM_OF_PANELS];
+    private static JToggleButton[] darkModeButtonArray = new JToggleButton[NUM_OF_PANELS];
+
+    public static void setUpDarkModeButton(){
+        for(int i = 0; i < 7; i++){
+            darkModeButtonArray[i] = new JToggleButton("Light Mode");
+            darkModeButtonArray[i].setSelected(false);
+        }
+    }
+
+    public static JToggleButton getDarkModeButton(int index){
+        return darkModeButtonArray[index];
+    }
+
+    public static void changeMode(boolean value){
+        if (value) {
+            for(int i = 0; i < 7; i++){
+                darkModeButtonArray[i].setText("Dark Mode");
+                darkModeButtonArray[i].setSelected(true);
+            }
+        }
+        else{
+            for(int i = 0; i < 7; i++){
+                darkModeButtonArray[i].setText("Light Mode");
+                darkModeButtonArray[i].setSelected(false);
+            }
+        }
+
+        darkMode = value;
+        Frame.updateTheme();
+    }
 
     public static boolean getDarkMode(){
         return darkMode;
     }
 
-    public static JToggleButton getDarkModeButton() {
-        return darkModeButton;
-    }
-
     public static void setDarkMode(boolean value){
-        if (value) {
-            darkModeButton.setText("Light Mode");
-            darkMode = value;
-            Frame.updateTheme();
-        }
-        else if (!value) {
-            darkModeButton.setText("Dark Mode");
-            darkMode = value;
-            Frame.updateTheme();
-        }
+        darkMode = value;
     }
 
     public static int getLanguageIndex(){
@@ -145,7 +163,7 @@ public class Options {
             Statement statement = connection.createStatement();
 
             if(username.contains("auditor:")){
-                sqlString +=  "1, 1, 0)";
+                sqlString += "1, 1, 0)";
             }
             else if(username.contains("media:")){
                 sqlString += "1, 0, 0)";

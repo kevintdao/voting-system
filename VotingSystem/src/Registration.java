@@ -50,7 +50,26 @@ public class Registration extends JPanel {
         setLayout(new GridBagLayout());
         setName("Registration");
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(5,20,0,20);  // padding
+
+        Options.getDarkModeButton(3).addActionListener(e -> {
+            if(Options.getDarkMode()) {
+                Options.setDarkMode(false);
+                Options.changeMode(false);
+            }
+            else {
+                Options.setDarkMode(true);
+                Options.changeMode(true);
+            }
+            refreshPanel();
+        });
+        c.insets = new Insets(10,40,0,40);  // padding
+        c.gridx = 0;
+        c.gridy = 0;
+        c.ipady = 10;
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.weightx = 0.2;
+        add(Options.getDarkModeButton(3),c);
 
         // language select component
         Options.getLanguageComboBox(3).addActionListener(new ActionListener() {
@@ -80,6 +99,7 @@ public class Registration extends JPanel {
         c.gridy = 0; // first row
         c.weightx = 0.2;
         c.ipady = 10;
+        c.insets = new Insets(5,20,0,20);  // padding
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(Options.getLanguageComboBox(3), c);
 
