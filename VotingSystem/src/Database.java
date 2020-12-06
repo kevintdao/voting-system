@@ -8,6 +8,8 @@ import java.util.HashMap;
  * candidates, and votes tables. Includes functions to add a new user to table, check a user's password
  * for correctness, get user information, check for uniqueness of username, retrieve votes and election
  * information, check various statuses, and selecting various information for GUI components.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
+ * @version 1.0.0, Dec 6 2020
  */
 public class Database {
     // sql login

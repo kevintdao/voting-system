@@ -3,6 +3,7 @@ import java.awt.*;
 /**
  * Extends JFrame to create a JFrame containing all JPanel pages of the voting system.
  * Implements functionality for dark/light mode.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JFrame
  */

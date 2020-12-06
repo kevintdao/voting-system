@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 /**
  * Extends JPanel to create a GUI menu for a profile with auditor privileges
  * to navigate to the Profile, Landing, Media, or CreateBallot page.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */

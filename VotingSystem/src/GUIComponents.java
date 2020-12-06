@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Implements functionality for dark mode, language selection, profile updating,
- * and constructing voting ballots.
+ * and constructing voting ballots. Contains Swing components to be use globally in other JPanel or JFrame
  * @version 1.0.0, Dec 6 2020
  */
 public class GUIComponents {
@@ -65,6 +65,7 @@ public class GUIComponents {
         return tabArray;
     }
 
+    // set up the tabs for each electionid for the current user's county
     public static void setUpTab(){
         SwingUtilities.invokeLater(new Runnable() {
             @Override

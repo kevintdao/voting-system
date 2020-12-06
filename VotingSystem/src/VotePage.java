@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * Extends JPanel to create a GUI page for voting for a candidate. Sends the vote
  * to be inserted into votes table and updates voting progress. Includes dark mode
  * and language selection.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */

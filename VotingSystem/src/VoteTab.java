@@ -6,6 +6,7 @@ import java.awt.event.ItemEvent;
  * Extends JPanel to create a tab displaying a ballot of candidates running
  * for one position. Supports varying quantity of candidates running for same
  * race.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */

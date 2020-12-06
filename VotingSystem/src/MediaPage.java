@@ -10,6 +10,7 @@ import javax.swing.*;
  * elections for different positions. Includes an update button to
  * update results, language selection, dark mode, log out button, and
  * back button.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */

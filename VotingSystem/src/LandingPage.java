@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 /**
  * Extends JPanel to create a GUI page for logging into the system or
  * navigating to Registration page. Includes dark mode and language selection.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */

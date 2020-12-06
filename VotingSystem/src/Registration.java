@@ -8,6 +8,7 @@ import java.text.ParseException;
  * Extends JPanel to create a GUI page for registering a new profile.
  * Includes dark mode, language selection, password confirmation,
  * unique username check, and empty field detection.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */

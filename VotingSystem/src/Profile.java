@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 /**
  * Extends JPanel to create a GUI page for displaying user profile information
  * Includes dark mode, language selection, and a back button.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */

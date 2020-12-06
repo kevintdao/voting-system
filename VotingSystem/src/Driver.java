@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+// driver class for voting system
 public class Driver {
     public static void main(String[] args) {
         Frame frame = new Frame();

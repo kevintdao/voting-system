@@ -12,7 +12,7 @@ import java.util.Map;
  * candidates running for a position. Only one ballot can be
  * created per countyID. The ballot is inserted into the election
  * table and the candidates are inserted into the candidates table.
- * Includes
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */

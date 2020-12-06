@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * Extends JPanel to create a GUI menu for navigating to Profile, Vote, and Landing pages
  * includes language selection, dark mode, voting progress bar, and blocking vote access
  * if user has already voted.
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  * @see JPanel
  */
