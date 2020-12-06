@@ -69,6 +69,7 @@ public class AuditorPage extends JPanel {
                 profileButton.setText(profileLang[selected]);
 
                 GUIComponents.changeLanguage();
+                GUIComponents.updateDarkModeButtonText();
                 refreshPanel();
             }
         });
@@ -136,6 +137,7 @@ public class AuditorPage extends JPanel {
         viewResultsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Database.getResult();
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "MEDIA");
                 System.out.println("Media Page");
             }

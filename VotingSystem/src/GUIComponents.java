@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class GUIComponents {
     private static String[] languages = new String[] {"English", "Spanish", "French"};
+    private static String[] lightModeLang = {"Light Mode", "Modo de luz", "Mode lumière"};
+    private static String[] darkModeLang = {"Dark Mode", "Modo oscuro", "Mode sombre"};
     private static boolean darkMode = false; // false = light mode
     private static int languageIndex = 0; // default: English = 0
     private static CardLayout cardLayout = new CardLayout();
@@ -34,6 +36,19 @@ public class GUIComponents {
     private static JProgressBar progressBar = new JProgressBar();
     private static JTextArea textArea = new JTextArea();
 
+    public static void updateDarkModeButtonText(){
+        if(darkMode){
+            for(int i = 0; i < NUM_OF_PANELS; i++){
+                darkModeButtonArray[i].setText(darkModeLang[languageIndex]);
+            }
+        }
+        else{
+            for(int i = 0; i < NUM_OF_PANELS; i++){
+                darkModeButtonArray[i].setText(lightModeLang[languageIndex]);
+            }
+        }
+    }
+
     public static JTextArea getTextArea(){
         return textArea;
     }
@@ -51,25 +66,28 @@ public class GUIComponents {
     }
 
     public static void setUpTab(){
-        ArrayList<String> electionNames = Database.getElectionNames();
-        ArrayList<Integer> candidateAmount = Database.getCandidateAmount();
-        ArrayList<Integer> electionIDs = Database.getElectionIDs();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> electionNames = Database.getElectionNames();
+                ArrayList<Integer> candidateAmount = Database.getCandidateAmount();
+                ArrayList<Integer> electionIDs = Database.getElectionIDs();
 
-        System.out.println(electionIDs);
+                for(int i = 0; i < Database.getElectionAmount(); i++) {
+                    VoteTab voteTab = new VoteTab(candidateAmount.get(i));
+                    tabArray.add(voteTab);
 
-        for(int i = 0; i < Database.getElectionAmount(); i++){
-            VoteTab voteTab = new VoteTab(candidateAmount.get(i) + 1);
-            tabArray.add(voteTab);
+                    int currentElectionID = electionIDs.get(i);
+                    ArrayList<String> candidateNames = Database.getCandidateNames(currentElectionID);
 
-            int currentElectionID = electionIDs.get(i);
-            ArrayList<String> candidateNames = Database.getCandidateNames(currentElectionID);
+                    for (int j = 0; j < candidateNames.size(); j++) {
+                        voteTab.getCandiateButton(j).setText(candidateNames.get(j));
+                    }
 
-            for(int j = 0; j < candidateNames.size(); j++){
-                voteTab.getCandiateButton(j).setText(candidateNames.get(j));
+                    tabs.addTab(electionNames.get(i), tabArray.get(i));
+                }
             }
-
-            tabs.addTab(electionNames.get(i), tabArray.get(i));
-        }
+        });
     }
 
     public static void removeAllTabs(){

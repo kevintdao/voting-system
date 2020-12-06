@@ -30,8 +30,6 @@ public class CreateBallot extends JPanel {
     private HashMap<String, ArrayList<String>> candidates;
     private int electionIndex;
 
-
-    //this needs to have a numher passed in and then make as many pages as necessary
     public CreateBallot() {
         setLayout(new GridBagLayout());
         setName("CreateBallot");
@@ -66,7 +64,9 @@ public class CreateBallot extends JPanel {
                 returnToHome.setText(returnHomeLang[selected]);
                 addButton.setText(addLang[selected]);
                 submitButton.setText(confirmLang[selected]);
+
                 GUIComponents.changeLanguage();
+                GUIComponents.updateDarkModeButtonText();
                 refreshPanel();
             }
         });
@@ -115,17 +115,16 @@ public class CreateBallot extends JPanel {
         add(positionJComboBox, c);
 
 
-        //From fig26_47_48
-        Box box = Box.createHorizontalBox(); // create box
-        String demo = "This is a demo string";
+        Box box = Box.createHorizontalBox();
+        String demo = "";
 
         enterCandidateArea = new JTextArea(demo, 10, 15);
         box.add(new JScrollPane(enterCandidateArea)); // add scrollpane
 
         addButton = new JButton("Add >>>");
-        box.add(addButton); // add copy button to box
+        box.add(addButton);
         addButton.addActionListener(
-                new ActionListener() // anonymous inner class
+                new ActionListener()
                 {
                     // append text from enterCandidatesArea to showCandidatesArea
                     @Override
@@ -136,7 +135,7 @@ public class CreateBallot extends JPanel {
                         ArrayList<String> candidatesArray = candidates.get(positionJComboBox.getSelectedItem().toString());
                         candidatesArray.add(enterCandidateArea.getText());
 
-                        enterCandidateArea.setText(""); //clear
+                        enterCandidateArea.setText("");
                         for(String i : candidates.keySet()) {
                             System.out.println(i + ": ");
                             for(int j = 0; j < candidates.get(i).size(); j++){
@@ -146,8 +145,8 @@ public class CreateBallot extends JPanel {
                         System.out.println(Database.getUserInfo().get(7));
                         System.out.println(Database.checkUniqueCountyID(Integer.parseInt(Database.getUserInfo().get(7))));
                     }
-                } // end anonymous inner class
-        ); // end call to addActionListener
+                }
+        );
 
         showCandidatesArea = new JTextArea(10, 15);
         showCandidatesArea.setEditable(false);
@@ -183,8 +182,8 @@ public class CreateBallot extends JPanel {
                         }
                         showCandidatesArea.setText("");
                     }
-                } // end anonymous inner class
-        ); // end call to addActionListener
+                }
+        );
 
         c.gridx = 0;
         c.gridy = 2;
@@ -200,7 +199,6 @@ public class CreateBallot extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
-                //this needs to update the progress bar
             }
         });
         c.gridx = 0;

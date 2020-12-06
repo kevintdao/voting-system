@@ -67,6 +67,7 @@ public class LandingPage extends JPanel {
                     register.setText(registerLang[selected]);
 
                     GUIComponents.changeLanguage();
+                    GUIComponents.updateDarkModeButtonText();
                     refreshPanel();
                 }
         );
@@ -143,7 +144,12 @@ public class LandingPage extends JPanel {
                     GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "MEDIA");
                 }
                 else{
-                    GUIComponents.getProgressBar().setString(Database.getVotingStatus());
+                    if(Database.getVotingStatus() == null) {
+                        GUIComponents.getProgressBar().setString("NOT STARTED");
+                    }
+                    else{
+                        GUIComponents.getProgressBar().setString(Database.getVotingStatus());
+                    }
                     GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "HOME");
                 }
             }

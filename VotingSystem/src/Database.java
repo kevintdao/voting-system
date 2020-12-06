@@ -1,5 +1,3 @@
-import javax.swing.*;
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +15,6 @@ public class Database {
     private static final String USERNAME = "engr_class025";
     private static final String PASSWORD = "ow9rw3hvWFX4sVcV";
 
-    private static Connection connection = getConnection();
-
     private static String currentUser = "";
 
     public static void setCurrentUser(String username){
@@ -29,7 +25,6 @@ public class Database {
         Connection connection;
         try {
             connection = DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
-            System.out.println("Connection Successful");
             return connection;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,11 +33,13 @@ public class Database {
         return null;
     }
 
+    // add new user from registration page
     public static void addNewUser(String username, String password, String first, String last, String dob, String county, String state){
         String sqlString = "INSERT INTO usertable (username, password, firstname, lastname, dob, county, state, media, auditor, voter, countyID)" +
                 "VALUES ('"+username+"', '"+password+"', '"+first+"', '"+last+"', STR_TO_DATE('"+dob+"', '%m/%d/%Y'), '"+county+"', '"+state+"',";
 
         try{
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             if(username.contains("auditor:")){
@@ -65,6 +62,8 @@ public class Database {
             sqlString += "'"+countyID+"')";
 
             statement.executeUpdate(sqlString);
+
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -73,6 +72,7 @@ public class Database {
     // check the login
     public static boolean checkLogin(String inputUserName, String inputPassword){
         try{
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM usertable");
             while(result.next()){
@@ -81,6 +81,7 @@ public class Database {
                     return true;
                 }
             }
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -91,6 +92,7 @@ public class Database {
     // check if username already existed for registration
     public static boolean checkUsername(String inputUsername){
         try{
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM usertable");
             while(result.next()){
@@ -98,6 +100,7 @@ public class Database {
                     return true;
                 }
             }
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -107,6 +110,7 @@ public class Database {
     public static ArrayList<String> getUserInfo(){
         ArrayList<String> output = new ArrayList<>();
         try{
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM usertable WHERE username='"+currentUser+"'");
             while(result.next()){
@@ -119,6 +123,7 @@ public class Database {
                 output.add(result.getString("state"));
                 output.add(result.getString("countyID"));
             }
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -128,6 +133,7 @@ public class Database {
 
     public static boolean checkAuditorStatus(){
         try{
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT * FROM usertable WHERE username='"+currentUser+"'");
             while(result.next()){
@@ -135,16 +141,18 @@ public class Database {
                     return true;
                 }
             }
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
         return false;
     }
 
-    // get the election result from the database
+    // get the election result from the auditor's county from the database
     public static void getResult(){
         GUIComponents.getTextArea().setText("");
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
 
@@ -188,7 +196,7 @@ public class Database {
                 }
                 GUIComponents.getTextArea().append("\n");
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -198,6 +206,7 @@ public class Database {
     public static int getElectionAmount(){
         int numberOfElections = 0;
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             int countyID = 0;
@@ -213,7 +222,7 @@ public class Database {
             while(result.next()){
                 numberOfElections = result.getInt("electioncount");
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -224,6 +233,7 @@ public class Database {
     public static void submitVote(ArrayList<String> selected) {
         ArrayList<Integer> userVotes = new ArrayList<>();
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
 
@@ -257,7 +267,7 @@ public class Database {
                     }
                 }
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -266,6 +276,7 @@ public class Database {
     public static ArrayList<Integer> getCandidateAmount(){
         ArrayList<Integer> output =  new ArrayList<>();
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             int countyID = 0;
@@ -289,7 +300,7 @@ public class Database {
                     output.add(result.getInt("electioncount"));
                 }
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -299,6 +310,7 @@ public class Database {
     public static ArrayList<String> getElectionNames(){
         ArrayList<String> output =  new ArrayList<>();
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             int countyID = 0;
@@ -314,7 +326,7 @@ public class Database {
             while(result.next()){
                 output.add(result.getString("electionName"));
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -324,6 +336,7 @@ public class Database {
     public static ArrayList<String> getCandidateNames(int electionID){
         ArrayList<String> output =  new ArrayList<>();
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT candidateName FROM candidates WHERE electionID='"+electionID+"'");
@@ -331,7 +344,7 @@ public class Database {
             while(result.next()){
                 output.add(result.getString("candidateName"));
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -341,6 +354,7 @@ public class Database {
     public static ArrayList<Integer> getElectionIDs(){
         ArrayList<Integer> output =  new ArrayList<>();
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             int countyID = 0;
@@ -356,7 +370,7 @@ public class Database {
             while(result.next()){
                 output.add(result.getInt("electionID"));
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -365,6 +379,7 @@ public class Database {
 
     public static void insertCandidates(HashMap<String, ArrayList<String>> ballot, int electionIndex){
         try{
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             String sqlString = "";
 
@@ -384,7 +399,7 @@ public class Database {
                 }
 
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -393,6 +408,7 @@ public class Database {
     public static int insertElections(HashMap<String, ArrayList<String>> ballot, int county){
         int electionIndex = 0;
         try{
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT AUTO_INCREMENT" +
@@ -412,16 +428,19 @@ public class Database {
                 }
 
             }
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
         return electionIndex;
     }
+
     public static boolean checkUniqueCountyID(int id){
         boolean unique = false;
 
         ArrayList<String> output =  new ArrayList<>();
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT countyID FROM election WHERE countyID = "+id+";");
@@ -429,7 +448,7 @@ public class Database {
             if(!result.next()){
                 unique = true;
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -437,16 +456,17 @@ public class Database {
     }
 
     /*  status:
-        NULL = not started
+        NOT STARTED = not started
         IN PROGRESS = in progress
         FINISHED = finished
      */
     public static void updateVotingStatus(String status){
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             statement.executeUpdate("UPDATE usertable SET ballotprogress='"+status+"' WHERE username='"+currentUser+"'");
-
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -455,13 +475,14 @@ public class Database {
     public static String getVotingStatus(){
         String output = "";
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT ballotprogress FROM usertable WHERE username='"+currentUser+"'");
             while(result.next()){
                 output = result.getString("ballotprogress");
             }
-
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -472,11 +493,13 @@ public class Database {
     public static String getCandidateName(int candidateID){
         String output = "";
         try {
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT candidateName FROM candidates WHERE candidateID='"+candidateID+"'");
             while(result.next()){
                 output = result.getString("candidateName");
             }
+            connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }

@@ -98,6 +98,7 @@ public class Registration extends JPanel {
                 backButton.setText(backLang[selected]);
 
                 GUIComponents.changeLanguage();
+                GUIComponents.updateDarkModeButtonText();
                 refreshPanel();
             }
         });
@@ -318,6 +319,7 @@ public class Registration extends JPanel {
                     GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "MEDIA");
                 }
                 else{
+                    GUIComponents.getProgressBar().setString("NOT STARTED");
                     GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "HOME");
                 }
 

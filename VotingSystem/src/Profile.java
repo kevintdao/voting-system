@@ -92,6 +92,7 @@ public class Profile extends JPanel {// get data from data and display the info
                 backButton.setText(backLang[selected]);
 
                 GUIComponents.changeLanguage();
+                GUIComponents.updateDarkModeButtonText();
                 refreshPanel();
             }
         });

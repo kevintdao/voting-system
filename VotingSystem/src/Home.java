@@ -66,6 +66,7 @@ public class Home extends JPanel {
                 logOutButton.setText(logOutLang[selected]);
 
                 GUIComponents.changeLanguage();
+                GUIComponents.updateDarkModeButtonText();
                 refreshPanel();
             }
         });
@@ -111,7 +112,7 @@ public class Home extends JPanel {
         c.ipadx = 50;
         c.ipady = 10;
         c.weightx = 0.5;
-        GUIComponents.getProgressBar().setString("NULL");
+        GUIComponents.getProgressBar().setString("NOT STARTED");
         GUIComponents.getProgressBar().setStringPainted(true);
         add(GUIComponents.getProgressBar(), c);
 
@@ -168,6 +169,7 @@ public class Home extends JPanel {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "LANDING");
                 GUIComponents.clearAllInputs();
                 GUIComponents.emptyTabArray();

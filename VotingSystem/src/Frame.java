@@ -73,6 +73,7 @@ public class Frame extends JFrame {
             UIManager.put("nimbusFocus", new Color( 96, 94, 92));
             UIManager.put("nimbusBlueGrey", new Color(59, 58, 58));
             UIManager.put("control", new Color( 45, 44, 44));
+            UIManager.put("scrollbar", new Color( 96, 94, 92));
             UIManager.put("text", new Color(255, 255, 255, 255));
             UIManager.put("nimbusSelectionBackground", new Color( 96, 94, 92));
         }
@@ -83,6 +84,7 @@ public class Frame extends JFrame {
             UIManager.put("nimbusFocus", new Color( 115, 164, 209));
             UIManager.put("nimbusBlueGrey", new Color(169, 176, 190));
             UIManager.put("control", new Color(214,217,223));
+            UIManager.put("scrollbar", new Color( 205, 208, 213));
             UIManager.put("text", new Color(0, 0, 0, 255));
             UIManager.put("nimbusSelectionBackground", new Color( 57,105,138));
         }

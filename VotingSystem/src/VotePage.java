@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class VotePage extends JPanel {
     private String[] returnHomeLang = {"Return to Home", "Vuelve a casa", "Retourner à la maison"};
+    private String[] submitVoteLang = {"Submit Vote", "Enviar voto", "Soumettre votre vote"};
     
     JButton returnToHome;
     JButton voteButton;
@@ -52,7 +53,10 @@ public class VotePage extends JPanel {
                 GUIComponents.setLanguageIndex(selected);
 
                 returnToHome.setText(returnHomeLang[selected]);
+                voteButton.setText(submitVoteLang[selected]);
+
                 GUIComponents.changeLanguage();
+                GUIComponents.updateDarkModeButtonText();
                 refreshPanel();
             }
         });
@@ -109,20 +113,12 @@ public class VotePage extends JPanel {
         voteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ArrayList<String> selected = new ArrayList<>();
-                for(int i = 0; i < GUIComponents.getTabArray().size(); i++){
-                    VoteTab currentTab = GUIComponents.getTabArray().get(i);
-
-                    Component[] components = currentTab.getComponents();
-
-                    for(Component c : components){
-                        if(c instanceof JRadioButton){
-                            JRadioButton radioButton = (JRadioButton) c;
-                            if(radioButton.isSelected()){
-                                selected.add(radioButton.getText());
-                            }
-                        }
-                    }
+                ArrayList<String> selected = getSelectedButtons();
+                // check if the user voted for at least 1 candidate
+                if(selected.size() == 0)
+                {
+                    JOptionPane.showMessageDialog(GUIComponents.getContentPanel(), "You must vote for at least 1 candidate","No candidate selected", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
 
                 // finished voting
@@ -145,5 +141,24 @@ public class VotePage extends JPanel {
     private void refreshPanel(){
         revalidate();
         repaint();
+    }
+
+    private ArrayList<String> getSelectedButtons(){
+        ArrayList<String> selected = new ArrayList<>();
+        for(int i = 0; i < GUIComponents.getTabArray().size(); i++){
+            VoteTab currentTab = GUIComponents.getTabArray().get(i);
+
+            Component[] components = currentTab.getComponents();
+
+            for(Component c : components){
+                if(c instanceof JRadioButton){
+                    JRadioButton radioButton = (JRadioButton) c;
+                    if(radioButton.isSelected()){
+                        selected.add(radioButton.getText());
+                    }
+                }
+            }
+        }
+        return selected;
     }
 }

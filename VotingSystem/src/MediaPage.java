@@ -17,7 +17,6 @@ public class MediaPage extends JPanel
 {
     private String[] candidatePositions = {"President", "Representative", "Congress", "Governor", "Mayor", "Sheriff"};
     private final JLabel resultsLabel;
-    private final JComboBox<String> positionJComboBox;
     private final JButton backButton;
     private final JButton updateButton;
     private JButton logOutButton;
@@ -63,8 +62,11 @@ public class MediaPage extends JPanel
                 // change labels to selected language
                 resultsLabel.setText(resultsLang[selected]);
                 backButton.setText(backLang[selected]);
+                updateButton.setText(updateLang[selected]);
+                logOutButton.setText(logOutLang[selected]);
 
                 GUIComponents.changeLanguage();
+                GUIComponents.updateDarkModeButtonText();
                 refreshPanel();
 
             }
@@ -102,13 +104,6 @@ public class MediaPage extends JPanel
         c.weightx = 0.5;
         add(placeholder, c);
 
-        positionJComboBox = new JComboBox(candidatePositions);
-        c.gridx = 2;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.ipady = 10;
-        c.weightx = 0.2;
-        add(positionJComboBox, c);
 
         String contents = "RESULTS\n Position: \n Candidate: <name> <numvotes>";
         GUIComponents.getTextArea().setRows(10);
@@ -172,39 +167,6 @@ public class MediaPage extends JPanel
                 GUIComponents.clearAllInputs();
             }
         });
-
-        // JLabel constructor with string and alignment arguments
-        //add(label1); // add label1 to JFrame
-
-        //register handler and add listener
-        ItemHandler itemHandler = new ItemHandler();
-        //graphsJComboBox.addItemListener(itemHandler);
-        positionJComboBox.addItemListener(itemHandler);
-    }
-    public void updateResults(){
-        //TODO: query db and update textArea
-    }
-
-    /**
-     * Extends ItemListener to handle the event of selecting from JComboBox.
-     */
-    private class ItemHandler implements ItemListener {
-        /**
-         * handle ItemEvent and display information
-         * @param event     ItemEvent of JComboBox selection
-         */
-        @Override
-        public void itemStateChanged(ItemEvent event)
-        {
-            String string = event.getItem().toString();
-            // determine whether item selected
-            if (event.getStateChange() == ItemEvent.SELECTED){
-                //label1.setText("Now displaying results as " + event.getItem().toString());
-                //TODO: update with database queries
-                GUIComponents.getTextArea().setText("RESULTS\n Position: " + string + "\n Candidate: <name> <numvotes>");
-            }
-
-        }
     }
 
     private void refreshPanel(){
