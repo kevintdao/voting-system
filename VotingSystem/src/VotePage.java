@@ -18,7 +18,6 @@ public class VotePage extends JPanel {
     JButton returnToHome;
     JButton voteButton;
 
-    //this needs to have a number passed in and then make as many pages as necessary
     public VotePage() {
         setLayout(new GridBagLayout());
         setName("Vote");
@@ -98,7 +97,6 @@ public class VotePage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "HOME");
-                //this needs to update the progress bar
             }
         });
         c.gridx = 0;

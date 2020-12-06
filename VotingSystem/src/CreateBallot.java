@@ -130,20 +130,15 @@ public class CreateBallot extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent event)
                     {
-                        System.out.println(electionIndex);
                         showCandidatesArea.append(enterCandidateArea.getText() + "\n");
                         ArrayList<String> candidatesArray = candidates.get(positionJComboBox.getSelectedItem().toString());
                         candidatesArray.add(enterCandidateArea.getText());
 
                         enterCandidateArea.setText("");
                         for(String i : candidates.keySet()) {
-                            System.out.println(i + ": ");
                             for(int j = 0; j < candidates.get(i).size(); j++){
-                                System.out.println(candidates.get(i).get(j));
                             }
                         }
-                        System.out.println(Database.getUserInfo().get(7));
-                        System.out.println(Database.checkUniqueCountyID(Integer.parseInt(Database.getUserInfo().get(7))));
                     }
                 }
         );

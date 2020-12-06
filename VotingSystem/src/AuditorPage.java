@@ -119,7 +119,6 @@ public class AuditorPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "CREATEBALLOT");
-                System.out.println("create ballot");
             }
         });
         c.gridx = 0;
@@ -139,7 +138,6 @@ public class AuditorPage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Database.getResult();
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "MEDIA");
-                System.out.println("Media Page");
             }
         });
 
@@ -153,7 +151,6 @@ public class AuditorPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "LANDING");
-                System.out.println("Landing");
                 GUIComponents.clearAllInputs();
             }
         });

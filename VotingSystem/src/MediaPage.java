@@ -130,7 +130,6 @@ public class MediaPage extends JPanel
                 }
 
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
-                System.out.println("Auditor page");
             }
         });
         c.gridx = 0;

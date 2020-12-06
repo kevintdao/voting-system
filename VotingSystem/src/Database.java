@@ -388,7 +388,6 @@ public class Database {
                     if(ballot.get(pos).size() > 0){
                         sqlString = "INSERT INTO candidates (candidateName, electionID) " +
                                 "VALUES ('"+ ballot.get(pos).get(i) + "', "+ electionIndex + ");";
-                        System.out.println(sqlString);
                         statement.executeUpdate(sqlString);
 
                     }
