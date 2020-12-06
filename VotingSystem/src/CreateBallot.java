@@ -14,7 +14,11 @@ public class CreateBallot extends JPanel {
     private JTextArea showCandidatesArea;
     private final JComboBox<String> positionJComboBox;
     private JButton addButton;
+    private JButton submitButton;
     private HashMap<String, ArrayList<String>> candidates;
+    public static int electionIndex = 38;
+    private int[] electionIDs;
+
 
     //this needs to have a numher passed in and then make as many pages as necessary
     public CreateBallot() {
@@ -78,6 +82,7 @@ public class CreateBallot extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent event)
                     {
+                        System.out.println(electionIndex);
                         showCandidatesArea.append(enterCandidateArea.getText() + "\n");
                         ArrayList<String> candidatesArray = candidates.get(positionJComboBox.getSelectedItem().toString());
                         candidatesArray.add(enterCandidateArea.getText());
@@ -96,6 +101,21 @@ public class CreateBallot extends JPanel {
         showCandidatesArea = new JTextArea(10, 15);
         showCandidatesArea.setEditable(false);
         box.add(new JScrollPane(showCandidatesArea)); // add scrollpane
+
+        submitButton = new JButton("Confirm Ballots");
+        box.add(submitButton); // add copy button to box
+        submitButton.addActionListener(
+                new ActionListener() // anonymous inner class
+                {
+                    // append text from enterCandidatesArea to showCandidatesArea
+                    @Override
+                    public void actionPerformed(ActionEvent event)
+                    {
+                        insertElections();
+                        insertCandidates();
+                    }
+                } // end anonymous inner class
+        ); // end call to addActionListener
 
         add(box); // add box to frame
 
@@ -121,7 +141,20 @@ public class CreateBallot extends JPanel {
         repaint();
     }
     private void insertCandidates(){
-        //TODO: insert candidates into candidates db with candidateID autoincremented
-        //TODO: electionID is obtained from the county of the auditor
+        electionIDs = new int[6];
+        int i = 0;
+
+        for(String pos : candidates.keySet()){
+            if(candidates.get(pos).size() > 0) {
+                electionIDs[i] = electionIndex;
+                electionIndex++;
+            }
+            i++;
+        }
+        Options.insertCandidates(candidates, electionIDs);
+    }
+    private void insertElections(){
+        int county = 1;
+        Options.insertElections(candidates, county);
     }
 }

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Options {
     private static String[] languages = new String[] {"English", "Spanish", "French"};
@@ -338,5 +339,68 @@ public class Options {
                 }
             }
         });
+    }
+    public static void insertCandidates(HashMap<String, ArrayList<String>> ballot, int[] electionIDs){
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            String sqlString = "";
+            int electionIndex;
+
+            ResultSet result = statement.executeQuery("SELECT AUTO_INCREMENT" +
+                    " FROM information_schema.TABLES" +
+                    " WHERE TABLE_SCHEMA = 'engr_class025'" +
+                    " AND TABLE_NAME = 'election'");
+
+            electionIndex = result.getInt("electionID");
+
+//            electionIDs = new int[6];
+//            int i = 0;
+//            for(String pos : ballot.keySet()){
+//                if(ballot.get(pos).size() > 0) {
+//                    electionIDs[i] = electionIndex;
+//                    electionIndex++;
+//                }
+//                i++;
+//            }
+
+//            int electionIDIndex = 0;
+            for(String pos : ballot.keySet()){
+                for(int i = 0; i < ballot.get(pos).size(); i++){
+                    if(ballot.get(pos).size() > 0){
+                        sqlString = "INSERT INTO candidates (candidateName, electionID) " +
+                                "VALUES ('"+ ballot.get(pos).get(i) + "', "+ electionIndex + ");";
+                        System.out.println(sqlString);
+                        statement.executeUpdate(sqlString);
+                        electionIndex++;
+                    }
+                }
+
+            }
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public static void insertElections(HashMap<String, ArrayList<String>> ballot, int county){
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            for(String pos : ballot.keySet()){
+                if(ballot.get(pos).size() > 0){
+                    String sqlString = "INSERT INTO election (electionName, countyID) " +
+                            "VALUES ('"+ pos + "', "+ county + ");";
+
+                    statement.executeUpdate(sqlString);
+                }
+
+            }
+
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
