@@ -62,6 +62,15 @@ public class Database {
                 countyID = result.getInt("countyID");
             }
 
+            // countyID not in database
+            if(countyID == 0){
+                statement.executeUpdate("INSERT INTO counties (county) VALUES ('"+county+"')"); // add the county into counties table
+                result = statement.executeQuery("SELECT countyID FROM counties WHERE county='"+county+"'"); // get that countyid
+                while(result.next()){
+                    countyID = result.getInt("countyID");
+                }
+            }
+
             sqlString += "'"+countyID+"')";
 
             statement.executeUpdate(sqlString);
