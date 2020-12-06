@@ -151,6 +151,7 @@ public class Home extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
                 Options.clearAllInputs();
+                Options.emptyTabArray();
                 Options.removeAllTabs();
             }
         });

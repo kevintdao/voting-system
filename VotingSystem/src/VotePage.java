@@ -2,10 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class VotePage extends JPanel {
     private String[] returnHomeLang = {"Return to Home", "Vuelve a casa", "Retourner à la maison"};
-    private VoteTab[] tabArray;
     
     JButton returnToHome;
     JButton voteButton;
@@ -71,13 +71,7 @@ public class VotePage extends JPanel {
         c.anchor = GridBagConstraints.PAGE_START;
         add(new JLabel(""), c);
 
-//        JTabbedPane tabs = new JTabbedPane();
-//        tabArray = new VoteTab[5]; //this will be updated with same number as below
-//        for (int i = 1; i < 5; i++) { // this loop will loop for some amount from database
-//            String title = "from database";
-//            tabArray[i] = new VoteTab(5); //this will be updated from database
-//            tabs.add(title,tabArray[i]);
-//        }
+
         c.gridx = 0;
         c.gridy = 1;
         c.weightx = 1.0;
@@ -105,6 +99,31 @@ public class VotePage extends JPanel {
         add(returnToHome, c);
 
         voteButton = new JButton("Submit Vote");
+        voteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                ArrayList<String> selected = new ArrayList<>();
+                for(int i = 0; i < Options.getTabArray().size(); i++){
+                    VoteTab currentTab = Options.getTabArray().get(i);
+
+                    Component[] components = currentTab.getComponents();
+
+                    for(Component c : components){
+                        if(c instanceof JRadioButton){
+                            JRadioButton radioButton = (JRadioButton) c;
+                            if(radioButton.isSelected()){
+                                selected.add(radioButton.getText());
+                            }
+                        }
+                    }
+                }
+
+                Options.submitVote(selected);
+                JOptionPane.showMessageDialog(Options.getContentPanel(), "Thank you for voting!","Vote Submitted!", JOptionPane.INFORMATION_MESSAGE);
+                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+
+            }
+        });
         c.gridx = 1;
         c.gridy = 2;
         c.weightx = 1.0;

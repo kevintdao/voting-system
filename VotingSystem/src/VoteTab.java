@@ -49,4 +49,8 @@ public class VoteTab extends JPanel {
         writeInTextField.setEditable(false);
         add(writeInTextField,c);
     }
+
+    public JRadioButton getCandiateButton(int i){
+        return candidates[i];
+    }
 }

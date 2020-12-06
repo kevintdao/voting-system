@@ -10,7 +10,6 @@ public class Options {
     private static int languageIndex = 0; // default: English = 0
     private static CardLayout cardLayout = new CardLayout();
     private static JPanel contentPanel = new JPanel();
-    private static JToggleButton darkModeButton = new JToggleButton("Dark Mode");
 
     // sql login
     private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";
@@ -40,11 +39,29 @@ public class Options {
         return tabs;
     }
 
+    public static ArrayList<VoteTab> getTabArray(){
+        return tabArray;
+    }
+
     public static void setUpTab(){
+        ArrayList<String> electionNames = Options.getElectionNames();
+        ArrayList<Integer> candidateAmount = Options.getCandidateAmount();
+        ArrayList<Integer> electionIDs = Options.getElectionIDs();
+
+        System.out.println(electionIDs);
+
         for(int i = 0; i < Options.getElectionAmount(); i++){
-            String title = "from database";
-            tabArray.add(new VoteTab(5)); // replace with getCandiateAmount
-            tabs.addTab(title, tabArray.get(i));
+            VoteTab voteTab = new VoteTab(candidateAmount.get(i) + 1);
+            tabArray.add(voteTab);
+
+            int currentElectionID = electionIDs.get(i);
+            ArrayList<String> candidateNames = Options.getCandidateNames(currentElectionID);
+
+            for(int j = 0; j < candidateNames.size(); j++){
+                voteTab.getCandiateButton(j).setText(candidateNames.get(j));
+            }
+
+            tabs.addTab(electionNames.get(i), tabArray.get(i));
         }
     }
 
@@ -52,6 +69,10 @@ public class Options {
         while(tabs.getTabCount() != 0){
             tabs.remove(0);
         }
+    }
+
+    public static void emptyTabArray(){
+        tabArray.clear();
     }
 
 
@@ -200,7 +221,7 @@ public class Options {
 
     // add new user from registration page
     public static void addNewUser(String username, String password, String first, String last, String dob, String county, String state){
-        String sqlString = "INSERT INTO usertable (username, password, firstname, lastname, dob, county, state, media, auditor, voter)" +
+        String sqlString = "INSERT INTO usertable (username, password, firstname, lastname, dob, county, state, media, auditor, voter, countyID)" +
                                     "VALUES ('"+username+"', '"+password+"', '"+first+"', '"+last+"', STR_TO_DATE('"+dob+"', '%m/%d/%Y'), '"+county+"', '"+state+"',";
 
         try{
@@ -208,23 +229,32 @@ public class Options {
             Statement statement = connection.createStatement();
 
             if(username.contains("auditor:")){
-                sqlString += "1, 1, 0)";
+                sqlString += "1, 1, 0,";
             }
             else if(username.contains("media:")){
-                sqlString += "1, 0, 0)";
+                sqlString += "1, 0, 0,";
             }
             else{
-                sqlString += "0, 0, 1)";
+                sqlString += "0, 0, 1,";
             }
 
+            // get the countyID from database
+            ResultSet result = statement.executeQuery("SELECT countyID FROM counties WHERE county='"+county+"'");
+            int countyID = 0;
+            while(result.next()){
+                countyID = result.getInt("countyID");
+            }
+
+            sqlString += "'"+countyID+"')";
+
             statement.executeUpdate(sqlString);
 
-            sqlString = "UPDATE" +
-                    "    usertable UT," +
-                    "    counties CT" +
-                    "SET UT.countyID = CT.countyID" +
-                    "WHERE UT.county = CT.county";
-            statement.executeUpdate(sqlString);
+//            sqlString = "UPDATE" +
+//                    "    usertable UT," +
+//                    "    counties CT" +
+//                    "SET UT.countyID = CT.countyID " +
+//                    "WHERE UT.county = CT.county";
+//            statement.executeUpdate(sqlString);
 
             connection.close();
         } catch (SQLException e){
@@ -452,30 +482,45 @@ public class Options {
     }
 
     // submit the user's votes
-    public static void submitVote() {
+    public static void submitVote(ArrayList<String> selected) {
         ArrayList<Integer> userVotes = new ArrayList<>();
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
+            Statement statement1 = connection.createStatement();
 
             int countyID = 0;
+            int voterID = 0;
+            int candidateID = 0;
             ArrayList<Integer> electionIDs = new ArrayList<>();
 
-            ResultSet result = statement.executeQuery("SELECT countyID FROM usertable WHERE username='"+currentUser+"'");
+            ResultSet result = statement.executeQuery("SELECT * FROM usertable WHERE username='"+currentUser+"'");
 
-//            // get the county id
-//            while(result.next()){
-//                countyID = result.getInt("countyID");
-//            }
-//
-//            result = statement.executeQuery("SELECT eletionID FROM election WHERE countyID='"+countyID+"'");
-//
-//            // get the election ids
-//            while(result.next()){
-//                electionIDs.add(result.getInt("electionID"));
-//            }
-//
-//            connection.close();
+            // get the county id
+            while(result.next()){
+                voterID = result.getInt("voterID");
+                countyID = result.getInt("countyID");
+            }
+
+            result = statement.executeQuery("SELECT electionID FROM election WHERE countyID='"+countyID+"'");
+
+            // get the election ids
+            while(result.next()){
+                electionIDs.add(result.getInt("electionID"));
+            }
+
+            // get all candidate and candidateName from id
+            for(int id : electionIDs) {
+                result = statement.executeQuery("SELECT candidateID,candidateName FROM candidates WHERE electionID='"+id+"'");
+                while (result.next()) {
+                    if (selected.contains(result.getString("candidateName"))) {
+                        candidateID = result.getInt("candidateID");
+                        statement1.executeUpdate("INSERT votes (voterID, forCandidateID, electionID) VALUES ('" + voterID + "', '" + candidateID + "', '" + id + "')");
+                    }
+                }
+            }
+
+            connection.close();
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -489,7 +534,7 @@ public class Options {
             Statement statement = connection.createStatement();
 
             int countyID = 0;
-            int electionID = 0;
+            ArrayList<Integer> electionIDs = new ArrayList<>();
 
             ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
 
@@ -500,15 +545,15 @@ public class Options {
             result = statement.executeQuery("SELECT electionID FROM election WHERE countyID='"+countyID+"'");
 
             while(result.next()){
-                electionID = result.getInt("electionID");
+                electionIDs.add(result.getInt("electionID"));
             }
 
-            result = statement.executeQuery("SELECT COUNT(candidateName) AS electioncount FROM candidates WHERE electionID='"+electionID+"'");
-
-            while(result.next()){
-                output.add(result.getInt("electioncount"));
+            for(int i = 0; i < electionIDs.size(); i++){
+                result = statement.executeQuery("SELECT COUNT(candidateName) AS electioncount FROM candidates WHERE electionID='"+electionIDs.get(i)+"'");
+                while(result.next()){
+                    output.add(result.getInt("electioncount"));
+                }
             }
-
 
             connection.close();
         } catch (SQLException e){
@@ -524,7 +569,6 @@ public class Options {
             Statement statement = connection.createStatement();
 
             int countyID = 0;
-            int electionID = 0;
 
             ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
 
@@ -537,6 +581,7 @@ public class Options {
             while(result.next()){
                 output.add(result.getString("electionName"));
             }
+
             connection.close();
         } catch (SQLException e){
             e.printStackTrace();
@@ -544,14 +589,32 @@ public class Options {
         return output;
     }
 
-    public static ArrayList<String> getCandidateNames(){
+    public static ArrayList<String> getCandidateNames(int electionID){
         ArrayList<String> output =  new ArrayList<>();
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
+            ResultSet result = statement.executeQuery("SELECT candidateName FROM candidates WHERE electionID='"+electionID+"'");
+
+            while(result.next()){
+                output.add(result.getString("candidateName"));
+            }
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    public static ArrayList<Integer> getElectionIDs(){
+        ArrayList<Integer> output =  new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
             int countyID = 0;
-            int electionID = 0;
 
             ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
 
@@ -562,16 +625,8 @@ public class Options {
             result = statement.executeQuery("SELECT electionID FROM election WHERE countyID='"+countyID+"'");
 
             while(result.next()){
-                electionID = result.getInt("electionID");
+                output.add(result.getInt("electionID"));
             }
-
-            result = statement.executeQuery("SELECT(candidateName) FROM candidates WHERE electionID='"+electionID+"'");
-
-            while(result.next()){
-                output.add(result.getString("candidateName"));
-            }
-
-
             connection.close();
         } catch (SQLException e){
             e.printStackTrace();
@@ -609,6 +664,7 @@ public class Options {
             e.printStackTrace();
         }
     }
+
     public static int insertElections(HashMap<String, ArrayList<String>> ballot, int county){
         int electionIndex = 0;
         try{
@@ -633,7 +689,6 @@ public class Options {
 
             }
 
-
             connection.close();
             return electionIndex;
         } catch (SQLException e){
@@ -642,5 +697,20 @@ public class Options {
         return electionIndex;
     }
 
+//    public static void updateVotingStatus(String status){
+//        try {
+//            Connection connection = getConnection();
+//            Statement statement = connection.createStatement();
+//
+//            statement.executeUpdate("UPDATE usertable ");
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public static void getVotingStatus(){
+//
+//    }
 }
 
