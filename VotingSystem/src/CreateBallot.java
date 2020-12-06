@@ -94,6 +94,7 @@ public class CreateBallot extends JPanel {
                                 System.out.println(candidates.get(i).get(j));
                             }
                         }
+                        System.out.println(Database.getUserInfo().get(7));
                     }
                 } // end anonymous inner class
         ); // end call to addActionListener
@@ -142,8 +143,8 @@ public class CreateBallot extends JPanel {
     }
 
     private int insertElections(){
-        int county = 1;
-        int index = Database.insertElections(candidates, county);
+        int county = Integer.parseInt(Database.getUserInfo().get(7));
+        int index = Database.insertElections(candidates, county); //returns AUTO_INCREMENT value
         return index;
     }
 }

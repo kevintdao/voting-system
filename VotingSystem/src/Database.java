@@ -110,6 +110,7 @@ public class Database {
                 output.add(result.getString("dob"));
                 output.add(result.getString("county"));
                 output.add(result.getString("state"));
+                output.add(result.getString("countyID"));
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -379,8 +380,6 @@ public class Database {
                 }
 
             }
-
-            return electionIndex;
         } catch (SQLException e){
             e.printStackTrace();
         }
