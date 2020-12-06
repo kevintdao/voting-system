@@ -16,7 +16,7 @@ public class CreateBallot extends JPanel {
     private JButton addButton;
     private JButton submitButton;
     private HashMap<String, ArrayList<String>> candidates;
-    public static int electionIndex = 38;
+    private int electionIndex;
     private int[] electionIDs;
 
 
@@ -111,8 +111,8 @@ public class CreateBallot extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent event)
                     {
-                        insertElections();
-                        insertCandidates();
+                        electionIndex = insertElections();
+                        Options.insertCandidates(candidates, electionIndex);
                     }
                 } // end anonymous inner class
         ); // end call to addActionListener
@@ -140,21 +140,10 @@ public class CreateBallot extends JPanel {
         revalidate();
         repaint();
     }
-    private void insertCandidates(){
-        electionIDs = new int[6];
-        int i = 0;
 
-        for(String pos : candidates.keySet()){
-            if(candidates.get(pos).size() > 0) {
-                electionIDs[i] = electionIndex;
-                electionIndex++;
-            }
-            i++;
-        }
-        Options.insertCandidates(candidates, electionIDs);
-    }
-    private void insertElections(){
+    private int insertElections(){
         int county = 1;
-        Options.insertElections(candidates, county);
+        int index = Options.insertElections(candidates, county);
+        return index;
     }
 }

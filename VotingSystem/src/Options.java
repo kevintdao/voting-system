@@ -578,4 +578,69 @@ public class Options {
         }
         return output;
     }
+
+    public static void insertCandidates(HashMap<String, ArrayList<String>> ballot, int electionIndex){
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            String sqlString = "";
+
+
+
+            for(String pos : ballot.keySet()){
+                for(int i = 0; i < ballot.get(pos).size(); i++){
+                    if(ballot.get(pos).size() > 0){
+                        sqlString = "INSERT INTO candidates (candidateName, electionID) " +
+                                "VALUES ('"+ ballot.get(pos).get(i) + "', "+ electionIndex + ");";
+                        System.out.println(sqlString);
+                        statement.executeUpdate(sqlString);
+
+                    }
+
+                }
+                if(ballot.get(pos).size()>0){
+                    electionIndex++;
+                }
+
+            }
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public static int insertElections(HashMap<String, ArrayList<String>> ballot, int county){
+        int electionIndex = 0;
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            ResultSet result = statement.executeQuery("SELECT AUTO_INCREMENT" +
+                    " FROM information_schema.TABLES" +
+                    " WHERE TABLE_SCHEMA = 'engr_class025'" +
+                    " AND TABLE_NAME = 'election'");
+            while(result.next()){
+                electionIndex = result.getInt(1);
+            }
+
+            for(String pos : ballot.keySet()){
+                if(ballot.get(pos).size() > 0){
+                    String sqlString = "INSERT INTO election (electionName, countyID) " +
+                            "VALUES ('"+ pos + "', "+ county + ");";
+
+                    statement.executeUpdate(sqlString);
+                }
+
+            }
+
+
+            connection.close();
+            return electionIndex;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return electionIndex;
+    }
+
 }
+
