@@ -118,10 +118,13 @@ public class VotePage extends JPanel {
                     }
                 }
 
+                // finished voting
                 Options.submitVote(selected);
                 JOptionPane.showMessageDialog(Options.getContentPanel(), "Thank you for voting!","Vote Submitted!", JOptionPane.INFORMATION_MESSAGE);
-                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                Options.updateVotingStatus("FINISHED");
+                Options.getProgressBar().setString("FINISHED");
 
+                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
             }
         });
         c.gridx = 1;

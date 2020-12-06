@@ -137,6 +137,7 @@ public class LandingPage extends JPanel {
                     Options.getCardLayout().show(Options.getContentPanel(), "MEDIA");
                 }
                 else{
+                    Options.getProgressBar().setString(Options.getVotingStatus());
                     Options.getCardLayout().show(Options.getContentPanel(), "HOME");
                 }
             }

@@ -34,6 +34,11 @@ public class Options {
     private static JToggleButton[] darkModeButtonArray = new JToggleButton[NUM_OF_PANELS];
     private static JTabbedPane tabs = new JTabbedPane();
     private static ArrayList<VoteTab> tabArray = new ArrayList<>();
+    private static JProgressBar progressBar = new JProgressBar();
+
+    public static JProgressBar getProgressBar(){
+        return progressBar;
+    }
 
     public static JTabbedPane getTabs(){
         return tabs;
@@ -640,8 +645,6 @@ public class Options {
             Statement statement = connection.createStatement();
             String sqlString = "";
 
-
-
             for(String pos : ballot.keySet()){
                 for(int i = 0; i < ballot.get(pos).size(); i++){
                     if(ballot.get(pos).size() > 0){
@@ -697,20 +700,41 @@ public class Options {
         return electionIndex;
     }
 
-//    public static void updateVotingStatus(String status){
-//        try {
-//            Connection connection = getConnection();
-//            Statement statement = connection.createStatement();
-//
-//            statement.executeUpdate("UPDATE usertable ");
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public static void getVotingStatus(){
-//
-//    }
+    /*  status:
+        NULL = not started
+        IN PROGRESS = in progress
+        FINISHED = finished
+     */
+    public static void updateVotingStatus(String status){
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate("UPDATE usertable SET ballotprogress='"+status+"' WHERE username='"+currentUser+"'");
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getVotingStatus(){
+        String output = "";
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            ResultSet result = statement.executeQuery("SELECT ballotprogress FROM usertable WHERE username='"+currentUser+"'");
+            while(result.next()){
+                output = result.getString("ballotprogress");
+            }
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return output;
+    }
 }
 

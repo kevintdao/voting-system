@@ -12,7 +12,6 @@ public class Home extends JPanel {
     private String[] logOutLang = {"Log out", "Cerrar sesión", "Se déconnecter"};
 
     private JLabel progressLabel;
-    private JProgressBar progressBar;
 
     private JButton viewProfileButton;
     private JButton voteButton;
@@ -98,7 +97,6 @@ public class Home extends JPanel {
         c.insets = new Insets(20,20,100,20);  // padding
         add(progressLabel, c);
 
-        progressBar = new JProgressBar();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 1;
         c.gridy = 1;
@@ -106,9 +104,9 @@ public class Home extends JPanel {
         c.ipadx = 50;
         c.ipady = 10;
         c.weightx = 0.5;
-        progressBar.setString("In process");
-        progressBar.setStringPainted(true);
-        add(progressBar, c);
+        Options.getProgressBar().setString("NULL");
+        Options.getProgressBar().setStringPainted(true);
+        add(Options.getProgressBar(), c);
 
         viewProfileButton = new JButton(viewProfLang[Options.getLanguageIndex()]);
         // change to profile page
@@ -136,6 +134,20 @@ public class Home extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Options.setUpTab();
+
+                String currentVotingStatus = Options.getVotingStatus();
+
+                // check voting status
+                if(currentVotingStatus == null){
+                    Options.updateVotingStatus("IN PROGRESS");
+                }
+                else if(currentVotingStatus.equals("FINISHED")){
+                    JOptionPane.showMessageDialog(Options.getContentPanel(), "You can't vote more than once!","You already voted!", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                Options.getProgressBar().setString(currentVotingStatus);
+
                 Options.getCardLayout().show(Options.getContentPanel(), "VOTE");
             }
         });
