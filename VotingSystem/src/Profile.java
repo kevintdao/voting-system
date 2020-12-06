@@ -4,8 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-// get data from data and display the info
-public class Profile extends JPanel {
+/**
+ * Extends JPanel to create a GUI page for displaying user profile information
+ * Includes dark mode, language selection, and a back button.
+ * @version 1.0.0, Dec 6 2020
+ * @see JPanel
+ */
+public class Profile extends JPanel {// get data from data and display the info
     private String[] firstNameLang = {"First Name: ", "Nombre de pila: ", "Prénom: "};
     private String[] lastNameLang = {"Last Name: ", "Apellido: ", "Nom de famille: "};
     private String[] usernameLang = {"Username: ", "Nombre de usuario: ","Nom d'utilisateur: "};

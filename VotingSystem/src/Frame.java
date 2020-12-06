@@ -1,6 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Extends JFrame to create a JFrame containing all JPanel pages of the voting system.
+ * Implements functionality for dark/light mode.
+ * @version 1.0.0, Dec 6 2020
+ * @see JFrame
+ */
 public class Frame extends JFrame {
     private Home homePage;
     private Profile profilePage;

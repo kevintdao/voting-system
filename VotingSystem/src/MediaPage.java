@@ -5,7 +5,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.*;
 
-
+/**
+ * Extends JPanel to create a GUI page for displaying results of
+ * elections for different positions. Includes an update button to
+ * update results, language selection, dark mode, log out button, and
+ * back button.
+ * @version 1.0.0, Dec 6 2020
+ * @see JPanel
+ */
 public class MediaPage extends JPanel
 {
     private String[] candidatePositions = {"President", "Representative", "Congress", "Governor", "Mayor", "Sheriff"};

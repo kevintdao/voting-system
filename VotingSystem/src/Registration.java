@@ -4,7 +4,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-
+/**
+ * Extends JPanel to create a GUI page for registering a new profile.
+ * Includes dark mode, language selection, password confirmation,
+ * unique username check, and empty field detection.
+ * @version 1.0.0, Dec 6 2020
+ * @see JPanel
+ */
 public class Registration extends JPanel {
     private String[] firstNameLang = {"First Name: ", "Nombre de pila: ", "Prénom: "};
     private String[] lastNameLang = {"Last Name: ", "Apellido: ", "Nom de famille: "};

@@ -4,6 +4,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Implements the functionality for connecting to mySQL database and executing queries.
+ * Contains a variety of functions performing selects and inserts to the usertable, counties, election,
+ * candidates, and votes tables. Includes functions to add a new user to table, check a user's password
+ * for correctness, get user information, check for uniqueness of username, retrieve votes and election
+ * information, check various statuses, and selecting various information for GUI components.
+ */
 public class Database {
     // sql login
     private static final String DATABASE_URL = "jdbc:mysql://s-l112.engr.uiowa.edu:3306/engr_class025";

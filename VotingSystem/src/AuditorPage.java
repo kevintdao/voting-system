@@ -3,6 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Extends JPanel to create a GUI menu for a profile with auditor privileges
+ * to navigate to the Profile, Home, Media, or CreateBallot page.
+ * @version 1.0.0, Dec 6 2020
+ * @see JPanel
+ */
 public class AuditorPage extends JPanel {
     private static final String[] languages = {"English", "Spanish", "French"};
     private final JComboBox<String> languagesJComboBox;

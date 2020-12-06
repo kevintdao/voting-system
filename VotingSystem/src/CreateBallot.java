@@ -6,6 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Extends JPanel to create a GUI menu for a profile with auditor
+ * privileges to create a ballot with an arbitrary number of
+ * candidates running for a position. Only one ballot can be
+ * created per countyID. The ballot is inserted into the election
+ * table and the candidates are inserted into the candidates table.
+ * Includes
+ * @version 1.0.0, Dec 6 2020
+ * @see JPanel
+ */
 public class CreateBallot extends JPanel {
     //TODO: language functionality
     private String[] returnHomeLang = {"Return to Home", "Vuelve a casa", "Retourner à la maison"};

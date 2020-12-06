@@ -3,6 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Extends JPanel to create a GUI page for logging into the system or
+ * navigating to Registration page. Includes dark mode and language selection.
+ * @version 1.0.0, Dec 6 2020
+ * @see JPanel
+ */
 public class LandingPage extends JPanel {
     private String[] userIDLang = {"Username: ", "Nombre de usuario: ","Nom d'utilisateur: "};
     private String[] passLang = {"Password: ", "Contraseña: ", "Mot de passe: "};

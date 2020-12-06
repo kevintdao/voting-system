@@ -4,6 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Extends JPanel to create a GUI menu for navigating to Profile, Vote, and Landing pages
+ * includes language selection, dark mode, voting progress bar, and blocking vote access
+ * if user has already voted.
+ * @version 1.0.0, Dec 6 2020
+ * @see JPanel
+ */
 public class Home extends JPanel {
     private String[] welcomeLang = {"Welcome!", "Bienvenido!", "Bienvenu!"};
     private String[] currProgLang = {"Current Progress: ", "Progreso actual: ", "Progrès en cours: "};

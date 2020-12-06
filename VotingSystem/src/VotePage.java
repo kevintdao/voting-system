@@ -4,6 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Extends JPanel to create a GUI page for voting for a candidate. Sends the vote
+ * to be inserted into votes table and updates voting progress. Includes dark mode
+ * and language selection.
+ * @version 1.0.0, Dec 6 2020
+ * @see JPanel
+ */
 public class VotePage extends JPanel {
     private String[] returnHomeLang = {"Return to Home", "Vuelve a casa", "Retourner à la maison"};
     
