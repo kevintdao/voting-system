@@ -28,14 +28,14 @@ public class LandingPage extends JPanel {
         setName("Landing");
         GridBagConstraints c = new GridBagConstraints();
 
-        Options.getDarkModeButton(0).addActionListener(e -> {
-            if(Options.getDarkMode()) {
-                Options.setDarkMode(false);
-                Options.changeMode(false);
+        GUIComponents.getDarkModeButton(0).addActionListener(e -> {
+            if(GUIComponents.getDarkMode()) {
+                GUIComponents.setDarkMode(false);
+                GUIComponents.changeMode(false);
             }
             else {
-                Options.setDarkMode(true);
-                Options.changeMode(true);
+                GUIComponents.setDarkMode(true);
+                GUIComponents.changeMode(true);
             }
             refreshPanel();
         });
@@ -46,13 +46,13 @@ public class LandingPage extends JPanel {
         c.gridwidth = 2;
         c.anchor = GridBagConstraints.PAGE_START;
         c.weightx = 0.2;
-        add(Options.getDarkModeButton(0),c);
+        add(GUIComponents.getDarkModeButton(0),c);
 
-        Options.getLanguageComboBox(0).addActionListener(
+        GUIComponents.getLanguageComboBox(0).addActionListener(
                 event -> {
                     JComboBox comboBox = (JComboBox) event.getSource();
                     int selected = comboBox.getSelectedIndex();
-                    Options.setLanguageIndex(selected);
+                    GUIComponents.setLanguageIndex(selected);
 
                     // change language for labels
                     usernameLabel.setText(userIDLang[selected]);
@@ -60,7 +60,7 @@ public class LandingPage extends JPanel {
                     submit.setText(submitLang[selected]);
                     register.setText(registerLang[selected]);
 
-                    Options.changeLanguage();
+                    GUIComponents.changeLanguage();
                     refreshPanel();
                 }
         );
@@ -78,9 +78,9 @@ public class LandingPage extends JPanel {
         c.weightx = 0.2;
         c.ipady = 10;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        add(Options.getLanguageComboBox(0), c);
+        add(GUIComponents.getLanguageComboBox(0), c);
 
-        usernameLabel = new JLabel(userIDLang[Options.getLanguageIndex()]);
+        usernameLabel = new JLabel(userIDLang[GUIComponents.getLanguageIndex()]);
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0; // first column
@@ -97,7 +97,7 @@ public class LandingPage extends JPanel {
         c.weightx = fieldWeightX;
         add(usernameField, c);
 
-        passwordLabel = new JLabel(passLang[Options.getLanguageIndex()]);
+        passwordLabel = new JLabel(passLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
@@ -111,7 +111,7 @@ public class LandingPage extends JPanel {
         c.weightx = fieldWeightX;
         add(passwordField, c);
 
-        submit = new JButton(submitLang[Options.getLanguageIndex()]);
+        submit = new JButton(submitLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 2;
@@ -125,25 +125,25 @@ public class LandingPage extends JPanel {
                 String password = passwordField.getText();
 
                 // check if username and password exist in database
-                if(!Options.checkLogin(username, password)){
-                    JOptionPane.showMessageDialog(Options.getContentPanel(), "Incorrect login!","Incorrect Login!", JOptionPane.ERROR_MESSAGE );
+                if(!Database.checkLogin(username, password)){
+                    JOptionPane.showMessageDialog(GUIComponents.getContentPanel(), "Incorrect login!","Incorrect Login!", JOptionPane.ERROR_MESSAGE );
                     return;
                 }
 
                 if(username.contains("auditor:")){
-                    Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
+                    GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
                 }
                 else if(username.contains("media:")){
-                    Options.getCardLayout().show(Options.getContentPanel(), "MEDIA");
+                    GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "MEDIA");
                 }
                 else{
-                    Options.getProgressBar().setString(Options.getVotingStatus());
-                    Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                    GUIComponents.getProgressBar().setString(Database.getVotingStatus());
+                    GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "HOME");
                 }
             }
         });
 
-        register = new JButton(registerLang[Options.getLanguageIndex()]);
+        register = new JButton(registerLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 2;
@@ -152,7 +152,7 @@ public class LandingPage extends JPanel {
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "REGISTRATION");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "REGISTRATION");
             }
         });
     }

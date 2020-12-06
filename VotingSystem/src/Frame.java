@@ -25,8 +25,8 @@ public class Frame extends JFrame {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
 
-        Options.setUpComboBox();
-        Options.setUpDarkModeButton();
+        GUIComponents.setUpComboBox();
+        GUIComponents.setUpDarkModeButton();
 
 
         homePage = new Home();
@@ -38,29 +38,29 @@ public class Frame extends JFrame {
         mediaPage = new MediaPage();
         createBallot = new CreateBallot();
 
-        Options.getContentPanel().setLayout(Options.getCardLayout());
+        GUIComponents.getContentPanel().setLayout(GUIComponents.getCardLayout());
 
-        Options.getContentPanel().add(landingPage, "LANDING");
-        Options.getContentPanel().add(registrationPage, "REGISTRATION");
-        Options.getContentPanel().add(homePage, "HOME");
-        Options.getContentPanel().add(profilePage, "PROFILE");
-        Options.getContentPanel().add(votePage, "VOTE");
-        Options.getContentPanel().add(auditorPage, "AUDITOR");
-        Options.getContentPanel().add(mediaPage, "MEDIA");
-        Options.getContentPanel().add(createBallot, "CREATEBALLOT");
+        GUIComponents.getContentPanel().add(landingPage, "LANDING");
+        GUIComponents.getContentPanel().add(registrationPage, "REGISTRATION");
+        GUIComponents.getContentPanel().add(homePage, "HOME");
+        GUIComponents.getContentPanel().add(profilePage, "PROFILE");
+        GUIComponents.getContentPanel().add(votePage, "VOTE");
+        GUIComponents.getContentPanel().add(auditorPage, "AUDITOR");
+        GUIComponents.getContentPanel().add(mediaPage, "MEDIA");
+        GUIComponents.getContentPanel().add(createBallot, "CREATEBALLOT");
 
-        setContentPane(Options.getContentPanel());
+        setContentPane(GUIComponents.getContentPanel());
 
-        Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
+        GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "LANDING");
 
-        Options.createUsersTable();
-//        Options.createElectionsTable();
+//        Database.createUsersTable();
+//        GUIComponents.createElectionsTable();
     }
 
 
     public static void updateTheme() {
         // dark mode
-        if(Options.getDarkMode()) {
+        if(GUIComponents.getDarkMode()) {
             UIManager.put("control", new Color( 45, 44, 44));
             UIManager.put("info", new Color(128,128,128));
             UIManager.put("nimbusBase", new Color(55, 85, 121));

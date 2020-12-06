@@ -24,14 +24,14 @@ public class Home extends JPanel {
         setName("Home");
         GridBagConstraints c = new GridBagConstraints();
 
-        Options.getDarkModeButton(2).addActionListener(e -> {
-            if(Options.getDarkMode()) {
-                Options.setDarkMode(false);
-                Options.changeMode(false);
+        GUIComponents.getDarkModeButton(2).addActionListener(e -> {
+            if(GUIComponents.getDarkMode()) {
+                GUIComponents.setDarkMode(false);
+                GUIComponents.changeMode(false);
             }
             else {
-                Options.setDarkMode(true);
-                Options.changeMode(true);
+                GUIComponents.setDarkMode(true);
+                GUIComponents.changeMode(true);
             }
             refreshPanel();
         });
@@ -41,15 +41,15 @@ public class Home extends JPanel {
         c.gridwidth = 1;
         c.ipady = 10;
         c.weightx = 0.5;
-        add(Options.getDarkModeButton(2), c);
+        add(GUIComponents.getDarkModeButton(2), c);
 
         // language select component
-        Options.getLanguageComboBox(2).addActionListener(new ActionListener() {
+        GUIComponents.getLanguageComboBox(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox comboBox = (JComboBox) e.getSource();
                 int selected = comboBox.getSelectedIndex();
-                Options.setLanguageIndex(selected);
+                GUIComponents.setLanguageIndex(selected);
 
                 // change labels to selected language
                 welcomeBackLabel.setText(welcomeLang[selected]);
@@ -58,7 +58,7 @@ public class Home extends JPanel {
                 voteButton.setText(voteLang[selected]);
                 logOutButton.setText(logOutLang[selected]);
 
-                Options.changeLanguage();
+                GUIComponents.changeLanguage();
                 refreshPanel();
             }
         });
@@ -70,13 +70,13 @@ public class Home extends JPanel {
         c.weightx = 0.2;
         c.insets = new Insets(10,20,0,20);  // padding
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        add(Options.getLanguageComboBox(2), c);
+        add(GUIComponents.getLanguageComboBox(2), c);
 
 
         c.fill = GridBagConstraints.HORIZONTAL;
 
         // welcome components
-        welcomeBackLabel = new JLabel(welcomeLang[Options.getLanguageIndex()]);
+        welcomeBackLabel = new JLabel(welcomeLang[GUIComponents.getLanguageIndex()]);
         welcomeBackLabel.setFont(new Font("Arial", Font.BOLD, 24));
         c.gridx = 0;
         c.gridy = 0;
@@ -87,7 +87,7 @@ public class Home extends JPanel {
         add(welcomeBackLabel, c);
 
         // progress bar components
-        progressLabel = new JLabel(currProgLang[Options.getLanguageIndex()]);
+        progressLabel = new JLabel(currProgLang[GUIComponents.getLanguageIndex()]);
         progressLabel.setFont(new Font("Arial", Font.BOLD, 16));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -104,17 +104,17 @@ public class Home extends JPanel {
         c.ipadx = 50;
         c.ipady = 10;
         c.weightx = 0.5;
-        Options.getProgressBar().setString("NULL");
-        Options.getProgressBar().setStringPainted(true);
-        add(Options.getProgressBar(), c);
+        GUIComponents.getProgressBar().setString("NULL");
+        GUIComponents.getProgressBar().setStringPainted(true);
+        add(GUIComponents.getProgressBar(), c);
 
-        viewProfileButton = new JButton(viewProfLang[Options.getLanguageIndex()]);
+        viewProfileButton = new JButton(viewProfLang[GUIComponents.getLanguageIndex()]);
         // change to profile page
         viewProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "PROFILE");
-                Options.updateProfilePage();
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "PROFILE");
+                GUIComponents.updateProfilePage();
             }
         });
         c.gridx = 0;
@@ -124,7 +124,7 @@ public class Home extends JPanel {
         c.insets = new Insets(10,40,0,40);  // padding
         add(viewProfileButton, c);
 
-        voteButton = new JButton(voteLang[Options.getLanguageIndex()]);
+        voteButton = new JButton(voteLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 3;
         c.ipady = 10;
@@ -133,26 +133,26 @@ public class Home extends JPanel {
         voteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.setUpTab();
+                GUIComponents.setUpTab();
 
-                String currentVotingStatus = Options.getVotingStatus();
+                String currentVotingStatus = Database.getVotingStatus();
 
                 // check voting status
                 if(currentVotingStatus == null){
-                    Options.updateVotingStatus("IN PROGRESS");
+                    Database.updateVotingStatus("IN PROGRESS");
                 }
                 else if(currentVotingStatus.equals("FINISHED")){
-                    JOptionPane.showMessageDialog(Options.getContentPanel(), "You can't vote more than once!","You already voted!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(GUIComponents.getContentPanel(), "You can't vote more than once!","You already voted!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                Options.getProgressBar().setString(currentVotingStatus);
+                GUIComponents.getProgressBar().setString(currentVotingStatus);
 
-                Options.getCardLayout().show(Options.getContentPanel(), "VOTE");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "VOTE");
             }
         });
 
-        logOutButton = new JButton(logOutLang[Options.getLanguageIndex()]);
+        logOutButton = new JButton(logOutLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 4;
         c.ipady = 10;
@@ -161,10 +161,10 @@ public class Home extends JPanel {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
-                Options.clearAllInputs();
-                Options.emptyTabArray();
-                Options.removeAllTabs();
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "LANDING");
+                GUIComponents.clearAllInputs();
+                GUIComponents.emptyTabArray();
+                GUIComponents.removeAllTabs();
             }
         });
     }

@@ -16,14 +16,14 @@ public class VotePage extends JPanel {
         setName("Vote");
         GridBagConstraints c = new GridBagConstraints();
 
-        Options.getDarkModeButton(4).addActionListener(e -> {
-            if(Options.getDarkMode()) {
-                Options.setDarkMode(false);
-                Options.changeMode(false);
+        GUIComponents.getDarkModeButton(4).addActionListener(e -> {
+            if(GUIComponents.getDarkMode()) {
+                GUIComponents.setDarkMode(false);
+                GUIComponents.changeMode(false);
             }
             else {
-                Options.setDarkMode(true);
-                Options.changeMode(true);
+                GUIComponents.setDarkMode(true);
+                GUIComponents.changeMode(true);
             }
             refreshPanel();
         });
@@ -34,18 +34,18 @@ public class VotePage extends JPanel {
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.PAGE_START;
         c.weightx = 0.2;
-        add(Options.getDarkModeButton(4),c);
+        add(GUIComponents.getDarkModeButton(4),c);
 
 
-        Options.getLanguageComboBox(4).addActionListener(new ActionListener() {
+        GUIComponents.getLanguageComboBox(4).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 JComboBox comboBox = (JComboBox) event.getSource();
                 int selected = comboBox.getSelectedIndex();
-                Options.setLanguageIndex(selected);
+                GUIComponents.setLanguageIndex(selected);
 
                 returnToHome.setText(returnHomeLang[selected]);
-                Options.changeLanguage();
+                GUIComponents.changeLanguage();
                 refreshPanel();
             }
         });
@@ -55,7 +55,7 @@ public class VotePage extends JPanel {
         c.weightx = 0.2;
         c.ipady = 10;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        add(Options.getLanguageComboBox(4), c);
+        add(GUIComponents.getLanguageComboBox(4), c);
 
         c.gridx = 1;
         c.gridy = 0;
@@ -80,13 +80,13 @@ public class VotePage extends JPanel {
         c.insets = new Insets(10,10,0,10);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.CENTER;
-        add(Options.getTabs(), c);
+        add(GUIComponents.getTabs(), c);
 
-        returnToHome = new JButton(returnHomeLang[Options.getLanguageIndex()]);
+        returnToHome = new JButton(returnHomeLang[GUIComponents.getLanguageIndex()]);
         returnToHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "HOME");
                 //this needs to update the progress bar
             }
         });
@@ -103,8 +103,8 @@ public class VotePage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 ArrayList<String> selected = new ArrayList<>();
-                for(int i = 0; i < Options.getTabArray().size(); i++){
-                    VoteTab currentTab = Options.getTabArray().get(i);
+                for(int i = 0; i < GUIComponents.getTabArray().size(); i++){
+                    VoteTab currentTab = GUIComponents.getTabArray().get(i);
 
                     Component[] components = currentTab.getComponents();
 
@@ -119,12 +119,12 @@ public class VotePage extends JPanel {
                 }
 
                 // finished voting
-                Options.submitVote(selected);
-                JOptionPane.showMessageDialog(Options.getContentPanel(), "Thank you for voting!","Vote Submitted!", JOptionPane.INFORMATION_MESSAGE);
-                Options.updateVotingStatus("FINISHED");
-                Options.getProgressBar().setString("FINISHED");
+                Database.submitVote(selected);
+                JOptionPane.showMessageDialog(GUIComponents.getContentPanel(), "Thank you for voting!","Vote Submitted!", JOptionPane.INFORMATION_MESSAGE);
+                Database.updateVotingStatus("FINISHED");
+                GUIComponents.getProgressBar().setString("FINISHED");
 
-                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "HOME");
             }
         });
         c.gridx = 1;

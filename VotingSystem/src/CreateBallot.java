@@ -53,15 +53,15 @@ public class CreateBallot extends JPanel {
         }
 
 
-        Options.getLanguageComboBox(5).addActionListener(new ActionListener() { //TODO: change to 6
+        GUIComponents.getLanguageComboBox(5).addActionListener(new ActionListener() { //TODO: change to 6
             @Override
             public void actionPerformed(ActionEvent event) {
                 JComboBox comboBox = (JComboBox) event.getSource();
                 int selected = comboBox.getSelectedIndex();
-                Options.setLanguageIndex(selected);
+                GUIComponents.setLanguageIndex(selected);
 
                 returnToHome.setText(returnHomeLang[selected]);
-                Options.changeLanguage();
+                GUIComponents.changeLanguage();
                 refreshPanel();
             }
         });
@@ -112,7 +112,7 @@ public class CreateBallot extends JPanel {
                     public void actionPerformed(ActionEvent event)
                     {
                         electionIndex = insertElections();
-                        Options.insertCandidates(candidates, electionIndex);
+                        Database.insertCandidates(candidates, electionIndex);
                     }
                 } // end anonymous inner class
         ); // end call to addActionListener
@@ -124,12 +124,12 @@ public class CreateBallot extends JPanel {
 
         add(positionJComboBox, BorderLayout.PAGE_START);
 
-        //add(Options.getLanguageComboBox(4),BorderLayout.PAGE_START); // change to 6
-        returnToHome = new JButton(returnHomeLang[Options.getLanguageIndex()]);
+        //add(GUIComponents.getLanguageComboBox(4),BorderLayout.PAGE_START); // change to 6
+        returnToHome = new JButton(returnHomeLang[GUIComponents.getLanguageIndex()]);
         returnToHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
                 //this needs to update the progress bar
             }
         });
@@ -143,7 +143,7 @@ public class CreateBallot extends JPanel {
 
     private int insertElections(){
         int county = 1;
-        int index = Options.insertElections(candidates, county);
+        int index = Database.insertElections(candidates, county);
         return index;
     }
 }

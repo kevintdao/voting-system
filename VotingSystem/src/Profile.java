@@ -46,14 +46,14 @@ public class Profile extends JPanel {
         setName("Profile");
         GridBagConstraints c = new GridBagConstraints();
 
-        Options.getDarkModeButton(1).addActionListener(e -> {
-            if(Options.getDarkMode()) {
-                Options.setDarkMode(false);
-                Options.changeMode(false);
+        GUIComponents.getDarkModeButton(1).addActionListener(e -> {
+            if(GUIComponents.getDarkMode()) {
+                GUIComponents.setDarkMode(false);
+                GUIComponents.changeMode(false);
             }
             else {
-                Options.setDarkMode(true);
-                Options.changeMode(true);
+                GUIComponents.setDarkMode(true);
+                GUIComponents.changeMode(true);
             }
             refreshPanel();
         });
@@ -64,17 +64,17 @@ public class Profile extends JPanel {
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.PAGE_START;
         c.weightx = 0.2;
-        add(Options.getDarkModeButton(1),c);
+        add(GUIComponents.getDarkModeButton(1),c);
 
 
         c.insets = new Insets(5,20,0,20);  // padding
         // language select component
-        Options.getLanguageComboBox(1).addActionListener(new ActionListener() {
+        GUIComponents.getLanguageComboBox(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox comboBox = (JComboBox) e.getSource();
                 int selected = comboBox.getSelectedIndex();
-                Options.setLanguageIndex(selected);
+                GUIComponents.setLanguageIndex(selected);
 
                 // set all labels to be the current selected language
                 firstNameLabel.setText(firstNameLang[selected]);
@@ -86,7 +86,7 @@ public class Profile extends JPanel {
                 birthdayLabel.setText(birthdayLang[selected]);
                 backButton.setText(backLang[selected]);
 
-                Options.changeLanguage();
+                GUIComponents.changeLanguage();
                 refreshPanel();
             }
         });
@@ -95,7 +95,7 @@ public class Profile extends JPanel {
         c.weightx = 0.2;
         c.ipady = 10;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        add(Options.getLanguageComboBox(1), c);
+        add(GUIComponents.getLanguageComboBox(1), c);
 
         c.gridx = 1;
         c.gridy = 0;
@@ -105,7 +105,7 @@ public class Profile extends JPanel {
         add(new JLabel(""), c);
 
         // username components
-        userNameLabel = new JLabel(usernameLang[Options.getLanguageIndex()]);
+        userNameLabel = new JLabel(usernameLang[GUIComponents.getLanguageIndex()]);
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -125,7 +125,7 @@ public class Profile extends JPanel {
         add(userName, c);
 
         // id components
-        idLabel = new JLabel(voterIDLang[Options.getLanguageIndex()]);
+        idLabel = new JLabel(voterIDLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
@@ -144,7 +144,7 @@ public class Profile extends JPanel {
         add(id, c);
 
         // first name components
-        firstNameLabel = new JLabel(firstNameLang[Options.getLanguageIndex()]);
+        firstNameLabel = new JLabel(firstNameLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 1;
@@ -163,7 +163,7 @@ public class Profile extends JPanel {
         add(firstName, c);
 
         // last name components
-        lastNameLabel = new JLabel(lastNameLang[Options.getLanguageIndex()]);
+        lastNameLabel = new JLabel(lastNameLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 4;
         c.gridwidth = 1;
@@ -182,7 +182,7 @@ public class Profile extends JPanel {
         add(lastName, c);
 
         // birthday components
-        birthdayLabel = new JLabel(birthdayLang[Options.getLanguageIndex()]);
+        birthdayLabel = new JLabel(birthdayLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 5;
         c.gridwidth = 1;
@@ -201,7 +201,7 @@ public class Profile extends JPanel {
         add(birthday, c);
 
         // county components
-        countyLabel = new JLabel(countyLang[Options.getLanguageIndex()]);
+        countyLabel = new JLabel(countyLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 6;
         c.gridwidth = 1;
@@ -220,7 +220,7 @@ public class Profile extends JPanel {
         add(county, c);
 
         // state components
-        stateLabel = new JLabel(stateLang[Options.getLanguageIndex()]);
+        stateLabel = new JLabel(stateLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 0;
         c.gridy = 7;
         c.gridwidth = 1;
@@ -239,16 +239,16 @@ public class Profile extends JPanel {
         add(state, c);
 
         // back button
-        backButton = new JButton(backLang[Options.getLanguageIndex()]);
+        backButton = new JButton(backLang[GUIComponents.getLanguageIndex()]);
         // change to home page
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(Options.checkAuditorStatus()){
-                    Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
+                if(Database.checkAuditorStatus()){
+                    GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
                 }
                 else {
-                    Options.getCardLayout().show(Options.getContentPanel(), "HOME");
+                    GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "HOME");
                 }
             }
         });

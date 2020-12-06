@@ -27,14 +27,14 @@ public class MediaPage extends JPanel
         setName("Media");
         GridBagConstraints c = new GridBagConstraints();
 
-        Options.getDarkModeButton(6).addActionListener(e -> {
-            if(Options.getDarkMode()) {
-                Options.setDarkMode(false);
-                Options.changeMode(false);
+        GUIComponents.getDarkModeButton(6).addActionListener(e -> {
+            if(GUIComponents.getDarkMode()) {
+                GUIComponents.setDarkMode(false);
+                GUIComponents.changeMode(false);
             }
             else {
-                Options.setDarkMode(true);
-                Options.changeMode(true);
+                GUIComponents.setDarkMode(true);
+                GUIComponents.changeMode(true);
             }
             refreshPanel();
         });
@@ -45,20 +45,20 @@ public class MediaPage extends JPanel
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.PAGE_START;
         c.weightx = 0.2;
-        add(Options.getDarkModeButton(6),c);
+        add(GUIComponents.getDarkModeButton(6),c);
 
-        Options.getLanguageComboBox(6).addActionListener(new ActionListener() {
+        GUIComponents.getLanguageComboBox(6).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox comboBox = (JComboBox) e.getSource();
                 int selected = comboBox.getSelectedIndex();
-                Options.setLanguageIndex(selected);
+                GUIComponents.setLanguageIndex(selected);
 
                 // change labels to selected language
                 resultsLabel.setText(resultsLang[selected]);
                 backButton.setText(backLang[selected]);
 
-                Options.changeLanguage();
+                GUIComponents.changeLanguage();
                 refreshPanel();
 
             }
@@ -70,12 +70,12 @@ public class MediaPage extends JPanel
         c.weightx = 0.2;
         c.insets = new Insets(10, 20, 0, 20);  // padding
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        add(Options.getLanguageComboBox(6), c);
+        add(GUIComponents.getLanguageComboBox(6), c);
 
         //graphsJComboBox = new JComboBox<String>(graphs); // set up JComboBox
         //graphsJComboBox.setMaximumRowCount(3); // display three rows
 
-        resultsLabel = new JLabel(resultsLang[Options.getLanguageIndex()]);
+        resultsLabel = new JLabel(resultsLang[GUIComponents.getLanguageIndex()]);
         resultsLabel.setFont(new Font("Arial", Font.BOLD, 20));
         c.gridx = 0;
         c.gridy = 0;
@@ -118,17 +118,17 @@ public class MediaPage extends JPanel
         add(textArea, c);
 
 
-        backButton = new JButton(backLang[Options.getLanguageIndex()]);
+        backButton = new JButton(backLang[GUIComponents.getLanguageIndex()]);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // check if the current user is an auditor
-                if(!Options.checkAuditorStatus()){
-                    JOptionPane.showMessageDialog(Options.getContentPanel(), "You're not an Auditor","Invalid Permission!", JOptionPane.ERROR_MESSAGE);
+                if(!Database.checkAuditorStatus()){
+                    JOptionPane.showMessageDialog(GUIComponents.getContentPanel(), "You're not an Auditor","Invalid Permission!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                Options.getCardLayout().show(Options.getContentPanel(), "AUDITOR");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
                 System.out.println("Auditor page");
             }
         });
@@ -140,12 +140,12 @@ public class MediaPage extends JPanel
         add(backButton, c);
 
 
-        updateButton = new JButton(updateLang[Options.getLanguageIndex()]);
+        updateButton = new JButton(updateLang[GUIComponents.getLanguageIndex()]);
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //update()
-                Options.getResult();
+                Database.getResult();
             }
         });
         c.gridx = 1;
@@ -153,7 +153,7 @@ public class MediaPage extends JPanel
         c.gridwidth = 1;
         add(updateButton, c);
 
-        logOutButton = new JButton(logOutLang[Options.getLanguageIndex()]);
+        logOutButton = new JButton(logOutLang[GUIComponents.getLanguageIndex()]);
         c.gridx = 2;
         c.gridy = 5;
         c.ipady = 10;
@@ -162,8 +162,8 @@ public class MediaPage extends JPanel
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
-                Options.clearAllInputs();
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "LANDING");
+                GUIComponents.clearAllInputs();
             }
         });
 

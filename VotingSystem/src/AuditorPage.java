@@ -24,14 +24,14 @@ public class AuditorPage extends JPanel {
         setName("Auditor");
         GridBagConstraints c = new GridBagConstraints();
 
-        Options.getDarkModeButton(5).addActionListener(e -> {
-            if(Options.getDarkMode()) {
-                Options.setDarkMode(false);
-                Options.changeMode(false);
+        GUIComponents.getDarkModeButton(5).addActionListener(e -> {
+            if(GUIComponents.getDarkMode()) {
+                GUIComponents.setDarkMode(false);
+                GUIComponents.changeMode(false);
             }
             else {
-                Options.setDarkMode(true);
-                Options.changeMode(true);
+                GUIComponents.setDarkMode(true);
+                GUIComponents.changeMode(true);
             }
             refreshPanel();
         });
@@ -42,18 +42,18 @@ public class AuditorPage extends JPanel {
         c.gridwidth = 1;
         c.anchor = GridBagConstraints.PAGE_START;
         c.weightx = 0.2;
-        add(Options.getDarkModeButton(5),c);
+        add(GUIComponents.getDarkModeButton(5),c);
 
         c.insets = new Insets(10, 20, 0, 20);  // padding
 
         // language select component
         languagesJComboBox = new JComboBox<>(languages);
-        Options.getLanguageComboBox(5).addActionListener(new ActionListener() {
+        GUIComponents.getLanguageComboBox(5).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox comboBox = (JComboBox) e.getSource();
                 int selected = comboBox.getSelectedIndex();
-                Options.setLanguageIndex(selected);
+                GUIComponents.setLanguageIndex(selected);
 
                 // change labels to selected language
                 auditorLabel.setText(auditorLang[selected]);
@@ -62,7 +62,7 @@ public class AuditorPage extends JPanel {
                 createBallotButton.setText(createBallotLang[selected]);
                 profileButton.setText(profileLang[selected]);
 
-                Options.changeLanguage();
+                GUIComponents.changeLanguage();
                 refreshPanel();
             }
         });
@@ -72,10 +72,10 @@ public class AuditorPage extends JPanel {
         c.ipady = 10;
         c.weightx = 0.2;
         c.insets = new Insets(10, 10, 100, 20);  // padding
-        add(Options.getLanguageComboBox(5), c);
+        add(GUIComponents.getLanguageComboBox(5), c);
 
         // welcome components
-        auditorLabel = new JLabel(auditorLang[Options.getLanguageIndex()]);
+        auditorLabel = new JLabel(auditorLang[GUIComponents.getLanguageIndex()]);
         auditorLabel.setFont(new Font("Arial", Font.BOLD, 20));
         c.gridx = 0;
         c.gridy = 0;
@@ -92,8 +92,8 @@ public class AuditorPage extends JPanel {
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Options.getCardLayout().show(Options.getContentPanel(), "PROFILE");
-                Options.updateProfilePage();
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "PROFILE");
+                GUIComponents.updateProfilePage();
             }
         });
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -111,7 +111,7 @@ public class AuditorPage extends JPanel {
         createBallotButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "CREATEBALLOT");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "CREATEBALLOT");
                 System.out.println("create ballot");
             }
         });
@@ -130,7 +130,7 @@ public class AuditorPage extends JPanel {
         viewResultsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "MEDIA");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "MEDIA");
                 System.out.println("Media Page");
             }
         });
@@ -144,9 +144,9 @@ public class AuditorPage extends JPanel {
         returnToHomeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
+                GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "LANDING");
                 System.out.println("Landing");
-                Options.clearAllInputs();
+                GUIComponents.clearAllInputs();
             }
         });
     }
