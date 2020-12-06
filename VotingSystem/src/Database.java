@@ -410,6 +410,24 @@ public class Database {
         }
         return electionIndex;
     }
+    public static boolean checkUniqueCountyID(int id){
+        boolean unique = false;
+
+        ArrayList<String> output =  new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+
+            ResultSet result = statement.executeQuery("SELECT countyID FROM election WHERE countyID = "+id+";");
+
+            if(!result.next()){
+                unique = true;
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return unique;
+    }
 
     /*  status:
         NULL = not started

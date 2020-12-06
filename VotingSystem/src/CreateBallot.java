@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CreateBallot extends JPanel {
     //TODO: language functionality
@@ -95,6 +96,7 @@ public class CreateBallot extends JPanel {
                             }
                         }
                         System.out.println(Database.getUserInfo().get(7));
+                        System.out.println(Database.checkUniqueCountyID(Integer.parseInt(Database.getUserInfo().get(7))));
                     }
                 } // end anonymous inner class
         ); // end call to addActionListener
@@ -112,8 +114,18 @@ public class CreateBallot extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent event)
                     {
-                        electionIndex = insertElections();
-                        Database.insertCandidates(candidates, electionIndex);
+                        if(Database.checkUniqueCountyID(Integer.parseInt(Database.getUserInfo().get(7)))){ //if no election for that county
+                            electionIndex = insertElections(); //insert into election table
+                            Database.insertCandidates(candidates, electionIndex); //insert into candidates table
+                        }
+                        else{
+                            enterCandidateArea.setText("Ballot already created for " + Database.getUserInfo().get(5) + " county");
+                        }
+                        for(Map.Entry<String,ArrayList<String>> e : candidates.entrySet()){ //clear ballot creation
+                            e.setValue(null );
+                            e.setValue(new ArrayList<String>() );
+                        }
+                        showCandidatesArea.setText("");
                     }
                 } // end anonymous inner class
         ); // end call to addActionListener
