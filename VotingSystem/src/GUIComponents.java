@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * Implements functionality for dark mode, language selection, profile updating,
  * and constructing voting ballots. Contains Swing components to be use globally in other JPanel or JFrame
+ * @author Kevin Dao, Cole Garton, Timothy Evans
  * @version 1.0.0, Dec 6 2020
  */
 public class GUIComponents {
