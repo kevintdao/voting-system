@@ -158,7 +158,7 @@ public class CreateBallot extends JPanel {
 
         submitButton = new JButton("Confirm Ballots");
         submitButton.addActionListener(
-                new ActionListener() // anonymous inner class
+                new ActionListener()
                 {
                     // append text from enterCandidatesArea to showCandidatesArea
                     @Override

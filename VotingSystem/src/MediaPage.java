@@ -15,7 +15,6 @@ import javax.swing.*;
  */
 public class MediaPage extends JPanel
 {
-    private String[] candidatePositions = {"President", "Representative", "Congress", "Governor", "Mayor", "Sheriff"};
     private final JLabel resultsLabel;
     private final JButton backButton;
     private final JButton updateButton;
@@ -80,8 +79,6 @@ public class MediaPage extends JPanel
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(GUIComponents.getLanguageComboBox(6), c);
 
-        //graphsJComboBox = new JComboBox<String>(graphs); // set up JComboBox
-        //graphsJComboBox.setMaximumRowCount(3); // display three rows
 
         resultsLabel = new JLabel(resultsLang[GUIComponents.getLanguageIndex()]);
         resultsLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -144,7 +141,7 @@ public class MediaPage extends JPanel
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //update()
+                // get the result from the auditor's county
                 Database.getResult();
             }
         });

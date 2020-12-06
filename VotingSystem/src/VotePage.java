@@ -141,6 +141,7 @@ public class VotePage extends JPanel {
         repaint();
     }
 
+    // get the list of name of the selected radio buttons
     private ArrayList<String> getSelectedButtons(){
         ArrayList<String> selected = new ArrayList<>();
         for(int i = 0; i < GUIComponents.getTabArray().size(); i++){

@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * Extends JPanel to create a GUI page for displaying user profile information
@@ -250,6 +249,7 @@ public class Profile extends JPanel {// get data from data and display the info
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                // move to correct home page based on status
                 if(Database.checkAuditorStatus()){
                     GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
                 }

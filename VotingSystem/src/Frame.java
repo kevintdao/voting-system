@@ -29,7 +29,6 @@ public class Frame extends JFrame {
                 }
             }
         } catch (Exception f) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
         }
 
         GUIComponents.setUpComboBox();
@@ -59,12 +58,9 @@ public class Frame extends JFrame {
         setContentPane(GUIComponents.getContentPanel());
 
         GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "LANDING");
-
-//        Database.createUsersTable();
-//        GUIComponents.createElectionsTable();
     }
 
-
+    // update the theme based on whether dark mode is selected or not
     public static void updateTheme() {
         // dark mode
         if(GUIComponents.getDarkMode()) {
