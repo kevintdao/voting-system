@@ -14,7 +14,7 @@ public class GUIComponents {
     private static CardLayout cardLayout = new CardLayout();
     private static JPanel contentPanel = new JPanel();
 
-    private static final int NUM_OF_PANELS = 7;
+    private static final int NUM_OF_PANELS = 8;
 
     /*
         Index of combo box and dark mode button in each page
@@ -25,6 +25,7 @@ public class GUIComponents {
         4 = vote page
         5 = auditor page
         6 = media page
+        7 = create ballot page
     */
     private static JComboBox[] languageComboArray = new JComboBox[NUM_OF_PANELS];
     private static JToggleButton[] darkModeButtonArray = new JToggleButton[NUM_OF_PANELS];
@@ -83,7 +84,7 @@ public class GUIComponents {
 
 
     public static void setUpDarkModeButton(){
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < NUM_OF_PANELS; i++){
             darkModeButtonArray[i] = new JToggleButton("Light Mode");
             darkModeButtonArray[i].setSelected(false);
         }
@@ -95,13 +96,13 @@ public class GUIComponents {
 
     public static void changeMode(boolean value){
         if (value) {
-            for(int i = 0; i < 7; i++){
+            for(int i = 0; i < NUM_OF_PANELS; i++){
                 darkModeButtonArray[i].setText("Dark Mode");
                 darkModeButtonArray[i].setSelected(true);
             }
         }
         else{
-            for(int i = 0; i < 7; i++){
+            for(int i = 0; i < NUM_OF_PANELS; i++){
                 darkModeButtonArray[i].setText("Light Mode");
                 darkModeButtonArray[i].setSelected(false);
             }
@@ -140,13 +141,13 @@ public class GUIComponents {
     }
 
     public static void setUpComboBox(){
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < NUM_OF_PANELS; i++){
             languageComboArray[i] = new JComboBox<String>(languages);
         }
     }
 
     public static void changeLanguage(){
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < NUM_OF_PANELS; i++){
             languageComboArray[i].setSelectedIndex(languageIndex);
         }
     }
