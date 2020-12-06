@@ -33,6 +33,27 @@ public class Options {
     */
     private static JComboBox[] languageComboArray = new JComboBox[NUM_OF_PANELS];
     private static JToggleButton[] darkModeButtonArray = new JToggleButton[NUM_OF_PANELS];
+    private static JTabbedPane tabs = new JTabbedPane();
+    private static ArrayList<VoteTab> tabArray = new ArrayList<>();
+
+    public static JTabbedPane getTabs(){
+        return tabs;
+    }
+
+    public static void setUpTab(){
+        for(int i = 0; i < Options.getElectionAmount(); i++){
+            String title = "from database";
+            tabArray.add(new VoteTab(5)); // replace with getCandiateAmount
+            tabs.addTab(title, tabArray.get(i));
+        }
+    }
+
+    public static void removeAllTabs(){
+        while(tabs.getTabCount() != 0){
+            tabs.remove(0);
+        }
+    }
+
 
     public static void setUpDarkModeButton(){
         for(int i = 0; i < 7; i++){
@@ -124,28 +145,51 @@ public class Options {
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS usertable(voterid int NOT NULL AUTO_INCREMENT, " +
-                                        "username varchar(255)," +
-                                        "password varchar(255)," +
-                                        "firstname varchar(255)," +
-                                        "lastname varchar(255)," +
-                                        "dob date," +
-                                        "county varchar(255)," +
-                                        "state varchar(255)," +
-                                        "ballotprogress varchar(255)," +
-                                        "media bit NOT NULL DEFAULT 0," +
-                                        "auditor bit NOT NULL DEFAULT 0," +
-                                        "voter bit NOT NULL DEFAULT 1," +
-                                        "countyID int NOT NULL DEFAULT 0," +
-                                        "KEY(voterid))");
+//            statement.executeUpdate("CREATE TABLE IF NOT EXISTS usertable2(" +
+//                    "voterID INT NOT NULL AUTO_INCREMENT, " +
+//                    "username varchar(255)," +
+//                    "password varchar(255)," +
+//                    "firstname varchar(255)," +
+//                    "lastname varchar(255)," +
+//                    "dob date," +
+//                    "county varchar(255)," +
+//                    "state varchar(255)," +
+//                    "ballotprogress varchar(255)," +
+//                    "media bit NOT NULL DEFAULT 0," +
+//                    "auditor bit NOT NULL DEFAULT 0," +
+//                    "voter bit NOT NULL DEFAULT 1," +
+//                    "countyID int NOT NULL DEFAULT 0," +
+//                    "PRIMARY KEY(voterID));" +
+//
+//                    "CREATE TABLE IF NOT EXISTS counties(" +
+//                    "countyID INT NOT NULL AUTO_INCREMENT," +
+//                    "county varchar(255)," +
+//                    "PRIMARY KEY (countyID));" +
+//
+//                    "CREATE TABLE IF NOT EXISTS election(" +
+//                    "electionID INT NOT NULL AUTO_INCREMENT," +
+//                    "electionName varchar(255)," +
+//                    "countyID int NOT NULL DEFAULT 0," +
+//                    "FOREIGN KEY (countyID) REFERENCES counties (countyID)," +
+//                    "PRIMARY KEY (electionID));" +
+//
+//                    "CREATE TABLE IF NOT EXISTS candidates(" +
+//                    "candidateID int NOT NULL AUTO_INCREMENT," +
+//                    "candidateName varchar(255)," +
+//                    "electionID int NOT NULL," +
+//                    "FOREIGN KEY (electionID) REFERENCES election (electionID));" +
+//
+//                    "CREATE TABLE IF NOT EXISTS votes(" +
+//                    "voteID int NOT NULL AUTO_INCREMENT," +
+//                    "voterID int NOT NULL," +
+//                    "forCandidateID int NOT NULL DEFAULT 0," +
+//                    "electionID int NOT NULL DEFAULT 0," +
+//                    "FOREIGN KEY (electionID) REFERENCES elections (electionID)," +
+//                    "FOREIGN KEY (forCandidateID) REFERENCES candidates (candidateID)," +
+//                    "FOREIGN KEY (voterID) REFERENCES usertable2 (voterid)," +
+//                    "PRIMARY KEY(voteID));");
 
-//            statement.executeUpdate("CREATE TABLE IF NOT EXISTS election," +
-//                                        "(electionID int NOT NULL AUTO_INCREMENT," +
-//                                        "electionName varchar(255)," +
-//                                        "countyID int," +
-//                                        "PRIMARY KEY (electionID)," +
-//                                        "FOREIGN KEY (countyID) REFERENCES usertable(countyID))");
-            
+
             System.out.println("Created table");
             connection.close();
 
@@ -173,6 +217,13 @@ public class Options {
                 sqlString += "0, 0, 1)";
             }
 
+            statement.executeUpdate(sqlString);
+
+            sqlString = "UPDATE" +
+                    "    usertable UT," +
+                    "    counties CT" +
+                    "SET UT.countyID = CT.countyID" +
+                    "WHERE UT.county = CT.county";
             statement.executeUpdate(sqlString);
 
             connection.close();
@@ -340,61 +391,56 @@ public class Options {
             }
         });
     }
-    public static void insertCandidates(HashMap<String, ArrayList<String>> ballot, int[] electionIDs){
-        try{
+
+    // get the election result from the database
+    public static void getResult(){
+        try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            String sqlString = "";
-            int electionIndex;
 
-            ResultSet result = statement.executeQuery("SELECT AUTO_INCREMENT" +
-                    " FROM information_schema.TABLES" +
-                    " WHERE TABLE_SCHEMA = 'engr_class025'" +
-                    " AND TABLE_NAME = 'election'");
+            ResultSet result;
+            int countyID = 0;
+            ArrayList<Integer> electionIDs = new ArrayList<>();
 
-            electionIndex = result.getInt("electionID");
-
-//            electionIDs = new int[6];
-//            int i = 0;
-//            for(String pos : ballot.keySet()){
-//                if(ballot.get(pos).size() > 0) {
-//                    electionIDs[i] = electionIndex;
-//                    electionIndex++;
-//                }
-//                i++;
-//            }
-
-//            int electionIDIndex = 0;
-            for(String pos : ballot.keySet()){
-                for(int i = 0; i < ballot.get(pos).size(); i++){
-                    if(ballot.get(pos).size() > 0){
-                        sqlString = "INSERT INTO candidates (candidateName, electionID) " +
-                                "VALUES ('"+ ballot.get(pos).get(i) + "', "+ electionIndex + ");";
-                        System.out.println(sqlString);
-                        statement.executeUpdate(sqlString);
-                        electionIndex++;
-                    }
-                }
-
+            // get the countyID
+            result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
+            while(result.next()){
+               countyID = result.getInt("countyID");
             }
+
+            // get all the elections ids from that county id
+            result = statement.executeQuery("SELECT * FROM election WHERE countyID='"+countyID+"'");
+            while(result.next()){
+               electionIDs.add(result.getInt("electionID"));
+            }
+
+            // count up the vote
 
             connection.close();
         } catch (SQLException e){
             e.printStackTrace();
         }
     }
-    public static void insertElections(HashMap<String, ArrayList<String>> ballot, int county){
-        try{
+
+    // get the amount of elections in the specific county id
+    public static int getElectionAmount(){
+        int numberOfElections = 0;
+        try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            for(String pos : ballot.keySet()){
-                if(ballot.get(pos).size() > 0){
-                    String sqlString = "INSERT INTO election (electionName, countyID) " +
-                            "VALUES ('"+ pos + "', "+ county + ");";
 
-                    statement.executeUpdate(sqlString);
-                }
+            int countyID = 0;
 
+            ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
+
+            while(result.next()){
+                countyID = result.getInt("countyID");
+            }
+
+            result = statement.executeQuery("SELECT COUNT(electionid) AS electioncount FROM election WHERE countyID='"+countyID+"'");
+
+            while(result.next()){
+                numberOfElections = result.getInt("electioncount");
             }
 
 
@@ -402,5 +448,134 @@ public class Options {
         } catch (SQLException e){
             e.printStackTrace();
         }
+        return numberOfElections;
+    }
+
+    // submit the user's votes
+    public static void submitVote() {
+        ArrayList<Integer> userVotes = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            int countyID = 0;
+            ArrayList<Integer> electionIDs = new ArrayList<>();
+
+            ResultSet result = statement.executeQuery("SELECT countyID FROM usertable WHERE username='"+currentUser+"'");
+
+//            // get the county id
+//            while(result.next()){
+//                countyID = result.getInt("countyID");
+//            }
+//
+//            result = statement.executeQuery("SELECT eletionID FROM election WHERE countyID='"+countyID+"'");
+//
+//            // get the election ids
+//            while(result.next()){
+//                electionIDs.add(result.getInt("electionID"));
+//            }
+//
+//            connection.close();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Integer> getCandidateAmount(){
+        ArrayList<Integer> output =  new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            int countyID = 0;
+            int electionID = 0;
+
+            ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
+
+            while(result.next()){
+                countyID = result.getInt("countyID");
+            }
+
+            result = statement.executeQuery("SELECT electionID FROM election WHERE countyID='"+countyID+"'");
+
+            while(result.next()){
+                electionID = result.getInt("electionID");
+            }
+
+            result = statement.executeQuery("SELECT COUNT(candidateName) AS electioncount FROM candidates WHERE electionID='"+electionID+"'");
+
+            while(result.next()){
+                output.add(result.getInt("electioncount"));
+            }
+
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    public static ArrayList<String> getElectionNames(){
+        ArrayList<String> output =  new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            int countyID = 0;
+            int electionID = 0;
+
+            ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
+
+            while(result.next()){
+                countyID = result.getInt("countyID");
+            }
+
+            result = statement.executeQuery("SELECT electionName FROM election WHERE countyID='"+countyID+"'");
+
+            while(result.next()){
+                output.add(result.getString("electionName"));
+            }
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    public static ArrayList<String> getCandidateNames(){
+        ArrayList<String> output =  new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            int countyID = 0;
+            int electionID = 0;
+
+            ResultSet result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
+
+            while(result.next()){
+                countyID = result.getInt("countyID");
+            }
+
+            result = statement.executeQuery("SELECT electionID FROM election WHERE countyID='"+countyID+"'");
+
+            while(result.next()){
+                electionID = result.getInt("electionID");
+            }
+
+            result = statement.executeQuery("SELECT(candidateName) FROM candidates WHERE electionID='"+electionID+"'");
+
+            while(result.next()){
+                output.add(result.getString("candidateName"));
+            }
+
+
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return output;
     }
 }

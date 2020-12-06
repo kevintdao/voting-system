@@ -135,6 +135,7 @@ public class Home extends JPanel {
         voteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Options.setUpTab();
                 Options.getCardLayout().show(Options.getContentPanel(), "VOTE");
             }
         });
@@ -150,6 +151,7 @@ public class Home extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Options.getCardLayout().show(Options.getContentPanel(), "LANDING");
                 Options.clearAllInputs();
+                Options.removeAllTabs();
             }
         });
     }

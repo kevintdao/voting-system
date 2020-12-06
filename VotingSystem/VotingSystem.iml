@@ -7,6 +7,7 @@
     </content>
     <orderEntry type="jdk" jdkName="14-ea" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="mysql-connector-java-5.1" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -14,6 +15,18 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../mysql-connector-java-5.1.18" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../../../mysql-connector-java-5.1.18/src" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../../../mysql-connector-java-5.1.18" recursive="false" />
       </library>
     </orderEntry>
   </component>

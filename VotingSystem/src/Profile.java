@@ -61,7 +61,7 @@ public class Profile extends JPanel {
         c.gridx = 0;
         c.gridy = 0;
         c.ipady = 10;
-        c.gridwidth = 2;
+        c.gridwidth = 1;
         c.anchor = GridBagConstraints.PAGE_START;
         c.weightx = 0.2;
         add(Options.getDarkModeButton(1),c);
@@ -96,6 +96,13 @@ public class Profile extends JPanel {
         c.ipady = 10;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(Options.getLanguageComboBox(1), c);
+
+        c.gridx = 1;
+        c.gridy = 0;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        c.anchor = GridBagConstraints.PAGE_START;
+        add(new JLabel(""), c);
 
         // username components
         userNameLabel = new JLabel(usernameLang[Options.getLanguageIndex()]);
