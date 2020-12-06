@@ -312,6 +312,7 @@ public class Registration extends JPanel {
                 // set the current user to be username
                 Database.setCurrentUser(username);
 
+                // check for account type
                 if(username.contains("auditor:")){
                     GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
                 }

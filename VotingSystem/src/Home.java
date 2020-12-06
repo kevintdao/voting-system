@@ -141,6 +141,7 @@ public class Home extends JPanel {
         voteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // set up the voting tabs
                 GUIComponents.setUpTab();
 
                 String currentVotingStatus = Database.getVotingStatus();
@@ -154,8 +155,8 @@ public class Home extends JPanel {
                     return;
                 }
 
+                // change progress bar and move to vote page
                 GUIComponents.getProgressBar().setString(currentVotingStatus);
-
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "VOTE");
             }
         });
@@ -169,7 +170,7 @@ public class Home extends JPanel {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                // move to landing page and remove the voting tabs, clear all inputs
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "LANDING");
                 GUIComponents.clearAllInputs();
                 GUIComponents.emptyTabArray();

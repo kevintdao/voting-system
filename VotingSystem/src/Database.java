@@ -21,6 +21,7 @@ public class Database {
         currentUser = username;
     }
 
+    // get connection to sql server
     public static Connection getConnection(){
         Connection connection;
         try {
@@ -107,6 +108,7 @@ public class Database {
         return false;
     }
 
+    // return the user's info from the usertable in the database
     public static ArrayList<String> getUserInfo(){
         ArrayList<String> output = new ArrayList<>();
         try{
@@ -273,6 +275,7 @@ public class Database {
         }
     }
 
+    // get the number of candidate in the user's county
     public static ArrayList<Integer> getCandidateAmount(){
         ArrayList<Integer> output =  new ArrayList<>();
         try {
@@ -307,6 +310,7 @@ public class Database {
         return output;
     }
 
+    // get the list of election names from the user's county
     public static ArrayList<String> getElectionNames(){
         ArrayList<String> output =  new ArrayList<>();
         try {
@@ -333,6 +337,7 @@ public class Database {
         return output;
     }
 
+    // get the list of candidate names from the electionid
     public static ArrayList<String> getCandidateNames(int electionID){
         ArrayList<String> output =  new ArrayList<>();
         try {
@@ -351,6 +356,7 @@ public class Database {
         return output;
     }
 
+    // get the list of electionid based on the user's county
     public static ArrayList<Integer> getElectionIDs(){
         ArrayList<Integer> output =  new ArrayList<>();
         try {
@@ -377,6 +383,7 @@ public class Database {
         return output;
     }
 
+    // inserting the candidates into database
     public static void insertCandidates(HashMap<String, ArrayList<String>> ballot, int electionIndex){
         try{
             Connection connection = getConnection();
@@ -405,6 +412,7 @@ public class Database {
         }
     }
 
+    // inserting the election into county
     public static int insertElections(HashMap<String, ArrayList<String>> ballot, int county){
         int electionIndex = 0;
         try{
@@ -435,6 +443,7 @@ public class Database {
         return electionIndex;
     }
 
+    // check for unique county id in election database
     public static boolean checkUniqueCountyID(int id){
         boolean unique = false;
 
@@ -455,6 +464,7 @@ public class Database {
         return unique;
     }
 
+    // update the voting status of the voter
     /*  status:
         NOT STARTED = not started
         IN PROGRESS = in progress
@@ -472,6 +482,7 @@ public class Database {
         }
     }
 
+    // get the voting status of the voter
     public static String getVotingStatus(){
         String output = "";
         try {
@@ -490,6 +501,7 @@ public class Database {
         return output;
     }
 
+    // get the candidate's name based on the candidateid in candidates table
     public static String getCandidateName(int candidateID){
         String output = "";
         try {

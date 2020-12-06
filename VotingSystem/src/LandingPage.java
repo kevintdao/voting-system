@@ -137,6 +137,7 @@ public class LandingPage extends JPanel {
                     return;
                 }
 
+                // move to correct page based on the login
                 if(username.contains("auditor:")){
                     GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "AUDITOR");
                 }
@@ -144,6 +145,7 @@ public class LandingPage extends JPanel {
                     GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "MEDIA");
                 }
                 else{
+                    // set progress bar
                     if(Database.getVotingStatus() == null) {
                         GUIComponents.getProgressBar().setString("NOT STARTED");
                     }

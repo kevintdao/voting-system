@@ -98,7 +98,6 @@ public class VotePage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIComponents.getCardLayout().show(GUIComponents.getContentPanel(), "HOME");
-                //this needs to update the progress bar
             }
         });
         c.gridx = 0;
@@ -143,6 +142,7 @@ public class VotePage extends JPanel {
         repaint();
     }
 
+    // get the list of name of the selected radio buttons
     private ArrayList<String> getSelectedButtons(){
         ArrayList<String> selected = new ArrayList<>();
         for(int i = 0; i < GUIComponents.getTabArray().size(); i++){
