@@ -177,7 +177,7 @@ public class Database {
                         count++;
                     }
 
-                    GUIComponents.getTextArea().append(candidateName + " - " + count + " votes " + "\n");
+                    GUIComponents.getTextArea().append(candidateName + " - " + count + " vote(s) " + "\n");
                 }
                 GUIComponents.getTextArea().append("\n");
             }

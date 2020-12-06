@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateBallot extends JPanel {
-    //TODO: language functionality
     private String[] returnHomeLang = {"Return to Home", "Vuelve a casa", "Retourner à la maison"};
+    private String[] addLang = {"Add >>>", "Agregar >>>", "Ajouter >>>"};
+    private String[] confirmLang = {"Confirm Ballots", "Confirmar papeletas", "Confirmer les bulletins de vote"};
     private String[] candidatePositions = {"President", "Representative", "Congress", "Governor", "Mayor", "Sheriff"};
     JButton returnToHome;
     private JTextArea enterCandidateArea;
@@ -18,16 +19,59 @@ public class CreateBallot extends JPanel {
     private JButton submitButton;
     private HashMap<String, ArrayList<String>> candidates;
     private int electionIndex;
-    private int[] electionIDs;
 
 
     //this needs to have a numher passed in and then make as many pages as necessary
     public CreateBallot() {
-        setLayout(new BorderLayout());
-        setName("Vote");
+        setLayout(new GridBagLayout());
+        setName("CreateBallot");
+        GridBagConstraints c = new GridBagConstraints();
+
+        GUIComponents.getDarkModeButton(7).addActionListener(e -> {
+            if(GUIComponents.getDarkMode()) {
+                GUIComponents.setDarkMode(false);
+                GUIComponents.changeMode(false);
+            }
+            else {
+                GUIComponents.setDarkMode(true);
+                GUIComponents.changeMode(true);
+            }
+            refreshPanel();
+        });
+        c.insets = new Insets(10,20,0,20);  // padding
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        add(GUIComponents.getDarkModeButton(7), c);
+
+        GUIComponents.getLanguageComboBox(7).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JComboBox comboBox = (JComboBox) event.getSource();
+                int selected = comboBox.getSelectedIndex();
+                GUIComponents.setLanguageIndex(selected);
+
+                returnToHome.setText(returnHomeLang[selected]);
+                addButton.setText(addLang[selected]);
+                submitButton.setText(confirmLang[selected]);
+                GUIComponents.changeLanguage();
+                refreshPanel();
+            }
+        });
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.weightx = 0.2;
+        c.insets = new Insets(10,20,0,20);  // padding
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        add(GUIComponents.getLanguageComboBox(7), c);
 
         candidates = new HashMap<>(); //key: position, value: array of candidates running for position
 
+        c.fill = GridBagConstraints.HORIZONTAL;
         positionJComboBox = new JComboBox(candidatePositions);
         positionJComboBox.addActionListener(new ActionListener() {
             @Override
@@ -52,20 +96,14 @@ public class CreateBallot extends JPanel {
             ArrayList<String> a = new ArrayList<>();
             candidates.put(positionJComboBox.getItemAt(i), a);
         }
+        c.insets = new Insets(10,20,0,20);  // padding
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        add(positionJComboBox, c);
 
-
-        GUIComponents.getLanguageComboBox(5).addActionListener(new ActionListener() { //TODO: change to 6
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                JComboBox comboBox = (JComboBox) event.getSource();
-                int selected = comboBox.getSelectedIndex();
-                GUIComponents.setLanguageIndex(selected);
-
-                returnToHome.setText(returnHomeLang[selected]);
-                GUIComponents.changeLanguage();
-                refreshPanel();
-            }
-        });
 
         //From fig26_47_48
         Box box = Box.createHorizontalBox(); // create box
@@ -105,8 +143,16 @@ public class CreateBallot extends JPanel {
         showCandidatesArea.setEditable(false);
         box.add(new JScrollPane(showCandidatesArea)); // add scrollpane
 
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 3;
+        c.ipady = 30;
+        c.weightx = 0.2;
+        c.insets = new Insets(10,10,0,10);  // padding
+        c.anchor = GridBagConstraints.CENTER;
+        add(box, c);
+
         submitButton = new JButton("Confirm Ballots");
-        box.add(submitButton); // add copy button to box
         submitButton.addActionListener(
                 new ActionListener() // anonymous inner class
                 {
@@ -130,14 +176,15 @@ public class CreateBallot extends JPanel {
                 } // end anonymous inner class
         ); // end call to addActionListener
 
-        add(box); // add box to frame
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridwidth = 3;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        c.insets = new Insets(40,20,0,20);  // padding
+        add(submitButton, c);
 
 
-
-
-        add(positionJComboBox, BorderLayout.PAGE_START);
-
-        //add(GUIComponents.getLanguageComboBox(4),BorderLayout.PAGE_START); // change to 6
         returnToHome = new JButton(returnHomeLang[GUIComponents.getLanguageIndex()]);
         returnToHome.addActionListener(new ActionListener() {
             @Override
@@ -146,7 +193,13 @@ public class CreateBallot extends JPanel {
                 //this needs to update the progress bar
             }
         });
-        add(returnToHome, BorderLayout.PAGE_END);
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 3;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        add(returnToHome, c);
+
     }
 
     private void refreshPanel(){
