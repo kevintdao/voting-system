@@ -26,6 +26,11 @@ public class GUIComponents {
     private static JTabbedPane tabs = new JTabbedPane();
     private static ArrayList<VoteTab> tabArray = new ArrayList<>();
     private static JProgressBar progressBar = new JProgressBar();
+    private static JTextArea textArea = new JTextArea();
+
+    public static JTextArea getTextArea(){
+        return textArea;
+    }
 
     public static JProgressBar getProgressBar(){
         return progressBar;

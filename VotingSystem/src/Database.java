@@ -136,12 +136,15 @@ public class Database {
 
     // get the election result from the database
     public static void getResult(){
+        GUIComponents.getTextArea().setText("");
         try {
             Statement statement = connection.createStatement();
+            Statement statement1 = connection.createStatement();
 
             ResultSet result;
             int countyID = 0;
             ArrayList<Integer> electionIDs = new ArrayList<>();
+            ArrayList<String> electionNames = new ArrayList<>();
 
             // get the countyID
             result = statement.executeQuery("SELECT username, countyID FROM usertable WHERE username='"+currentUser+"'");
@@ -153,9 +156,31 @@ public class Database {
             result = statement.executeQuery("SELECT * FROM election WHERE countyID='"+countyID+"'");
             while(result.next()){
                 electionIDs.add(result.getInt("electionID"));
+                electionNames.add(result.getString("electionName"));
             }
 
             // count up the vote
+            String candidateName = "";
+            for(int i = 0; i < electionIDs.size(); i++) {
+                GUIComponents.getTextArea().append(electionNames.get(i) + "\n");
+
+                result = statement.executeQuery("SELECT DISTINCT forCandidateID FROM votes WHERE electionID='"+electionIDs.get(i)+"'");
+                while (result.next()) {
+                    int currentCandidateID = result.getInt("forCandidateID");
+                    candidateName = Database.getCandidateName(currentCandidateID);
+
+                    ResultSet result1 = statement1.executeQuery("SELECT forCandidateID FROM votes WHERE forCandidateID='"+currentCandidateID+"'");
+
+                    // get the number of vote for the current candidate id
+                    int count = 0;
+                    while(result1.next()){
+                        count++;
+                    }
+
+                    GUIComponents.getTextArea().append(candidateName + " - " + count + " votes " + "\n");
+                }
+                GUIComponents.getTextArea().append("\n");
+            }
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -416,6 +441,20 @@ public class Database {
             e.printStackTrace();
         }
 
+        return output;
+    }
+
+    public static String getCandidateName(int candidateID){
+        String output = "";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT candidateName FROM candidates WHERE candidateID='"+candidateID+"'");
+            while(result.next()){
+                output = result.getString("candidateName");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
         return output;
     }
 }

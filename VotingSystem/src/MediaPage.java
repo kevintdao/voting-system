@@ -14,7 +14,6 @@ public class MediaPage extends JPanel
     private final JButton backButton;
     private final JButton updateButton;
     private JButton logOutButton;
-    private JTextArea textArea;
 
     //private static final String[] graphs = {"Numerical Results", "Bar Graph", "Pie Chart"};
     private String[] resultsLang = {"Results", "Resultados", "Résultats"};
@@ -104,10 +103,10 @@ public class MediaPage extends JPanel
         c.weightx = 0.2;
         add(positionJComboBox, c);
 
-        textArea = new JTextArea();
         String contents = "RESULTS\n Position: \n Candidate: <name> <numvotes>";
-        textArea.setRows(10);
-        textArea.setText(contents);
+        GUIComponents.getTextArea().setRows(10);
+        GUIComponents.getTextArea().setText(contents);
+        GUIComponents.getTextArea().setEditable(false);
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 3;
@@ -115,7 +114,7 @@ public class MediaPage extends JPanel
         c.ipadx = 10;
         c.ipady = 50;
         c.insets = new Insets(10, 20, 40, 20);  // padding
-        add(textArea, c);
+        add(new JScrollPane(GUIComponents.getTextArea()), c);
 
 
         backButton = new JButton(backLang[GUIComponents.getLanguageIndex()]);
@@ -195,7 +194,7 @@ public class MediaPage extends JPanel
             if (event.getStateChange() == ItemEvent.SELECTED){
                 //label1.setText("Now displaying results as " + event.getItem().toString());
                 //TODO: update with database queries
-                textArea.setText("RESULTS\n Position: " + string + "\n Candidate: <name> <numvotes>");
+                GUIComponents.getTextArea().setText("RESULTS\n Position: " + string + "\n Candidate: <name> <numvotes>");
             }
 
         }
