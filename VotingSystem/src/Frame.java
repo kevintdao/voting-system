@@ -14,6 +14,8 @@ public class Frame extends JFrame {
     public Frame() {
         super("Voting system");
 
+        updateTheme();
+
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -61,17 +63,23 @@ public class Frame extends JFrame {
     public static void updateTheme() {
         // dark mode
         if(GUIComponents.getDarkMode()) {
+            UIManager.put("nimbusBase",  new Color(45, 44, 44));
+            UIManager.put("nimbusLightBackground", new Color(59, 58, 58));
+            UIManager.put("nimbusFocus", new Color( 96, 94, 92));
+            UIManager.put("nimbusBlueGrey", new Color(59, 58, 58));
             UIManager.put("control", new Color( 45, 44, 44));
-            UIManager.put("info", new Color(128,128,128));
-            UIManager.put("nimbusBase", new Color(55, 85, 121));
-            UIManager.put("text", new Color(0, 0, 0, 255));
+            UIManager.put("text", new Color(255, 255, 255, 255));
+            UIManager.put("nimbusSelectionBackground", new Color( 96, 94, 92));
         }
         // light mode
         else {
-            UIManager.put("nimbusBase", new Color(255, 255, 255, 255));
-            UIManager.put("nimbusBase", new Color(55, 85, 121));
-            UIManager.put("control", new Color(255, 255, 255, 255));
+            UIManager.put("nimbusBase", new Color(51, 98, 140));
+            UIManager.put("nimbusLightBackground", new Color(255, 255, 255));
+            UIManager.put("nimbusFocus", new Color( 115, 164, 209));
+            UIManager.put("nimbusBlueGrey", new Color(169, 176, 190));
+            UIManager.put("control", new Color(214,217,223));
             UIManager.put("text", new Color(0, 0, 0, 255));
+            UIManager.put("nimbusSelectionBackground", new Color( 57,105,138));
         }
     }
 }
