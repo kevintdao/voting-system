@@ -20,7 +20,7 @@ public class CreateBallot extends JPanel {
     private String[] returnHomeLang = {"Return to Home", "Vuelve a casa", "Retourner à la maison"};
     private String[] addLang = {"Add >>>", "Agregar >>>", "Ajouter >>>"};
     private String[] confirmLang = {"Confirm Ballots", "Confirmar papeletas", "Confirmer les bulletins de vote"};
-    private String[] candidatePositions = {"President", "Representative", "Congress", "Governor", "Mayor", "Sheriff"};
+    private String[] candidatePositions = {"President", "Representative", "Senate", "Governor", "Mayor", "Sheriff"};
     JButton returnToHome;
     private JTextArea enterCandidateArea;
     private JTextArea showCandidatesArea;
