@@ -51,7 +51,7 @@ public class AuditorPage extends JPanel {
         c.weightx = 0.2;
         add(GUIComponents.getDarkModeButton(5),c);
 
-        c.insets = new Insets(10, 20, 0, 20);  // padding
+        c.insets = new Insets(10, 20, 0, 0);  // padding
 
         // language select component
         languagesJComboBox = new JComboBox<>(languages);
@@ -84,13 +84,14 @@ public class AuditorPage extends JPanel {
 
         // welcome components
         auditorLabel = new JLabel(auditorLang[GUIComponents.getLanguageIndex()]);
-        auditorLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        auditorLabel.setFont(new Font("Arial", Font.BOLD, 24));
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 1;
         c.ipady = 10;
         c.ipadx = 50;
         c.weightx = 0.6;
+        c.insets = new Insets(10, 20, 0, 20);  // padding
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.PAGE_START;
         add(auditorLabel, c);

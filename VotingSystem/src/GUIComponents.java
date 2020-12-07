@@ -117,13 +117,13 @@ public class GUIComponents {
     public static void changeMode(boolean value){
         if (value) {
             for(int i = 0; i < NUM_OF_PANELS; i++){
-                darkModeButtonArray[i].setText("Dark Mode");
+                darkModeButtonArray[i].setText(darkModeLang[languageIndex]);
                 darkModeButtonArray[i].setSelected(true);
             }
         }
         else{
             for(int i = 0; i < NUM_OF_PANELS; i++){
-                darkModeButtonArray[i].setText("Light Mode");
+                darkModeButtonArray[i].setText(lightModeLang[languageIndex]);
                 darkModeButtonArray[i].setSelected(false);
             }
         }
